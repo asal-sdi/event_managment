@@ -659,13 +659,13 @@
           </div>
 
           <div class="actions-grid">
-            <button class="action-button" , onclick="window.location.href='/admin/show-user'">
+            <button class="action-button" , onclick="window.location.href='/venue-owner/create-venue'">
               <div class="action-icon">
                 <svg class="icon-md">
                   <use href="#target"/>
                 </svg>
               </div>
-              <p class="action-label">نمایش کاربران</p>
+              <p class="action-label">ثبت مکان جدید</p>
             </button>
 
             <button class="action-button" , onclick="window.location.href='/admin/add-student'">
@@ -739,6 +739,34 @@
                 <p class="activity-time">2 days ago</p>
               </div>
             </div>
+            div class="table-container">
+          <% if (venues.length> 0) { %> 
+
+              <% for (let venue of venues) {%>
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= venue.name %></h5>
+                      <p class="card-text"><%= venue.description %> </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><%= venue.type %></li>
+                      <li class="list-group-item"><%= venue.price %></li>
+                      <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                    <div class="card-body">
+                      <a href="#" class="card-link">نمایش جزییات</a>
+                      <a href="#" class="card-link">حذف مکان</a>
+                    </div>
+                  </div>
+                <% } %>
+              
+              
+            </tbody>
+          </table>
+            <% } %>
+          
+        </div>
           </div>
         </div>
       </div>
