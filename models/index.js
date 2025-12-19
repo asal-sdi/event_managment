@@ -36,9 +36,14 @@ VenueRequest.belongsTo(Venue, { foreignKey: "venueId" });
 Venue.hasMany(VenueRequest, { foreignKey: "venueId" });
 
 
-// EventManger 1->N VenueRequest
 EventManger.hasMany(VenueRequest , { foreignKey: "eventManagerId" });
 VenueRequest.belongsTo(EventManger, { foreignKey: "eventManagerId" });
+
+
+// Many-to-Many
+User.belongsToMany(Event, { through: 'Reservation' });
+Event.belongsToMany(User, { through: 'Reservation' });
+
 
 
 module.exports = {

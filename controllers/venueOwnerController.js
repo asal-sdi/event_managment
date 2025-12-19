@@ -1,4 +1,5 @@
-const {Venue,VenueRequest,Event} = require('../models')
+const path = require('path');
+const {Venue,VenueRequest,Event,EventManger} = require('../models')
 
 exports.voDashboard = async(req,res) =>{
     try {
@@ -11,9 +12,10 @@ exports.voDashboard = async(req,res) =>{
 }
 
 exports.getCreateVenue = (req,res) => {
-    res.render("venue/addVenue",{
+    res.render("venue-owner/addVenue",{
         pageTitle:"ایجاد مکان جدید", 
         user:req.user,
+        path:"/add-venue",
         message:req.flash("success_msg"),
         error:req.flash("error")})
 }
@@ -44,7 +46,7 @@ exports.createVenue = async(req,res) => {
                 })
             })
     }
-        return res.render("venue/addVenue",{pageTitle:"ایجاد مکان جدید", user:req.user , errors})
+        return res.render("venue-owner/addVenue",{pageTitle:"ایجاد مکان جدید",path:"/add-venue", user:req.user , errors})
 
 } 
 }
@@ -65,6 +67,7 @@ exports.getEditVenue = async (req,res) => {
     }else{
         res.render("venue-owner/editVenue" , {
             pageTitle:"ویرایش مکان ",
+            path:"/edit-venue",
             user:req.user,
             venue,
             message:req.flash("success_msg"),
@@ -126,11 +129,12 @@ exports.deleteVenue = async(req,res) => {
 }
 
 exports.showVenueRequests = async(req,res) => {
-    const venueRequests = await VenueRequest.findAll({where:{venueOwnerId:req.user.id}, include:[Venue,Event]})
+    const venueRequests = await VenueRequest.findAll({where:{venueOwnerId:req.user.id,status:"pending"}, include:[Venue,EventManger]})
 
     res.render("venue-owner/requests" , {
         pageTitle:"درخواست ها",
         user:req.user,
+        path:"/requests",
         venueRequests
     })
 }
@@ -142,14 +146,27 @@ exports.acceptRequest = async(req,res) => {
         await request.update({status:"accepted"})
 
         await Event.create({
-            name:request.eventName,
-            date:request.eventDate,
+            title:request.eventName,
+            date:Date.now(),
+            description:request.description,
+            price:request.price,
             eventManagerId:request.eventManagerId,
             venueId:request.venueId
         })
         req.flash("success_msg" , "درخواست با موفقیت پذیرفته شد")
         res.redirect("/venue-owner/requests")
     } catch (error) {
-        
+        console.log(error);
+    }
+}
+
+exports.rejectRequest = async(req,res) => {
+    try {
+        const request  = await VenueRequest.findByPk(req.params.id)
+        await request.update({status:"rejected"})
+        req.flash("success_msg" , "درخواست توسط شما رد شد")
+        res.redirect("/venue-owner/requests")
+    } catch (error) {
+        console.log(error);
     }
 }

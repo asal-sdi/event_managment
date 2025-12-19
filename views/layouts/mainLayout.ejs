@@ -4,12 +4,429 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Persian Font -->
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/yekan-font@v1.0.0/dist/font-face.css" rel="stylesheet">
+
+<!-- GSAP -->
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+<!-- Feather Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/gsap.min.js"></script>
+<script src="https://unpkg.com/feather-icons"></script>
+
+
         <!-- <link rel="stylesheet" href="/css/styles.css" /> -->
         <!-- <link rel="stylesheet" href="/css/bootstrap-rtl.css" /> -->
         <title><%= pageTitle %></title>
     </head>
     <body class="rtl">
+        <% if (path !== '/login' && path !== '/register') {  %>
+        <header id="main-header"
+  class="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-2xl shadow-2xl shadow-pink-500/10 border-b border-white/20"
+  style="font-family:'Vazirmatn','Segoe UI',sans-serif">
+
+  <!-- Gradient background -->
+  <div class="absolute inset-0 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-indigo-500/5"></div>
+
+  <!-- Floating particles -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <% for(let i=0;i<8;i++){ %>
+      <span class="particle absolute w-1 h-1 rounded-full bg-gradient-to-r from-pink-400 to-purple-400"></span>
+    <% } %>
+  </div>
+
+  <div class="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between relative">
+
+    <!-- Logo -->
+    <div id="logo" class="flex items-center cursor-pointer group" dir="rtl">
+      <div
+        class="logo-box relative h-12 w-12 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500
+               flex items-center justify-center text-white ml-3 shadow-lg shadow-pink-500/30">
+        <i data-feather="calendar"></i>
+        <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/20 to-transparent
+                    opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      </div>
+
+      <span
+        class="text-2xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600
+               bg-clip-text text-transparent">
+        ایونت‌فلو
+      </span>
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center space-x-1" dir="rtl">
+      <% const navItems = [
+        {name:"خانه",icon:"home"},
+        {name:"درباره ما",icon:"info"},
+        {name:"رویدادها",icon:"calendar"},
+        {name:"شعبه‌ها",icon:"map-pin"},
+        {name:"تماس با ما",icon:"mail"},
+      ]; %>
+    <a
+          href="#"
+          class="nav-item relative flex items-center gap-2 px-5 py-3 font-medium text-gray-700 hover:text-pink-600 transition"
+          data-index="1">
+          خانه
+          <i data-feather="home" class="w-4 h-4"></i>
+
+          <span class="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r
+            from-pink-500/0 via-purple-500/0 to-indigo-500/0
+            hover:from-pink-500/5 hover:via-purple-500/5 hover:to-indigo-500/5 transition">
+          </span>
+        </a>
+
+        <a
+          href="#"
+          class="nav-item relative flex items-center gap-2 px-5 py-3 font-medium text-gray-700 hover:text-pink-600 transition"
+          data-index="2">
+        درباره ما
+          <i data-feather="info" class="w-4 h-4"></i>
+
+          <span class="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r
+            from-pink-500/0 via-purple-500/0 to-indigo-500/0
+            hover:from-pink-500/5 hover:via-purple-500/5 hover:to-indigo-500/5 transition">
+          </span>
+        </a>
+
+        <a
+          href="#"
+          class="nav-item relative flex items-center gap-2 px-5 py-3 font-medium text-gray-700 hover:text-pink-600 transition"
+          data-index="3">
+          رویداد ها 
+          <i data-feather="calendar" class="w-4 h-4"></i>
+
+          <span class="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r
+            from-pink-500/0 via-purple-500/0 to-indigo-500/0
+            hover:from-pink-500/5 hover:via-purple-500/5 hover:to-indigo-500/5 transition">
+          </span>
+        </a>
+
+
+        <a
+          href="#"
+          class="nav-item relative flex items-center gap-2 px-5 py-3 font-medium text-gray-700 hover:text-pink-600 transition"
+          data-index="4">
+          تماس با ما
+          <i data-feather="mail" class="w-4 h-4"></i>
+
+          <span class="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r
+            from-pink-500/0 via-purple-500/0 to-indigo-500/0
+            hover:from-pink-500/5 hover:via-purple-500/5 hover:to-indigo-500/5 transition">
+          </span>
+        </a>
+    </nav>
+
+    <!-- Right Side -->
+    <div class="hidden md:flex items-center gap-3">
+
+      <!-- CTA -->
+      <button id="cta-btn"
+        class="relative px-7 py-3.5 rounded-xl font-medium shadow-2xl shadow-pink-500/20 overflow-hidden group">
+        <span class="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"></span>
+        <span class="relative z-10 text-white flex items-center gap-2">
+          شروع کنید
+          <i data-feather="users"></i>
+        </span>
+      </button>
+
+      <!-- Social -->
+      <div class="flex gap-1 ml-2">
+        <% ["github","twitter","linkedin"].forEach(icon=>{ %>
+          <a href="#"
+             class="social relative p-2.5 rounded-xl text-gray-600 hover:text-white transition">
+            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-xl"></div>
+            <i data-feather="<%= icon %>" class="relative z-10"></i>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- Mobile Button -->
+    <button id="mobile-toggle"
+      class="lg:hidden relative p-2.5 rounded-xl text-gray-700">
+      <i data-feather="menu"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu"
+    class="hidden lg:hidden bg-white/95 backdrop-blur-2xl border-t border-white/20 shadow-2xl">
+    <div class="px-6 py-6 space-y-2" dir="rtl">
+      <% navItems.forEach(item=>{ %>
+        <a href="#"
+           class="block py-4 px-4 rounded-xl text-gray-700 hover:text-pink-600 hover:bg-white/50 transition">
+          <%= item.name %>
+        </a>
+      <% }) %>
+
+      <button
+        class="w-full mt-4 py-4 rounded-xl text-white font-semibold
+               bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
+        شروع کنید
+      </button>
+    </div>
+  </div>
+</header>
+<% } %>
+
         <%- body %>
+        <% if( path != '/login' && path != '/register') {  %>
+
+        <footer
+  id="contact"
+  dir="rtl"
+  class="relative overflow-hidden pt-16 pb-12 bg-gradient-to-l from-purple-200 via-pink-100 to-indigo-200"
+  style="font-family:'Yekan','Lotus',sans-serif">
+
+  <!-- Background overlay -->
+  <div class="absolute inset-0 -z-10 bg-gradient-to-bl from-pink-50 via-purple-50 to-indigo-50 opacity-50"></div>
+
+  <div class="container mx-auto px-4 lg:px-8 relative z-20">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <div class="footer-brand flex items-center mb-6">
+          <div
+            class="h-12 w-12 rounded-xl bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500
+                   flex items-center justify-center text-white font-bold text-2xl ml-3 shadow-lg">
+            E
+          </div>
+          <span class="text-2xl font-bold text-gray-900">مدیریت رویداد</span>
+        </div>
+
+        <p class="footer-desc text-gray-700 mb-8 max-w-sm text-right">
+          ایجاد تجربه‌های فراموش‌نشدنی از طریق برنامه‌ریزی روان رویداد و خدمات استثنایی.
+        </p>
+
+        <!-- Contact info -->
+        <div class="footer-contact space-y-4">
+          <div class="flex items-center gap-3 text-sm text-gray-700 justify-end">
+            <span>hello@eventmanager.com</span>
+            <i data-feather="mail" class="text-pink-500"></i>
+          </div>
+          <div class="flex items-center gap-3 text-sm text-gray-700 justify-end">
+            <span>+1 (555) 123-4567</span>
+            <i data-feather="phone" class="text-purple-500"></i>
+          </div>
+          <div class="flex items-center gap-3 text-sm text-gray-700 justify-end">
+            <span>سان فرانسیسکو، کالیفرنیا</span>
+            <i data-feather="map-pin" class="text-indigo-500"></i>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="footer-newsletter mt-8">
+          <h4 class="font-semibold mb-4 text-gray-800 text-right">
+            عضویت در خبرنامه
+          </h4>
+          <div class="flex">
+            <input
+              type="email"
+              placeholder="ایمیل خود را وارد کنید"
+              class="flex-grow px-4 py-2 text-sm rounded-r-lg border border-gray-300
+                     focus:outline-none focus:border-pink-500"
+              dir="ltr">
+            <button
+              class="newsletter-btn px-4 py-2 text-sm font-semibold text-white rounded-l-lg
+                     bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500
+                     flex items-center gap-2">
+              عضویت
+              <i data-feather="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <% const footerLinks = {
+        "شرکت": ["درباره ما", "فرصت‌های شغلی", "وبلاگ", "اخبار"],
+        "پشتیبانی": ["مرکز راهنمایی", "تماس با ما", "سوالات متداول", "قوانین خدمات"],
+        "خدمات": ["برنامه‌ریزی رویداد", "رزرو سالن", "پذیرایی", "سرگرمی"]
+      }; %>
+
+      <% Object.entries(footerLinks).forEach(([title, links], i)=>{ %>
+        <div class="footer-links text-right" data-delay="<%= i %>">
+          <h4 class="font-semibold mb-4 text-gray-800"><%= title %></h4>
+          <ul class="space-y-3">
+            <% links.forEach(link=>{ %>
+              <li>
+                <a href="#"
+                   class="footer-link block text-sm text-gray-700
+                          hover:text-transparent hover:bg-gradient-to-l
+                          hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
+                          hover:bg-clip-text transition-all duration-300">
+                  <%= link %>
+                </a>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      <% }) %>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="border-t border-gray-300 pt-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+
+        <p class="footer-copy text-sm text-gray-700">
+          © ۱۴۰۳ مدیریت رویداد. تمامی حقوق محفوظ است.
+        </p>
+
+        <!-- Social -->
+        <div class="footer-social flex items-center gap-3">
+          <% ["facebook","twitter","instagram"].forEach(icon=>{ %>
+            <a href="#"
+               class="social-btn w-10 h-10 rounded-xl bg-white/90 backdrop-blur-sm
+                      border border-white/50 flex items-center justify-center
+                      text-gray-700 transition-all duration-300">
+              <i data-feather="<%= icon %>" class="w-5 h-5"></i>
+            </a>
+          <% }) %>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<% } %>
+        <!-- <script>
+  feather.replace();
+
+  // Logo animation
+  gsap.from("#logo", {
+    opacity: 0,
+    x: -30,
+    duration: 0.6,
+    ease: "power3.out"
+  });
+
+  // Nav items
+  gsap.from(".nav-item", {
+    opacity: 0,
+    y: -15,
+    duration: 0.5,
+    stagger: 0.1,
+    delay: 0.3,
+    ease: "power3.out"
+  });
+
+  // CTA
+  gsap.from("#cta-btn", {
+    opacity: 0,
+    scale: 0.8,
+    delay: 0.8,
+    duration: 0.4,
+    ease: "back.out(1.7)"
+  });
+
+  // Particles
+  document.querySelectorAll(".particle").forEach(p => {
+    gsap.fromTo(p,
+      {
+        y: -20,
+        opacity: 0,
+        left: Math.random() * 100 + "%"
+      },
+      {
+        y: window.innerHeight + 20,
+        opacity: 0.6,
+        duration: 3 + Math.random() * 2,
+        repeat: -1,
+        delay: Math.random() * 3,
+        ease: "linear"
+      }
+    );
+  });
+
+  // Mobile menu
+  const toggle = document.getElementById("mobile-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  toggle.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+    gsap.fromTo(menu,
+      {opacity:0, y:-20},
+      {opacity:1, y:0, duration:0.3}
+    );
+  });
+</script> -->
+
+<script>
+  feather.replace();
+
+  // Brand
+  gsap.from(".footer-brand", {
+    opacity: 0,
+    y: 10,
+    duration: 0.4,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".footer-brand",
+      start: "top 85%"
+    }
+  });
+
+  // Description & contact
+  gsap.from(".footer-desc, .footer-contact", {
+    opacity: 0,
+    y: 10,
+    duration: 0.4,
+    stagger: 0.1,
+    scrollTrigger: {
+      trigger: ".footer-desc",
+      start: "top 85%"
+    }
+  });
+
+  // Newsletter
+  gsap.from(".footer-newsletter", {
+    opacity: 0,
+    y: 10,
+    duration: 0.4,
+    scrollTrigger: {
+      trigger: ".footer-newsletter",
+      start: "top 85%"
+    }
+  });
+
+  // Link columns
+  document.querySelectorAll(".footer-links").forEach(col => {
+    gsap.from(col, {
+      opacity: 0,
+      y: 10,
+      duration: 0.4,
+      delay: col.dataset.delay * 0.1,
+      scrollTrigger: {
+        trigger: col,
+        start: "top 85%"
+      }
+    });
+  });
+
+  // Social hover
+  document.querySelectorAll(".social-btn").forEach(btn => {
+    btn.addEventListener("mouseenter", () =>
+      gsap.to(btn, { scale: 1.1, y: -2, duration: 0.2 })
+    );
+    btn.addEventListener("mouseleave", () =>
+      gsap.to(btn, { scale: 1, y: 0, duration: 0.2 })
+    );
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/ScrollTrigger.min.js"></script>
+
         <script src="/js/jquery.slim.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
     </body>

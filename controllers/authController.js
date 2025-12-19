@@ -2,12 +2,13 @@ const {User,EventManger,VenueOwner} = require("../models");
 const bcrypt = require("bcrypt")
 const passport =  require("passport")
 const session = require("express-session");
+const path =/ require("path")/;
 
 
 
 //user authentication controllers
 exports.getRegister = (req, res) => {
-    res.render("register",{pageTitle:"ثبت نام"});
+    res.render("register",{pageTitle:"ثبت نام" ,path:"/register"});
 }
 
 exports.register = async(req,res) => {
@@ -49,6 +50,7 @@ exports.register = async(req,res) => {
 exports.getUserLogin = (req,res) =>{
     res.render('login',{
         pageTitle:"ورود",
+        path:"/login",
         message:req.flash("success_msg") ,
         error:req.flash("error")})
 }
@@ -69,6 +71,7 @@ exports.handleUserLogin = (req,res) =>{
 exports.getEmRegister = (req, res) => {
     res.render("eventManagerRegister",{
         pageTitle:"ثبت نام",
+        path:"/register"
 
     });
 }
@@ -113,6 +116,7 @@ exports.EmRegister = async(req,res) => {
 exports.getEmLogin = (req,res) =>{
     res.render('eventMangerlogin',{
         pageTitle:"ورود",
+        path:"/login",
         message:req.flash("success_msg") ,
         error:req.flash("error")})
 }
@@ -135,6 +139,7 @@ exports.handleEmLogin = (req,res) =>{
 exports.getVoRegister = (req, res) => {
     res.render("venueOwnerRegister",{
         pageTitle:"ثبت نام",
+        path:"/register"
 
     });
 }
@@ -164,7 +169,7 @@ exports.VoRegister = async(req,res) => {
             err.inner.isforEach((e)=>{
                 errors.push({
                     name:e.path,
-                    message:e.message
+                   message:e.message
                 })
             })
         }else{
@@ -179,6 +184,7 @@ exports.VoRegister = async(req,res) => {
 exports.getVoLogin = (req,res) =>{
     res.render('venueOwnerLogin',{
         pageTitle:"ورود",
+        path:"/login",
         message:req.flash("success_msg") ,
         error:req.flash("error")})
 }
