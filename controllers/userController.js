@@ -11,9 +11,43 @@ exports.getEvents = async (req, res) => {
     order: [["date", "ASC"]]
   });
 
-  res.render("events/index", {
+  res.render("show-events", {
     pageTitle: "رویدادها",
-    path: "/events",
+    path: "/all-events",
     events
   });
+};
+
+
+exports.getEventDetails = async (req, res) => {
+  const event = await Event.findByPk(req.params.id, {
+    include: ["venue", "eventManager"]
+  }); 
+  if (!event) {
+    req.flash("error", "رویداد یافت نشد");
+    return res.redirect("/user/all-events");
+  }
+  res.render("events-details", {
+    pageTitle: "جزئیات رویداد",
+    event
+  });
+};
+
+
+exports.booking = async (req, res) => {
+  try {
+    const event = await Event.findByPk(req.params.id);
+    if (!event) {
+      req.flash("error", "رویداد یافت نشد");
+      return res.redirect("/user/all-events");
+    }
+
+    req.flash("success_msg", "رزرو با موفقیت انجام شد");
+    res.redirect("/user/all-events");
+  }
+  catch (err) {
+    console.log(err);
+    req.flash("error", "خطایی در رزرو رخ داد");
+    res.redirect("/user/all-events");
+  }
 };

@@ -4,7 +4,7 @@ const {Venue,VenueRequest,Event,EventManger} = require('../models')
 exports.voDashboard = async(req,res) =>{
     try {
     const venues = await Venue.findAll({where:{venueOwnerId:req.user.id}})
-    res.render("dashboards/vo-dashboard",{pageTitle:"داشبورد" , user:req.user ,venues})
+    res.render("dashboards/vo-dashboard",{pageTitle:"داشبورد" , user:req.user ,venues , path:"/dashboard" })
    
     } catch (error) {
         console.log(error);

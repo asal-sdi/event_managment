@@ -12,4 +12,9 @@ router.post('/edit-venue/:venueId', venueOwnerContoller.editVenue);
 
 router.get('/delete-venue/:venueId', venueOwnerContoller.deleteVenue);
 
+router.get("/show-requests", venueOwnerContoller.showVenueRequests);
+router.get("/accept-request/:id", venueOwnerContoller.acceptRequest);
+router.get("/reject-request/:id", venueOwnerContoller.rejectRequest);
+
+
 module.exports = router;

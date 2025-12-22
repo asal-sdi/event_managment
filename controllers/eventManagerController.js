@@ -1,8 +1,31 @@
 const path = require('path')
-const {Event,EventManger,VenueRequest} = require('../models')
+const {Event,EventManger,VenueRequest,Venue} = require('../models')
 
 exports.emDashboard = (req,res) =>{
     res.render("dashboards/em-dashboard",{pageTitle:"داشبورد" , user:req.user ,path:"/dashboard" })
+}
+
+
+exports.showVenuesForRequest = async(req,res) => {
+    try {
+        const venues = await Venue.findAll()
+        res.render("event-manager/show-venues",{pageTitle:"ارسال درخواست مکان", user:req.user,path:"/show-venues", venues})
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.getSingleVenue = async(req,res) => {
+    try {
+        const venue = await Venue.findByPk(req.params.id)
+        if (!venue) {
+            req.flash("error", "مکانی یافت نشد");
+            return  res.redirect("/event-manager/show-venues")
+        }
+        res.render("event-manager/single-venue",{pageTitle:"جزئیات مکان", user:req.user,path:"/show-venues", venue})
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 exports.showSendRequestForm = async(req,res) => {
@@ -11,11 +34,13 @@ exports.showSendRequestForm = async(req,res) => {
 
 exports.sendRequest = async(req,res) => {
     try {
-        const{title,location,description,price,venueId} = req.body
+        const{title,location,date,description,price} = req.body
+        const venueId = req.params.id
 
         await VenueRequest.create({
             title,
             location,
+            date,
             description,
             price,
             venueId,
@@ -55,6 +80,27 @@ exports.cancelRequest = async(req,res) => {
         console.log(err)
     }
 }
+
+
+
+exports.getEditEvent = async(req,res) => {
+    try {
+        const event = await Event.findByPk(req.params.id);
+        if (!event) {
+            req.flash("error", "رویدادی یافت نشد");
+            return res.redirect("/event-manager/dashboard");
+        }
+        res.render("event-manager/edit-event", {
+            pageTitle: "ویرایش رویداد",
+            user: req.user,
+            event
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
 
 
 exports.editEvent = async(req,res) => {
