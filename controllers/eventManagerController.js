@@ -2,7 +2,7 @@ const path = require('path')
 const {Event,EventManger,VenueRequest} = require('../models')
 
 exports.emDashboard = (req,res) =>{
-    res.render("dashboards/em-dashboard",{pageTitle:"داشبورد" , user:req.user})
+    res.render("dashboards/em-dashboard",{pageTitle:"داشبورد" , user:req.user ,path:"/dashboard" })
 }
 
 exports.showSendRequestForm = async(req,res) => {
