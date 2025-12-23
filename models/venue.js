@@ -13,7 +13,8 @@ const Venue = sequelize.define("Venue", {
         allowNull: false,
     },
     type:{
-        type: DataTypes.ENUM("cafe","hall","restaurant","hotel","shop","other"),
+        type: DataTypes.ENUM("cafe","conference_hall","restaurant","hotel",
+            "other","conference_center","university","museum","gallery","satdium","park","office"),
         allowNull: true,
     },
 
@@ -44,6 +45,26 @@ const Venue = sequelize.define("Venue", {
     price:{
         type: DataTypes.FLOAT,
         allowNull: true,
+    },
+    features:{
+        type:DataTypes.JSON,
+        allowNull:true
+    },
+    activeDays:{
+        type:DataTypes.JSON,
+        allowNull:true
+    },
+    opening:{
+        type:DataTypes.STRING(20),
+        allowNull:true
+    },
+    closing:{
+        type:DataTypes.STRING,
+        allowNull: true
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
     latitude: {
         type: DataTypes.FLOAT,

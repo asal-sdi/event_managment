@@ -24,7 +24,13 @@ exports.getCreateVenue = (req,res) => {
 exports.createVenue = async(req,res) => {
     const errors = []
     try {
-        const{name,type,city,address,capacity,price} = req.body 
+        const{name,type,city,address,capacity,price,features,activeDays,opening,closing,} = req.body 
+
+        const imagePath = req.file
+            ? `/uploads/venues/${req.file.filename}`
+            : null;
+
+
         await Venue.create({
             name,
             type,
@@ -32,6 +38,11 @@ exports.createVenue = async(req,res) => {
             address,  
             capacity,
             price,
+            features,
+            activeDays,
+            opening,
+            closing,
+            image: imagePath,
             venueOwnerId: req.user.id
         })
         req.flash("success_msg" , "مکان با موفقیت اضافه شد")

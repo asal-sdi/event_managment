@@ -470,18 +470,9 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <a href="#" class="btn-secondary" onclick="history.back()">
+                    <a href="/venue-owner/dashboard" class="btn-secondary" onclick="history.back()">
                         <i class="fas fa-arrow-right"></i> بازگشت به داشبورد
-                    </a>
-                    <div class="flex items-center gap-3 glass-card px-6 py-4">
-                        <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold">
-                            ص.م
-                        </div>
-                        <div class="text-right">
-                            <div class="font-bold text-pink-900 text-lg">صاحب مکان</div>
-                            <div class="text-sm text-pink-600">مدیریت مکان‌های برگزاری</div>
-                        </div>
-                    </div>
+                    </a>    
                 </div>
             </div>
             
@@ -523,7 +514,7 @@
 
         <!-- Main Form -->
         <div class="glass-card p-8 mb-8">
-            <form id="venueRequestForm" class="space-y-10">
+            <form id="venueRequestForm" action="/venue-owner/create-venue" method="POST" enctype="multipart/form-data" class="space-y-10">
                 
                 <!-- Section 1: Basic Information -->
                 <div class="form-section" data-step="1">
@@ -541,6 +532,7 @@
                             </label>
                             <input type="text" 
                                    id="venueName"
+                                   name="name"
                                    required
                                    placeholder="مثال: مرکز همایش‌های بین‌المللی تهران"
                                    class="form-input"
@@ -556,7 +548,7 @@
                                 <label class="form-label">
                                     نوع مکان <span class="required-star">*</span>
                                 </label>
-                                <select id="venueType" required class="form-input">
+                                <select id="venueType" name="type" required class="form-input">
                                     <option value="">انتخاب نوع مکان</option>
                                     <option value="conference_hall">سالن همایش</option>
                                     <option value="conference_center">مرکز همایش</option>
@@ -578,6 +570,7 @@
                                     ظرفیت کل <span class="required-star">*</span>
                                 </label>
                                 <input type="number" 
+                                       name="capacity"
                                        id="capacity"
                                        required
                                        min="1"
@@ -590,7 +583,8 @@
                             <label class="form-label">
                                 توضیحات کامل <span class="required-star">*</span>
                             </label>
-                            <textarea id="venueDescription" 
+                            <textarea id="description" 
+                            name="description"
                                       rows="4" 
                                       required
                                       placeholder="توضیحات کامل درباره مکان، تاریخچه، معماری، ویژگی‌های منحصر به فرد و..."
@@ -605,57 +599,34 @@
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div>
-                                <label class="form-label">
-                                    استان <span class="required-star">*</span>
-                                </label>
-                                <select id="province" required class="form-input">
-                                    <option value="">انتخاب استان</option>
-                                    <option value="tehran">تهران</option>
-                                    <option value="isfahan">اصفهان</option>
-                                    <option value="khorasan">خراسان رضوی</option>
-                                    <option value="fars">فارس</option>
-                                    <option value="alborz">البرز</option>
-                                    <option value="qom">قم</option>
-                                    <option value="mazandaran">مازندران</option>
-                                    <option value="kerman">کرمان</option>
-                                    <option value="azarbaijan">آذربایجان شرقی</option>
-                                    <option value="khozestan">خوزستان</option>
-                                </select>
-                            </div>
+
                             
                             <div>
                                 <label class="form-label">
                                     شهر <span class="required-star">*</span>
                                 </label>
                                 <input type="text" 
+                                       name="city"
                                        id="city"
                                        required
                                        placeholder="نام شهر"
                                        class="form-input">
                             </div>
                             
-                            <div>
-                                <label class="form-label">
-                                    منطقه
-                                </label>
-                                <input type="text" 
-                                       id="district"
-                                       placeholder="نام منطقه یا محله"
-                                       class="form-input">
-                            </div>
-                        </div>
-                        
-                        <div>
+                          <div>
                             <label class="form-label">
                                 آدرس کامل <span class="required-star">*</span>
                             </label>
-                            <textarea id="address" 
-                                      rows="2" 
+                            <textarea id="address"
+                                      name="address"
+                                      rows="1" 
                                       required
                                       placeholder="خیابان، کوچه، پلاک، طبقه، واحد"
-                                      class="form-input resize-none"></textarea>
+                                      class="form-input "></textarea>
                         </div>
+                        </div>
+                        
+                        
                         
                         <div class="map-container flex items-center justify-center">
                             <div class="text-center">
@@ -679,9 +650,9 @@
                     <div class="space-y-8">
                         <div>
                             <label class="form-label mb-4">
-                                تجهیزات فنی موجود <span class="required-star">*</span>
+                               امکانات و تجهیزات موجود <span class="required-star">*</span>
                             </label>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="grid grid-cols-4 md:grid-cols-4 gap-4">
                                 <div class="feature-badge" onclick="toggleFeature(this)" data-feature="projector">
                                     <i class="fas fa-video"></i> پروژکتور
                                 </div>
@@ -706,15 +677,8 @@
                                 <div class="feature-badge" onclick="toggleFeature(this)" data-feature="printer">
                                     <i class="fas fa-print"></i> پرینتر
                                 </div>
-                            </div>
-                            <input type="hidden" id="technicalFacilities" required>
-                        </div>
-                        
-                        <div>
-                            <label class="form-label mb-4">
-                                امکانات رفاهی
-                            </label>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                  
+                      
                                 <div class="feature-badge" onclick="toggleFeature(this)" data-feature="parking">
                                     <i class="fas fa-parking"></i> پارکینگ
                                 </div>
@@ -739,119 +703,17 @@
                                 <div class="feature-badge" onclick="toggleFeature(this)" data-feature="medical">
                                     <i class="fas fa-first-aid"></i> کمک‌های اولیه
                                 </div>
-                            </div>
-                            <input type="hidden" id="amenities">
+                                <input type="hidden" name="features" id="features" required>
                         </div>
-                        
-                        <div>
-                            <label class="form-label mb-4">
-                                دسترسی برای افراد با نیازهای خاص
-                            </label>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div class="feature-badge" onclick="toggleFeature(this)" data-feature="wheelchair">
-                                    <i class="fas fa-wheelchair"></i> دسترسی ویلچر
-                                </div>
-                                <div class="feature-badge" onclick="toggleFeature(this)" data-feature="elevator_disabled">
-                                    <i class="fas fa-elevator"></i> آسانسور معلولین
-                                </div>
-                                <div class="feature-badge" onclick="toggleFeature(this)" data-feature="ramp">
-                                    <i class="fas fa-ramp-loading"></i> رمپ
-                                </div>
-                                <div class="feature-badge" onclick="toggleFeature(this)" data-feature="braille">
-                                    <i class="fas fa-braille"></i> علائم بریل
-                                </div>
-                            </div>
-                            <input type="hidden" id="accessibility">
-                        </div>
-                        
-                        <div>
-                            <label class="form-label">
-                                سالن‌ها و فضای قابل ارائه
-                            </label>
-                            <div class="space-y-4" id="hallsContainer">
-                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl">
-                                    <input type="text" placeholder="نام سالن (مثال: سالن اصلی)" class="form-input">
-                                    <input type="number" placeholder="ظرفیت" min="1" class="form-input">
-                                    <input type="number" placeholder="متراژ (متر مربع)" min="1" class="form-input">
-                                    <select class="form-input">
-                                        <option value="">نوع چیدمان</option>
-                                        <option value="theater">تئاتری</option>
-                                        <option value="classroom">کلاسی</option>
-                                        <option value="u_shape">U شکل</option>
-                                        <option value="boardroom">اتاق جلسه</option>
-                                        <option value="banquet">ضیافت</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="button" onclick="addHall()" class="btn-secondary mt-4">
-                                <i class="fas fa-plus"></i> افزودن سالن جدید
-                            </button>
-                        </div>
+                  
                     </div>
                 </div>
                 
                 <!-- Section 3: Pricing & Packages -->
                 <div class="form-section" data-step="3">
-                    <div class="form-section-title">
-                        <div class="form-section-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-pink-900">قیمت‌گذاری و پکیج‌ها</h2>
-                    </div>
-                    
+                 
                     <div class="space-y-8">
-                        <div>
-                            <label class="form-label mb-4">
-                                مدل قیمت‌گذاری <span class="required-star">*</span>
-                            </label>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="pricing-card" onclick="selectPricing(this)" data-type="hourly">
-                                    <div class="text-center mb-4">
-                                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-3">
-                                            <i class="fas fa-clock text-white text-2xl"></i>
-                                        </div>
-                                        <h4 class="font-bold text-pink-900 text-xl">ساعتی</h4>
-                                    </div>
-                                    <p class="text-pink-600 text-sm text-center mb-4">
-                                        قیمت‌گذاری بر اساس ساعت استفاده
-                                    </p>
-                                    <div class="text-center">
-                                        <span class="text-2xl font-bold text-pink-900">ساعتی</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="pricing-card" onclick="selectPricing(this)" data-type="daily">
-                                    <div class="text-center mb-4">
-                                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mx-auto mb-3">
-                                            <i class="fas fa-sun text-white text-2xl"></i>
-                                        </div>
-                                        <h4 class="font-bold text-purple-900 text-xl">روزانه</h4>
-                                    </div>
-                                    <p class="text-purple-600 text-sm text-center mb-4">
-                                        قیمت ثابت برای یک روز کامل
-                                    </p>
-                                    <div class="text-center">
-                                        <span class="text-2xl font-bold text-purple-900">روزانه</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="pricing-card selected" onclick="selectPricing(this)" data-type="package">
-                                    <div class="text-center mb-4">
-                                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center mx-auto mb-3">
-                                            <i class="fas fa-box text-white text-2xl"></i>
-                                        </div>
-                                        <h4 class="font-bold text-indigo-900 text-xl">پکیج</h4>
-                                    </div>
-                                    <p class="text-indigo-600 text-sm text-center mb-4">
-                                        پکیج‌های مختلف با خدمات متنوع
-                                    </p>
-                                    <div class="text-center">
-                                        <span class="text-2xl font-bold text-indigo-900">پکیجی</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="hidden" id="pricingModel" value="package" required>
-                        </div>
+                        
                         
                         <div id="hourlyPricing" style="display: none;">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -893,75 +755,6 @@
                             </div>
                         </div>
                         
-                        <div id="packagePricing">
-                            <div class="space-y-6" id="packagesContainer">
-                                <div class="p-6 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl border border-pink-200">
-                                    <div class="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h4 class="font-bold text-pink-900 text-xl">پکیج پایه</h4>
-                                            <p class="text-pink-600 text-sm">مناسب برای جلسات کوچک</p>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-2xl font-bold text-pink-900">۲۵۰,۰۰۰</div>
-                                            <div class="text-pink-500 text-sm">تومان / روز</div>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4 mb-4">
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-pink-700">تا ۵۰ نفر</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-pink-700">پروژکتور</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-pink-700">سیستم صوتی</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-pink-700">وای‌فای</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200">
-                                    <div class="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h4 class="font-bold text-purple-900 text-xl">پکیج حرفه‌ای</h4>
-                                            <p class="text-purple-600 text-sm">مناسب برای همایش‌های متوسط</p>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-2xl font-bold text-purple-900">۵۰۰,۰۰۰</div>
-                                            <div class="text-purple-500 text-sm">تومان / روز</div>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4 mb-4">
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-purple-700">تا ۱۵۰ نفر</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-purple-700">تمام امکانات پایه</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-purple-700">سیستم نورپردازی</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <i class="fas fa-check text-green-500"></i>
-                                            <span class="text-sm text-purple-700">پذیرایی ساده</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <button type="button" onclick="addPackage()" class="btn-secondary mt-6">
-                                <i class="fas fa-plus"></i> افزودن پکیج جدید
-                            </button>
-                        </div>
                         
                         <div>
                             <label class="form-label">
@@ -1038,7 +831,7 @@
                                     جمعه
                                 </div>
                             </div>
-                            <input type="hidden" id="activeDays" value="monday,tuesday,wednesday,thursday,friday" required>
+                            <input type="hidden" id="activeDays" name ="activeDays" value="monday,tuesday,wednesday,thursday,friday" required>
                         </div>
                         
                         <div>
@@ -1050,14 +843,14 @@
                                     <label class="form-label">
                                         ساعت شروع
                                     </label>
-                                    <input type="time" id="startTime" value="08:00" class="form-input">
+                                    <input type="time" name="opening" id="startTime" value="08:00" class="form-input">
                                 </div>
                                 
                                 <div>
                                     <label class="form-label">
                                         ساعت پایان
                                     </label>
-                                    <input type="time" id="endTime" value="22:00" class="form-input">
+                                    <input type="time"name="closing"id="endTime" value="22:00" class="form-input">
                                 </div>
                             </div>
                         </div>
@@ -1075,53 +868,12 @@
                                        accept=".pdf,.xlsx,.xls,.csv"
                                        class="hidden">
                             </div>
-                            <div class="text-sm text-pink-500 mt-3 flex items-center gap-2">
-                                <i class="fas fa-info-circle"></i>
-                                <span>یا می‌توانید تاریخ‌ها را در بخش زیر وارد کنید</span>
-                            </div>
+                            
                         </div>
                         
-                        <div>
-                            <label class="form-label">
-                                تاریخ‌های غیرفعال خاص
-                            </label>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="blackoutDates">
-                                <div>
-                                    <input type="date" class="form-input" placeholder="انتخاب تاریخ">
-                                </div>
-                            </div>
-                            <button type="button" onclick="addBlackoutDate()" class="btn-secondary mt-4">
-                                <i class="fas fa-plus"></i> افزودن تاریخ غیرفعال
-                            </button>
-                        </div>
                         
-                        <div>
-                            <label class="form-label">
-                                حداقل زمان رزرو از قبل
-                            </label>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label class="form-label">
-                                        برای رویدادهای کوچک
-                                    </label>
-                                    <input type="number" min="0" placeholder="تعداد روز" class="form-input">
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">
-                                        برای رویدادهای متوسط
-                                    </label>
-                                    <input type="number" min="0" placeholder="تعداد روز" class="form-input">
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">
-                                        برای رویدادهای بزرگ
-                                    </label>
-                                    <input type="number" min="0" placeholder="تعداد روز" class="form-input">
-                                </div>
-                            </div>
-                        </div>
+                        
+                       
                     </div>
                 </div>
                 
@@ -1146,6 +898,7 @@
                                     <p class="text-pink-500 text-sm">فرمت‌های مجاز: JPG, PNG (حداکثر ۱۰MB)</p>
                                     <p class="text-pink-400 text-xs mt-3">سایز پیشنهادی: 1920×1080 پیکسل</p>
                                     <input type="file" 
+                                           name="image"
                                            id="mainImage" 
                                            accept="image/*"
                                            class="hidden"
@@ -1269,40 +1022,7 @@
                             </div>
                         </div>
                         
-                        <div>
-                            <label class="form-label">
-                                اطلاعات تماس مدیر مکان <span class="required-star">*</span>
-                            </label>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="form-label">
-                                        نام و نام خانوادگی
-                                    </label>
-                                    <input type="text" required placeholder="نام مدیر" class="form-input">
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">
-                                        سمت
-                                    </label>
-                                    <input type="text" placeholder="مدیر، مسئول رویدادها و..." class="form-input">
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">
-                                        تلفن همراه
-                                    </label>
-                                    <input type="tel" required placeholder="۰۹۱۲۱۲۳۴۵۶۷" class="form-input">
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">
-                                        ایمیل
-                                    </label>
-                                    <input type="email" required placeholder="manager@example.com" class="form-input">
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 
@@ -1320,12 +1040,8 @@
                         </div>
                         
                         <div class="flex gap-4">
-                            <button type="button" onclick="saveVenueDraft()" class="btn-secondary">
-                                <i class="fas fa-save"></i> ذخیره پیش‌نویس
-                            </button>
-                            <button type="button" onclick="previewVenue()" class="btn-secondary">
-                                <i class="fas fa-eye"></i> پیش‌نمایش
-                            </button>
+                            
+                            
                             <button type="submit" class="btn-primary">
                                 <i class="fas fa-paper-plane"></i> ثبت درخواست
                             </button>
@@ -1385,35 +1101,38 @@
         // Toggle Features
         function toggleFeature(element) {
             element.classList.toggle('selected');
+
+            // const index = selectedFeatures.indexOf(id);
+
+            // if (index === -1) {
+            //   selectedFeatures.push(id);
+            // } else {
+            //   selectedFeatures.splice(index, 1);
+            // }
+
+            // console.log(selectedFeatures);
+
             updateFeatures();
         }
         
         function updateFeatures() {
-            const technicalFeatures = [];
-            const amenityFeatures = [];
-            const accessibilityFeatures = [];
+            const features = [];
             
             document.querySelectorAll('.feature-badge.selected').forEach(badge => {
                 const feature = badge.dataset.feature;
                 if (feature.includes('projector') || feature.includes('sound') || 
                     feature.includes('wifi') || feature.includes('microphone') ||
                     feature.includes('lighting') || feature.includes('screen') ||
-                    feature.includes('computer') || feature.includes('printer')) {
-                    technicalFeatures.push(feature);
-                } else if (feature.includes('parking') || feature.includes('catering') ||
-                          feature.includes('restroom') || feature.includes('elevator') ||
-                          feature.includes('ac') || feature.includes('heating') ||
-                          feature.includes('security') || feature.includes('medical')) {
-                    amenityFeatures.push(feature);
-                } else if (feature.includes('wheelchair') || feature.includes('disabled') ||
-                          feature.includes('ramp') || feature.includes('braille')) {
-                    accessibilityFeatures.push(feature);
+                    feature.includes('computer') || feature.includes('printer')||
+                    feature.includes('parking') || feature.includes('catering') ||
+                    feature.includes('restroom') || feature.includes('elevator') ||
+                    feature.includes('ac') || feature.includes('heating') ||
+                    feature.includes('security') || feature.includes('medical')) {
+                    features.push(feature);
                 }
             });
             
-            document.getElementById('technicalFacilities').value = technicalFeatures.join(',');
-            document.getElementById('amenities').value = amenityFeatures.join(',');
-            document.getElementById('accessibility').value = accessibilityFeatures.join(',');
+            document.getElementById('features').value = features.join(',');
             
             updateProgress(2);
         }

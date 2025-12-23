@@ -1,11 +1,12 @@
 const {Router} = require('express');
 const venueOwnerContoller = require('../controllers/venueOwnerController');
+const upload = require('../middlewares/upload');
 const router = Router();
 
 router.get('/dashboard', venueOwnerContoller.voDashboard);
 
 router.get('/create-venue', venueOwnerContoller.getCreateVenue);
-router.post('/create-venue', venueOwnerContoller.createVenue);
+router.post('/create-venue',upload.single('image'), venueOwnerContoller.createVenue);
 
 router.get('/edit-venue/:venueId', venueOwnerContoller.getEditVenue);
 router.post('/edit-venue/:venueId', venueOwnerContoller.editVenue);

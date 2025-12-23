@@ -19,7 +19,6 @@ const EventManger = sequelize.define('EventManger', {
     nationalCode: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        unique: true,
     },
     certificateId: { 
         type: DataTypes.STRING,

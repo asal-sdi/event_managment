@@ -2,7 +2,7 @@ const path = require('path');
 const {User} = require('../models')
 
 exports.userDashboard = (req,res) =>{
-    res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , user:req.user})
+    res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , user:req.user,path:"/dashboard" })
 }
 
 exports.getEvents = async (req, res) => {
