@@ -2,7 +2,29 @@ const path = require('path')
 const {Event,EventManger,VenueRequest,Venue} = require('../models')
 
 exports.emDashboard = (req,res) =>{
-    res.render("dashboards/em-dashboard",{pageTitle:"داشبورد" , user:req.user ,path:"/dashboard" })
+    console.log(req.user);
+
+    const events = Event.findAll(
+        {where:{eventManagerId:req.user.id},
+        include:[{
+            model:Venue,
+            required:true
+        }],
+        order: [['createdAt', 'DESC']],
+        raw:true
+    })
+    const upcomingEvent = Event.findAll({where:{eventManagerId:req.user.id, status:'upcoming'}})
+    const requests = VenueRequest.findAll({where:{eventManagerId:req.user.id , status:'pending'}})
+    const completedEvent = Event.findAll({where:{eventManagerId:req.user.id, status:'completed'}})
+
+    res.render("dashboards/em-dashboard",{pageTitle:"داشبورد" ,
+         user:req.user ,
+         path:"/dashboard",
+        events,
+        upcomingEvent,
+        requests,
+        completedEvent,
+     })
 }
 
 
@@ -29,13 +51,18 @@ exports.getSingleVenue = async(req,res) => {
 }
 
 exports.showSendRequestForm = async(req,res) => {
-    res.render("event-manager/send-request",{pageTitle:"ارسال درخواست مکان", user:req.user,path:"/send-request"})
+    const venueId = req.params.id
+    res.render("event-manager/send-request",{pageTitle:"ارسال درخواست مکان", user:req.user,path:"/send-request", venueId})
 }
 
 exports.sendRequest = async(req,res) => {
     try {
         const{title,location,date,description,price} = req.body
         const venueId = req.params.id
+
+        const imagePath = req.file
+            ? `/uploads/venues/${req.file.filename}`
+            : null;
 
         await VenueRequest.create({
             title,
@@ -44,6 +71,7 @@ exports.sendRequest = async(req,res) => {
             description,
             price,
             venueId,
+            image: imagePath,
             eventManagerId: req.user.id
         })
     } catch (err) {

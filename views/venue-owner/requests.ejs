@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم مدیریت درخواست‌ها | صاحب مکان</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+         background: linear-gradient(135deg, #c1ddec 0%, #e4b2e2 100%);
+            min-height: 100vh;
+            color: #39121d;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-pending {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .status-approved {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .status-rejected {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(21, 101, 192, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1565c0;
+            border: 2px solid rgba(21, 101, 192, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            border-color: rgba(21, 101, 192, 0.5);
+            background: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .btn-reject {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-view {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.1));
+            color: #1d4ed8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        /* Location Selector */
+        .location-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(21, 101, 192, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .location-tab.active {
+            background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
+        }
+        
+        /* Form Display Styles */
+        .form-section-display {
+            border-bottom: 2px solid rgba(14, 165, 233, 0.1);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #0369a1;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(14, 165, 233, 0.1);
+        }
+        
+        .form-section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(56, 189, 248, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0369a1;
+            font-size: 1.2rem;
+        }
+        
+        .form-field {
+            background: rgba(241, 245, 249, 0.5);
+            border: 2px solid rgba(14, 165, 233, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-field:hover {
+            border-color: rgba(14, 165, 233, 0.4);
+            background: rgba(241, 245, 249, 0.7);
+        }
+        
+        .field-label {
+            display: block;
+            color: #0c4a6e;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .field-value {
+            color: #1e40af;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .category-badge {
+            background: rgba(14, 165, 233, 0.1);
+            color: #0369a1;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Price Badge */
+        .price-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(186, 230, 253, 0.3);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            border-radius: 10px;
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-10">
+    
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
+            <div>
+                <h1 class="text-3xl pt-10 md:text-4xl font-bold gradient-text mb-2">سیستم مدیریت درخواست‌ها</h1>
+                <p class="text-blue-700">صاحب مکان: <span class="font-bold" id="ownerName">احمد رضایی</span></p>
+                <p class="text-blue-600 text-sm mt-1">مدیریت درخواست‌های رزرو مکان‌های شما</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button class="btn-secondary" onclick="showAddLocationModal()">
+                    <i class="fas fa-plus ml-2"></i> افزودن مکان جدید
+                </button>
+                
+            </div>
+        </div>
+        
+        <!-- Location Tabs -->
+        <div class="mb-8">
+            <h3 class="text-lg font-bold text-blue-900 mb-4">انتخاب مکان برای مشاهده درخواست‌ها:</h3>
+            <div class="flex flex-wrap gap-3" id="locationTabs">
+                <!-- Location tabs will be dynamically added -->
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+       
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative">
+        <!-- Search and Actions -->
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <div class="flex-1">
+                <div class="relative">
+                    <input type="text" 
+                           placeholder="جستجوی درخواست (سازمان، عنوان رویداد، تاریخ...)" 
+                           class="w-full p-3 pr-12 rounded-xl border border-blue-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none"
+                           id="searchInput">
+                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-400"></i>
+                </div>
+            </div>
+            
+            <div class="flex gap-3">
+                <button class="btn-secondary" onclick="exportRequests()">
+                    <i class="fas fa-download ml-2"></i> خروجی Excel
+                </button>
+                <button class="btn-secondary" onclick="refreshData()">
+                    <i class="fas fa-sync-alt ml-2"></i> بروزرسانی
+                </button>
+            </div>
+        </div>
+        
+        <!-- Requests List -->
+        <div class="glass-card overflow-hidden">
+            <div class="p-6 border-b border-blue-100">
+                <div class="grid grid-cols-12 gap-4 text-blue-700 font-bold">
+                    <div class="col-span-2">سازمان درخواست‌دهنده</div>
+                    <div class="col-span-3">عنوان رویداد</div>
+                    <div class="col-span-2">تاریخ رویداد</div>
+                    <div class="col-span-2">وضعیت</div>
+                    <div class="col-span-3">عملیات</div>
+                </div>
+            </div>
+            
+            <div id="requests-container" class="max-h-[600px] overflow-y-auto">
+                <!-- Requests will be dynamically loaded here -->
+            </div>
+            
+            <!-- Empty State -->
+            <div id="emptyState" class="p-12 text-center hidden">
+                <i class="fas fa-inbox text-6xl text-blue-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-blue-900 mb-2">هیچ درخواستی یافت نشد</h3>
+                <p class="text-blue-600">برای این مکان هنوز درخواستی ثبت نشده است.</p>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="p-12 text-center">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                <p class="text-blue-600">در حال بارگذاری درخواست‌ها...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Full Form Modal -->
+    <div id="fullFormModal" class="modal">
+        <div class="glass-card max-w-5xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-start mb-6 sticky top-0 bg-white z-10 pb-6 border-b border-blue-100">
+                    <div>
+                        <h2 class="text-2xl font-bold text-blue-900 mb-2" id="modalEventTitle">فرم درخواست رویداد</h2>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="status-badge" id="modalStatus">در انتظار</span>
+                            <span class="text-blue-600" id="modalTrackingCode">کد پیگیری: EVT-123456</span>
+                            <span class="text-blue-600" id="modalSubmitDate">ثبت: ۱۴۰۳/۰۲/۱۰</span>
+                            <span class="text-blue-600" id="modalLocationName">مکان: مرکز همایش‌های تهران</span>
+                        </div>
+                    </div>
+                    <button onclick="closeFullForm()" class="text-blue-400 hover:text-blue-600 p-2 text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="space-y-8">
+                    <!-- Section 1: Basic Information -->
+                    <div class="form-section-display">
+                        <div class="form-section-title">
+                            <div class="form-section-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-900">اطلاعات پایه رویداد</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <div class="field-label">عنوان رویداد</div>
+                                <div class="field-value" id="formEventTitle">همایش نوآوری در فناوری</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">دسته‌بندی رویداد</div>
+                                <div class="field-value">
+                                    <span class="category-badge">
+                                        <i class="fas fa-chalkboard-teacher"></i> کنفرانس
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">سطح رویداد</div>
+                                <div class="field-value">متوسط</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">زبان رویداد</div>
+                                <div class="field-value">فارسی</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <div class="field-label">توضیحات کامل</div>
+                            <div class="field-value" id="formDescription">
+                                درخواست برگزاری کنفرانس سالیانه فناوری با حضور ۳۰۰ نفر از متخصصان صنعت. 
+                                شامل ۵ سخنرانی کلیدی، ۳ کارگاه آموزشی و نمایشگاه جانبی.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 2: Time & Date -->
+                    <div class="form-section-display">
+                        <div class="form-section-title">
+                            <div class="form-section-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-900">زمان‌بندی رویداد</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="form-field">
+                                <div class="field-label">تاریخ شروع</div>
+                                <div class="field-value">۱۴۰۳/۰۴/۱۵</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">تاریخ پایان</div>
+                                <div class="field-value">۱۴۰۳/۰۴/۱۵</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">ساعت شروع</div>
+                                <div class="field-value">۱۰:۰۰</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">ساعت پایان</div>
+                                <div class="field-value">۱۸:۰۰</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">تکرار رویداد</div>
+                                <div class="field-value">یکبار (تک جلسه‌ای)</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">مدت زمان</div>
+                                <div class="field-value">۸ ساعت</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 3: Location & Pricing -->
+                    <div class="form-section-display">
+                        <div class="form-section-title">
+                            <div class="form-section-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-900">مکان برگزاری و هزینه</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <div class="field-label">مکان درخواستی</div>
+                                <div class="field-value">مرکز همایش‌های بین‌المللی تهران</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">سالن</div>
+                                <div class="field-value">سالن اصلی</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">ظرفیت درخواستی</div>
+                                <div class="field-value">۱۵۰ نفر</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">ظرفیت واقعی مکان</div>
+                                <div class="field-value">۵۰۰ نفر</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">نوع رویداد</div>
+                                <div class="field-value">پولی</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">قیمت اصلی</div>
+                                <div class="field-value">
+                                    <span class="price-badge">۱۵,۰۰۰,۰۰۰ تومان</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">قیمت با تخفیف</div>
+                                <div class="field-value">۱۲,۰۰۰,۰۰۰ تومان</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">تاریخ اعتبار تخفیف</div>
+                                <div class="field-value">۱۴۰۳/۰۳/۲۰</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <div class="field-label">لینک ثبت‌نام</div>
+                            <div class="field-value">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 underline">https://tech-conference.ir/register</a>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <div class="field-label">گزینه‌های اضافی انتخاب شده</div>
+                            <div class="field-value">
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="px-3 py-1 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 rounded-full text-sm">
+                                        <i class="fas fa-earlybirds ml-1"></i> ثبت‌نام زودهنگام
+                                    </span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 rounded-full text-sm">
+                                        <i class="fas fa-users ml-1"></i> تخفیف گروهی
+                                    </span>
+                                    <span class="px-3 py-1 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 rounded-full text-sm">
+                                        <i class="fas fa-certificate ml-1"></i> گواهینامه
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 4: Organizer Information -->
+                    <div class="form-section-display">
+                        <div class="form-section-title">
+                            <div class="form-section-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-900">اطلاعات برگزارکننده</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <div class="field-label">نام سازمان</div>
+                                <div class="field-value">شرکت فناوری ایرانیان</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">مسئول رویداد</div>
+                                <div class="field-value">محمد احمدی</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">ایمیل</div>
+                                <div class="field-value">info@tech-iranian.ir</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">تلفن تماس</div>
+                                <div class="field-value">۰۹۱۲۳۴۵۶۷۸۹</div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">وبسایت</div>
+                                <div class="field-value">
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 underline">https://tech-iranian.ir</a>
+                                </div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <div class="field-label">شماره ثبت</div>
+                                <div class="field-value">۴۱۲۵۶۷۸۹</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <div class="field-label">درباره برگزارکننده</div>
+                            <div class="field-value">
+                                شرکت فناوری ایرانیان با ۱۵ سال سابقه در حوزه برگزاری رویدادهای تخصصی فناوری، 
+                                تاکنون بیش از ۵۰ کنفرانس و کارگاه آموزشی برگزار کرده است.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="sticky bottom-0 bg-white border-t border-blue-100 pt-6 mt-8">
+                        <div class="flex flex-col lg:flex-row gap-4 justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center gap-2 text-blue-600">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>فرم شماره: <span class="font-bold" id="modalFormNumber">FRM-789012</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <button onclick="downloadFullForm()" class="btn-secondary">
+                                    <i class="fas fa-download ml-2"></i> دانلود فرم
+                                </button>
+                                <button onclick="rejectRequest()" class="btn-reject action-btn">
+                                    <i class="fas fa-times ml-2"></i> رد درخواست
+                                </button>
+                                <button onclick="approveRequest()" class="btn-approve action-btn">
+                                    <i class="fas fa-check ml-2"></i> تایید درخواست
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Location Modal -->
+    <div id="addLocationModal" class="modal">
+        <div class="glass-card max-w-lg w-full mx-4">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-blue-900 mb-2">افزودن مکان جدید</h3>
+                        <p class="text-blue-600">اطلاعات مکان جدید را وارد کنید</p>
+                    </div>
+                    <button onclick="closeAddLocationModal()" class="text-blue-400 hover:text-blue-600 p-2">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-blue-700 mb-2">نام مکان <span class="text-red-500">*</span></label>
+                        <input type="text" 
+                               class="w-full p-3 rounded-xl border border-blue-200 focus:border-blue-400 outline-none"
+                               placeholder="مثال: مرکز همایش‌های بین‌المللی"
+                               id="newLocationName">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-blue-700 mb-2">شهر <span class="text-red-500">*</span></label>
+                        <input type="text" 
+                               class="w-full p-3 rounded-xl border border-blue-200 focus:border-blue-400 outline-none"
+                               placeholder="مثال: تهران"
+                               id="newLocationCity">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-blue-700 mb-2">آدرس کامل <span class="text-red-500">*</span></label>
+                        <textarea class="w-full p-3 rounded-xl border border-blue-200 focus:border-blue-400 outline-none h-32"
+                                  placeholder="آدرس کامل مکان..."
+                                  id="newLocationAddress"></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-blue-700 mb-2">ظرفیت (نفر)</label>
+                            <input type="number" 
+                                   class="w-full p-3 rounded-xl border border-blue-200 focus:border-blue-400 outline-none"
+                                   placeholder="۵۰۰"
+                                   id="newLocationCapacity">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-blue-700 mb-2">قیمت پایه (تومان)</label>
+                            <input type="text" 
+                                   class="w-full p-3 rounded-xl border border-blue-200 focus:border-blue-400 outline-none"
+                                   placeholder="۱۰,۰۰۰,۰۰۰"
+                                   id="newLocationBasePrice">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-blue-700 mb-2">توضیحات</label>
+                        <textarea class="w-full p-3 rounded-xl border border-blue-200 focus:border-blue-400 outline-none h-24"
+                                  placeholder="توضیحات درباره مکان، امکانات، تجهیزات..."
+                                  id="newLocationDescription"></textarea>
+                    </div>
+                    
+                    <div class="flex gap-4 pt-6 border-t border-blue-200">
+                        <button onclick="saveNewLocation()" class="flex-1 btn-primary">
+                            <i class="fas fa-save ml-2"></i> ذخیره مکان
+                        </button>
+                        <button onclick="closeAddLocationModal()" class="flex-1 btn-secondary">
+                            <i class="fas fa-times ml-2"></i> انصراف
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // داده‌های صاحب مکان
+        const ownerData = {
+            id: 1,
+            name: "احمد رضایی",
+            email: "ahmad.rezaei@example.com",
+            phone: "۰۹۱۲۳۴۵۶۷۸۹",
+            locations: [
+                {
+                    id: 1,
+                    name: "مرکز همایش‌های بین‌المللی تهران",
+                    city: "تهران",
+                    address: "تهران، خیابان ولیعصر، پلاک ۱۲۳",
+                    capacity: 500,
+                    basePrice: "۱۰,۰۰۰,۰۰۰",
+                    description: "مرکز همایش‌های مدرن با امکانات کامل",
+                    requests: [1, 2, 5]
+                },
+                {
+                    id: 2,
+                    name: "تالار رودکی اصفهان",
+                    city: "اصفهان",
+                    address: "اصفهان، خیابان چهارباغ بالا",
+                    capacity: 300,
+                    basePrice: "۷,۵۰۰,۰۰۰",
+                    description: "تالار سنتی با معماری اصیل ایرانی",
+                    requests: [3, 6]
+                },
+                {
+                    id: 3,
+                    name: "پارک علم و فناوری مشهد",
+                    city: "مشهد",
+                    address: "مشهد، بلوار خیام",
+                    capacity: 200,
+                    basePrice: "۵,۰۰۰,۰۰۰",
+                    description: "فضای مدرن برای رویدادهای علمی و فناوری",
+                    requests: [4]
+                }
+            ]
+        };
+
+        // داده‌های درخواست‌ها
+        const requestsData = {
+            1: {
+                id: 1,
+                trackingCode: "EVT-123456",
+                formNumber: "FRM-789012",
+                organization: "شرکت فناوری ایرانیان",
+                eventTitle: "همایش نوآوری در فناوری",
+                category: "کنفرانس",
+                description: "درخواست برگزاری کنفرانس سالیانه فناوری با حضور ۳۰۰ نفر از متخصصان صنعت. شامل ۵ سخنرانی کلیدی، ۳ کارگاه آموزشی و نمایشگاه جانبی.",
+                startDate: "۱۴۰۳/۰۴/۱۵",
+                endDate: "۱۴۰۳/۰۴/۱۵",
+                startTime: "۱۰:۰۰",
+                endTime: "۱۸:۰۰",
+                duration: "۸ ساعت",
+                repeat: "یکبار",
+                locationId: 1,
+                hall: "سالن اصلی",
+                requestedCapacity: "۱۵۰ نفر",
+                actualCapacity: "۵۰۰ نفر",
+                eventType: "پولی",
+                price: "۱۵,۰۰۰,۰۰۰ تومان",
+                discountedPrice: "۱۲,۰۰۰,۰۰۰ تومان",
+                discountEndDate: "۱۴۰۳/۰۳/۲۰",
+                registrationLink: "https://tech-conference.ir/register",
+                organizerName: "شرکت فناوری ایرانیان",
+                organizerResponsible: "محمد احمدی",
+                organizerEmail: "info@tech-iranian.ir",
+                organizerPhone: "۰۹۱۲۳۴۵۶۷۸۹",
+                organizerWebsite: "https://tech-iranian.ir",
+                organizerRegistration: "۴۱۲۵۶۷۸۹",
+                organizerDescription: "شرکت فناوری ایرانیان با ۱۵ سال سابقه در حوزه برگزاری رویدادهای تخصصی فناوری، تاکنون بیش از ۵۰ کنفرانس و کارگاه آموزشی برگزار کرده است.",
+                requirements: ["سیستم صوتی پیشرفته", "ویدئو پروژکتور HD", "اینترنت پرسرعت", "سالن غذاخوری", "پارکینگ اختصاصی"],
+                additionalRequirements: ["پذیرایی ناهار برای ۱۵۰ نفر", "۲ دستگاه پرینتر رنگی", "۳ دستگاه لپ‌تاپ رزرو"],
+                options: ["ثبت‌نام زودهنگام", "تخفیف گروهی", "گواهینامه"],
+                level: "متوسط",
+                languages: "فارسی",
+                additionalNotes: "این کنفرانس با همکاری وزارت ارتباطات برگزار می‌شود و نیاز به حضور مسئولان دولتی دارد.",
+                previousEvents: ["کنفرانس فناوری ۱۴۰۲", "کارگاه استارتاپ ۱۴۰۱", "نمایشگاه نوآوری ۱۴۰۰"],
+                submitDate: "۱۴۰۳/۰۲/۱۰ - ۱۰:۳۰",
+                lastUpdate: "۱۴۰۳/۰۲/۱۱ - ۱۴:۱۵",
+                status: "pending",
+                statusText: "در انتظار",
+                revenue: "۱۵۰۰۰۰۰۰"
+            },
+            2: {
+                id: 2,
+                trackingCode: "EVT-654321",
+                formNumber: "FRM-456789",
+                organization: "دانشگاه صنعتی شریف",
+                eventTitle: "سمینار هوش مصنوعی",
+                category: "سمینار",
+                startDate: "۱۴۰۳/۰۵/۲۰",
+                status: "approved",
+                statusText: "تایید شده",
+                revenue: "۱۰۵۰۰۰۰۰"
+            },
+            3: {
+                id: 3,
+                trackingCode: "EVT-789012",
+                formNumber: "FRM-123456",
+                organization: "استارتاپ نوآوران",
+                eventTitle: "کارگاه آموزشی کسب‌وکار",
+                category: "کارگاه",
+                startDate: "۱۴۰۳/۰۳/۰۵",
+                status: "approved",
+                statusText: "تایید شده",
+                revenue: "۸۰۰۰۰۰۰"
+            },
+            4: {
+                id: 4,
+                trackingCode: "EVT-345678",
+                formNumber: "FRM-234567",
+                organization: "انجمن علمی کامپیوتر",
+                eventTitle: "همایش علمی",
+                category: "همایش",
+                startDate: "۱۴۰۳/۰۶/۱۰",
+                status: "pending",
+                statusText: "در انتظار",
+                revenue: "۱۲۰۰۰۰۰۰"
+            },
+            5: {
+                id: 5,
+                trackingCode: "EVT-456789",
+                formNumber: "FRM-345678",
+                organization: "شرکت رایان‌شبکه",
+                eventTitle: "نمایشگاه فناوری",
+                category: "نمایشگاه",
+                startDate: "۱۴۰۳/۰۱/۲۰",
+                status: "completed",
+                statusText: "تکمیل شده",
+                revenue: "۲۵۰۰۰۰۰۰"
+            },
+            6: {
+                id: 6,
+                trackingCode: "EVT-567890",
+                formNumber: "FRM-456789",
+                organization: "فستیوال هنرهای تجسمی",
+                eventTitle: "نمایشگاه هنری",
+                category: "نمایشگاه",
+                startDate: "۱۴۰۳/۰۴/۳۰",
+                status: "approved",
+                statusText: "تایید شده",
+                revenue: "۳۰۰۰۰۰۰۰"
+            }
+        };
+
+        let currentLocationId = 1;
+        let currentRequestId = null;
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOwnerData();
+            loadLocations();
+            loadRequestsForLocation(currentLocationId);
+            
+            // اضافه کردن ایونت گوش دادن برای جستجو
+            document.getElementById('searchInput').addEventListener('input', searchRequests);
+        });
+
+        // بارگذاری اطلاعات صاحب مکان
+        function loadOwnerData() {
+            document.getElementById('ownerName').textContent = ownerData.name;
+        }
+
+        // بارگذاری تب‌های مکان‌ها
+        function loadLocations() {
+            const container = document.getElementById('locationTabs');
+            container.innerHTML = '';
+            
+            ownerData.locations.forEach(location => {
+                const tab = document.createElement('button');
+                tab.className = `location-tab ${location.id === currentLocationId ? 'active' : ''}`;
+                tab.innerHTML = `
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${location.name}
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2">${location.requests.length}</span>
+                `;
+                tab.onclick = () => switchLocation(location.id);
+                container.appendChild(tab);
+            });
+        }
+
+        // تغییر مکان فعال
+        function switchLocation(locationId) {
+            currentLocationId = locationId;
+            
+            // بروزرسانی تب‌های فعال
+            document.querySelectorAll('.location-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // پیدا کردن تب فعلی و فعال کردن آن
+            const tabs = document.querySelectorAll('.location-tab');
+            tabs.forEach((tab, index) => {
+                if (index === locationId - 1) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // بارگذاری درخواست‌های مکان جدید
+            loadRequestsForLocation(locationId);
+        }
+
+        // بارگذاری درخواست‌های یک مکان
+        function loadRequestsForLocation(locationId) {
+            const container = document.getElementById('requests-container');
+            const loading = document.getElementById('loadingState');
+            const empty = document.getElementById('emptyState');
+            
+            // نمایش حالت لودینگ
+            container.innerHTML = '';
+            loading.classList.remove('hidden');
+            empty.classList.add('hidden');
+            
+            // شبیه سازی بارگذاری
+            setTimeout(() => {
+                const location = ownerData.locations.find(l => l.id === locationId);
+                if (!location) {
+                    console.error('Location not found:', locationId);
+                    return;
+                }
+                
+                const locationRequests = location.requests.map(id => requestsData[id]).filter(req => req);
+                
+                if (locationRequests.length === 0) {
+                    loading.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    updateStats(locationRequests);
+                    return;
+                }
+                
+                renderRequests(locationRequests);
+                updateStats(locationRequests);
+                loading.classList.add('hidden');
+            }, 500);
+        }
+
+        // رندر کردن لیست درخواست‌ها
+        function renderRequests(requests) {
+            const container = document.getElementById('requests-container');
+            container.innerHTML = '';
+            
+            requests.forEach(request => {
+                if (!request) return;
+                
+                const requestElement = document.createElement('div');
+                requestElement.className = 'p-6 border-b border-blue-50 hover:bg-blue-50/50 transition-colors';
+                requestElement.innerHTML = `
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-2">
+                            <div class="font-bold text-blue-900 mb-1">${request.organization || 'نامشخص'}</div>
+                            <div class="text-sm text-blue-600">${request.trackingCode || ''}</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-blue-900 mb-1">${request.eventTitle || 'بدون عنوان'}</div>
+                            <div class="text-sm text-blue-500">${request.category || ''}</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-blue-900">${request.startDate || ''}</div>
+                            <div class="text-sm text-blue-500">${request.startTime || ''}</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-${request.status || 'pending'}">
+                                <i class="fas fa-${request.status === 'pending' ? 'clock' : request.status === 'approved' ? 'check-circle' : 'check-double'}"></i>
+                                ${request.statusText || 'در انتظار'}
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="flex gap-2">
+                                <button onclick="viewFullForm(${request.id})" class="btn-view action-btn" title="مشاهده فرم کامل">
+                                    <i class="fas fa-eye ml-1"></i> مشاهده فرم
+                                </button>
+                                ${(request.status === 'pending') ? `
+                                    <button onclick="quickApprove(${request.id})" class="btn-approve action-btn" title="تایید سریع">
+                                        <i class="fas fa-check ml-1"></i>
+                                    </button>
+                                    <button onclick="quickReject(${request.id})" class="btn-reject action-btn" title="رد سریع">
+                                        <i class="fas fa-times ml-1"></i>
+                                    </button>
+                                ` : ''}
+                                ${(request.status === 'approved') ? `
+                                    <button onclick="viewContract(${request.id})" class="btn-secondary action-btn text-sm" title="مشاهده قرارداد">
+                                        <i class="fas fa-file-contract ml-1"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(requestElement);
+            });
+        }
+
+        // بروزرسانی آمار
+        function updateStats(requests) {
+            const total = requests.length;
+            const pending = requests.filter(r => r.status === 'pending').length;
+            const approved = requests.filter(r => r.status === 'approved').length;
+            
+            // محاسبه درآمد
+            let revenue = 0;
+            requests.forEach(r => {
+                if (r.revenue) {
+                    // اگر revenue عدد است، مستقیماً استفاده کن
+                    if (typeof r.revenue === 'number') {
+                        revenue += r.revenue;
+                    } else if (typeof r.revenue === 'string') {
+                        // اگر رشته است، کاماها را حذف کن
+                        const cleanRevenue = parseInt(r.revenue.replace(/,/g, ''));
+                        if (!isNaN(cleanRevenue)) {
+                            revenue += cleanRevenue;
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('totalRequests').textContent = total;
+            document.getElementById('pendingRequests').textContent = pending;
+            document.getElementById('approvedRequests').textContent = approved;
+            document.getElementById('totalRevenue').textContent = revenue.toLocaleString('fa-IR') + ' تومان';
+        }
+
+        // جستجوی درخواست‌ها
+        function searchRequests() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const requests = document.querySelectorAll('#requests-container > div');
+            
+            requests.forEach(request => {
+                const text = request.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    request.style.display = 'flex';
+                } else {
+                    request.style.display = 'none';
+                }
+            });
+        }
+
+        // مشاهده فرم کامل درخواست
+        function viewFullForm(requestId) {
+            currentRequestId = requestId;
+            const request = requestsData[requestId];
+            const location = ownerData.locations.find(l => l.id === currentLocationId);
+            
+            if (!request) {
+                showNotification('درخواست مورد نظر یافت نشد', 'error');
+                return;
+            }
+            
+            // پر کردن اطلاعات مودال
+            document.getElementById('modalEventTitle').textContent = `فرم درخواست: ${request.eventTitle}`;
+            document.getElementById('formEventTitle').textContent = request.eventTitle;
+            document.getElementById('formDescription').textContent = request.description || 'توضیحاتی ثبت نشده است';
+            document.getElementById('modalTrackingCode').textContent = `کد پیگیری: ${request.trackingCode}`;
+            document.getElementById('modalFormNumber').textContent = request.formNumber;
+            document.getElementById('modalSubmitDate').textContent = `ثبت: ${request.submitDate || 'تاریخ نامشخص'}`;
+            document.getElementById('modalLocationName').textContent = `مکان: ${location ? location.name : 'نامشخص'}`;
+            
+            // وضعیت
+            const statusBadge = document.getElementById('modalStatus');
+            statusBadge.className = `status-badge status-${request.status}`;
+            statusBadge.innerHTML = request.status === 'pending' ? '<i class="fas fa-clock"></i> در انتظار' :
+                                   request.status === 'approved' ? '<i class="fas fa-check-circle"></i> تایید شده' :
+                                   '<i class="fas fa-check-double"></i> تکمیل شده';
+            
+            // نمایش مودال
+            document.getElementById('fullFormModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // بستن فرم کامل
+        function closeFullForm() {
+            document.getElementById('fullFormModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentRequestId = null;
+        }
+
+        // تایید سریع درخواست
+        function quickApprove(requestId) {
+            if (confirm('آیا از تایید این درخواست اطمینان دارید؟')) {
+                showNotification(`درخواست ${requestId} با موفقیت تایید شد`, 'success');
+                // در حالت واقعی درخواست به API ارسال می‌شود
+                loadRequestsForLocation(currentLocationId);
+            }
+        }
+
+        // رد سریع درخواست
+        function quickReject(requestId) {
+            const reason = prompt('لطفاً دلیل رد درخواست را وارد کنید:');
+            if (reason) {
+                showNotification(`درخواست ${requestId} به دلیل "${reason}" رد شد`, 'error');
+                // در حالت واقعی درخواست به API ارسال می‌شود
+                loadRequestsForLocation(currentLocationId);
+            }
+        }
+
+        // تایید درخواست از فرم کامل
+        function approveRequest() {
+            if (currentRequestId) {
+                quickApprove(currentRequestId);
+                closeFullForm();
+            }
+        }
+
+        // رد درخواست از فرم کامل
+        function rejectRequest() {
+            if (currentRequestId) {
+                quickReject(currentRequestId);
+                closeFullForm();
+            }
+        }
+
+        // مشاهده قرارداد
+        function viewContract(requestId) {
+            showNotification(`قرارداد درخواست ${requestId} در حال بارگذاری...`, 'info');
+        }
+
+        // دانلود فرم
+        function downloadFullForm() {
+            showNotification('در حال ایجاد فایل PDF...', 'info');
+            setTimeout(() => {
+                showNotification('فایل با موفقیت دانلود شد', 'success');
+            }, 1000);
+        }
+
+        // خروجی Excel
+        function exportRequests() {
+            showNotification('در حال ایجاد گزارش Excel...', 'info');
+            setTimeout(() => {
+                showNotification('گزارش با موفقیت دانلود شد', 'success');
+            }, 1500);
+        }
+
+        // بروزرسانی داده‌ها
+        function refreshData() {
+            showNotification('در حال بروزرسانی داده‌ها...', 'info');
+            setTimeout(() => {
+                loadRequestsForLocation(currentLocationId);
+                showNotification('داده‌ها با موفقیت بروزرسانی شدند', 'success');
+            }, 1000);
+        }
+
+        // نمایش مودال افزودن مکان جدید
+        function showAddLocationModal() {
+            
+        }
+
+        // بستن مودال افزودن مکان
+        function closeAddLocationModal() {
+            document.getElementById('addLocationModal').classList.remove('active');
+        }
+
+        // ذخیره مکان جدید
+        function saveNewLocation() {
+            const name = document.getElementById('newLocationName').value;
+            const city = document.getElementById('newLocationCity').value;
+            const address = document.getElementById('newLocationAddress').value;
+            
+            if (!name || !city || !address) {
+                showNotification('لطفاً فیلدهای الزامی را پر کنید', 'error');
+                return;
+            }
+            
+            const newLocation = {
+                id: ownerData.locations.length + 1,
+                name: name,
+                city: city,
+                address: address,
+                capacity: parseInt(document.getElementById('newLocationCapacity').value) || 100,
+                basePrice: document.getElementById('newLocationBasePrice').value || "۵,۰۰۰,۰۰۰",
+                description: document.getElementById('newLocationDescription').value,
+                requests: []
+            };
+            
+            ownerData.locations.push(newLocation);
+            loadLocations();
+            closeAddLocationModal();
+            showNotification('مکان جدید با موفقیت افزوده شد', 'success');
+            
+            // بازنشانی فرم
+            document.getElementById('newLocationName').value = '';
+            document.getElementById('newLocationCity').value = '';
+            document.getElementById('newLocationAddress').value = '';
+            document.getElementById('newLocationCapacity').value = '';
+            document.getElementById('newLocationBasePrice').value = '';
+            document.getElementById('newLocationDescription').value = '';
+        }
+
+        // نمایش نوتیفیکیشن
+        function showNotification(message, type = 'info') {
+            // حذف نوتیفیکیشن قبلی
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = `fixed top-6 left-6 z-50 p-4 rounded-xl border backdrop-blur-lg ${
+                type === 'success' ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 text-green-800' :
+                type === 'error' ? 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200 text-red-800' :
+                'bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-200 text-blue-800'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-${type === 'success' ? 'check-circle text-green-500' : type === 'error' ? 'exclamation-circle text-red-500' : 'info-circle text-blue-500'} text-xl"></i>
+                    <span class="font-medium">${message}</span>
+                </div>
+            `;
+            
+            notification.classList.add('notification');
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // Event Listeners برای مودال‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            // بستن مودال‌ها با کلیک خارج
+            document.getElementById('fullFormModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFullForm();
+                }
+            });
+            
+            document.getElementById('addLocationModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAddLocationModal();
+                }
+            });
+            
+            // بستن مودال‌ها با ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeFullForm();
+                    closeAddLocationModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

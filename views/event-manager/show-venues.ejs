@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>همه مکان‌ها | دنیای رویدادها</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+            color: #1e1b4b;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Background Elements */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background: linear-gradient(45deg, #fdf2f8 0%, #fce7f3 50%, #fae8ff 100%);
+        }
+        
+        /* Floating 3D Spheres */
+        .sphere-1 {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ec4899, #db2777);
+            opacity: 0.15;
+            filter: blur(40px);
+            top: 10%;
+            right: 5%;
+            animation: floatSphere1 25s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        .sphere-2 {
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, #a855f7, #8b5cf6);
+            opacity: 0.12;
+            filter: blur(35px);
+            bottom: 15%;
+            left: 10%;
+            animation: floatSphere2 20s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        .sphere-3 {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, #f472b6, #ec4899);
+            opacity: 0.1;
+            filter: blur(30px);
+            top: 50%;
+            right: 15%;
+            animation: floatSphere3 30s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        /* Animated Particles */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        /* Floating Animations for Spheres */
+        @keyframes floatSphere1 {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(40px, 20px) scale(1.1);
+            }
+            50% {
+                transform: translate(20px, 40px) scale(0.9);
+            }
+            75% {
+                transform: translate(-20px, 20px) scale(1.05);
+            }
+        }
+        
+        @keyframes floatSphere2 {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(-30px, 30px) scale(1.15);
+            }
+            66% {
+                transform: translate(30px, -20px) scale(0.85);
+            }
+        }
+        
+        @keyframes floatSphere3 {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(25px, 25px) rotate(180deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.15;
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Glass Morphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 60px rgba(236, 72, 153, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 80px rgba(236, 72, 153, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: rgba(236, 72, 153, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        .location-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 20px 60px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        
+        .location-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 40px 80px rgba(139, 92, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+        
+        .location-image {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .location-card:hover .location-image {
+            transform: scale(1.1);
+        }
+        
+        /* 3D Rotating Cube */
+        .rotating-cube {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            transform-style: preserve-3d;
+            animation: rotateCube 20s infinite linear;
+            z-index: -1;
+            opacity: 0.05;
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
+        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(75px); }
+        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(75px); }
+        .cube-face:nth-child(4) { transform: rotateY(270deg) translateZ(75px); }
+        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
+        
+        @keyframes rotateCube {
+            0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(216, 180, 254, 0.3);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            border-radius: 10px;
+        }
+        
+        /* Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        /* Category Badge */
+        .category-badge {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Background extends to footer */
+        .background-extended {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -3;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+        }
+        
+        /* Location Modal */
+        .location-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .location-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Map Container */
+        .map-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            position: relative;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Extended Background -->
+    <div class="background-extended"></div>
+    
+    <!-- 3D Background Elements -->
+    <div class="bg-pattern"></div>
+    
+    <!-- Floating 3D Spheres -->
+    <div class="sphere-1"></div>
+    <div class="sphere-2"></div>
+    <div class="sphere-3"></div>
+    
+    <!-- Rotating Cube -->
+    <div class="rotating-cube" style="top: 20%; right: 10%;">
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+    </div>
+    
+    <div class="rotating-cube" style="bottom: 20%; left: 15%; transform: scale(0.8); opacity: 0.03;">
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+    </div>
+    
+    <!-- Animated Particles -->
+    <div id="particles-container"></div>
+
+    <!-- Hero Section -->
+    <section class="relative top-12 min-h-[50vh] flex items-center justify-center pt-24">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <!-- Main Title -->
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-gray-900 animate-fade-in-up">
+                    <span class="gradient-text">مکان‌های برگزاری</span>
+                    <br />
+                    رویدادها
+                </h1>
+              
+                <!-- Search Bar -->
+                <div class="max-w-3xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                            <i class="fas fa-search h-6 w-6 text-gray-400"></i>
+                        </div>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="جستجوی مکان (نام مکان، نوع رویداد، امکانات...)"
+                            class="w-full pr-14 pl-4 py-5 text-xl rounded-2xl glass-card border-0 shadow-xl focus:ring-4 focus:ring-purple-200/50 outline-none transition-all placeholder-gray-500"
+                        >
+                        <button id="clearSearch" onclick="clearSearch()" 
+                                class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors hidden">
+                            <i class="fas fa-times h-5 w-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12 relative z-10">
+        <!-- Control Panel - ساده‌تر شده -->
+        <div class="mb-12 glass-card p-8">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+                <!-- Left - Stats -->
+                <div class="flex-1">
+                    <div class="flex items-center gap-6 mb-4">
+                        <div class="p-4 rounded-2xl bg-gradient-to-l from-pink-500 to-purple-500 shadow-lg">
+                            <i class="fas fa-map-marker-alt h-8 w-8 text-white"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">
+                                <span class="gradient-text" id="filteredCount"><%= venues.length %></span> مکان
+                            </h2>
+                            <p class="text-gray-600" id="filterInfo">
+                                در تمام شهرهای ایران
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Controls - فقط مرتب‌سازی و نمایش -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Sort Select -->
+                    <div class="relative">
+                        <select id="sortSelect" class="appearance-none glass-card border-0 px-5 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-4 focus:ring-purple-200/50 cursor-pointer shadow-lg">
+                            <option value="popular">محبوب‌ترین</option>
+                            <option value="capacity">بزرگترین ظرفیت</option>
+                            <option value="events">بیشترین رویداد</option>
+                            <option value="rating">بالاترین امتیاز</option>
+                        </select>
+                        <i class="fas fa-chart-line absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none"></i>
+                    </div>
+
+                    <!-- View Toggle -->
+                    <div class="flex glass-card p-1 rounded-xl">
+                        <button id="gridView" onclick="setViewMode('grid')" 
+                                class="p-3 rounded-xl transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg">
+                            <i class="fas fa-th-large h-5 w-5"></i>
+                        </button>
+                        <button id="listView" onclick="setViewMode('list')" 
+                                class="p-3 rounded-xl transition-all hover:bg-gray-100">
+                            <i class="fas fa-list h-5 w-5 text-gray-500"></i>
+                        </button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <button onclick="clearFilters()" 
+                                class="px-6 py-3 glass-card text-gray-700 font-medium shadow-lg hover:shadow-xl transition-all flex items-center gap-2 hover:scale-105 shimmer">
+                            <i class="fas fa-times h-4 w-4"></i>
+                            حذف فیلترها
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location Details Modal -->
+    <div id="locationModal" class="location-modal">
+        <div class="glass-card max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 id="modalTitle" class="text-2xl font-bold text-gray-900 mb-2"></h3>
+                        <div class="flex items-center gap-2 text-gray-600">
+                            <i class="fas fa-map-marker-alt text-pink-500"></i>
+                            <span id="modalLocation"></span>
+                        </div>
+                    </div>
+                    <button onclick="closeLocationModal()" class="text-gray-400 hover:text-gray-600 p-2">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="space-y-6">
+                    <!-- Image -->
+                    <div class="rounded-2xl overflow-hidden">
+                        <img id="modalImage" src="" alt="" class="w-full h-64 object-cover">
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-white/50 rounded-xl">
+                            <div id="modalEvents" class="text-2xl font-bold text-pink-600 mb-1">5</div>
+                            <div class="text-gray-600 text-sm">رویداد فعال</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/50 rounded-xl">
+                            <div id="modalCapacity" class="text-2xl font-bold text-purple-600 mb-1">1,200</div>
+                            <div class="text-gray-600 text-sm">ظرفیت</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/50 rounded-xl">
+                            <div id="modalRating" class="text-2xl font-bold text-indigo-600 mb-1">4.8</div>
+                            <div class="text-gray-600 text-sm">امتیاز</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/50 rounded-xl">
+                            <div id="modalPrice" class="text-2xl font-bold text-blue-600 mb-1">$$$</div>
+                            <div class="text-gray-600 text-sm">سطح قیمت</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-3">درباره این مکان</h4>
+                        <p id="modalDescription" class="text-gray-600"></p>
+                    </div>
+                    
+                    <!-- Facilities -->
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-3">امکانات</h4>
+                        <div id="modalFacilities" class="flex flex-wrap gap-2">
+                            <!-- Facilities will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Events -->
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-3">رویدادهای آینده</h4>
+                        <div id="modalUpcomingEvents" class="space-y-3">
+                            <!-- Upcoming events will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Contact & Actions -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-gray-200">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-3">اطلاعات تماس</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-phone text-pink-500 w-4"></i>
+                                    <span id="modalPhone"></span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-envelope text-purple-500 w-4"></i>
+                                    <span id="modalEmail"></span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-globe text-indigo-500 w-4"></i>
+                                    <span id="modalWebsite"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="space-y-3">
+                            <button onclick="viewLocationEvents()" class="w-full btn-primary shimmer">
+                                <i class="fas fa-calendar-alt"></i>
+                                مشاهده رویدادها
+                            </button>
+                            <button onclick="shareLocation()" class="w-full py-3 bg-white text-gray-700 font-semibold border-2 border-gray-200 rounded-xl hover:border-pink-300 hover:bg-pink-50 transition-all">
+                                <i class="fas fa-share-alt ml-2"></i>
+                                اشتراک‌گذاری
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        window.openLocationModal = function(location) {
+            console.log('MODAL FUNCTION CALLED', location);
+            console.log('Location Title:', location);
+            
+
+            // currentModalLocation = location;
+            
+            document.getElementById('modalTitle').textContent = location.name;
+            document.getElementById('modalLocation').textContent = `${location.city}`;
+            document.getElementById('modalImage').src = location.image;
+            document.getElementById('modalImage').alt = location.name;
+            // document.getElementById('modalEvents').textContent = location.events;
+            document.getElementById('modalCapacity').textContent = location.capacity.toLocaleString();
+            // document.getElementById('modalRating').textContent = location.rating;
+            document.getElementById('modalPrice').textContent = location.price;
+            document.getElementById('modalDescription').textContent = location.description;
+            document.getElementById('modalPhone').textContent = location.phoneNumber;
+            
+            
+            // نمایش مودال
+            document.getElementById('locationModal').classList.add('active');
+}
+
+        function closeLocationModal() {
+            document.getElementById('locationModal').classList.remove('active');
+        }
+</script>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <% for (let venue of venues) { %>
+            <div class="animate-fade-in-up location-card">
+                    <div class="relative h-48 overflow-hidden">
+                        <img
+                            src="<%=venue.image%>"
+                            alt="<%=venue.title%>"
+                            class="location-image w-full h-full object-cover"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                        
+                    
+                        
+                        <!-- Events Badge -->
+                        <!-- <div class="absolute bottom-4 right-4">
+                            <span class="category-badge bg-gradient-to-r from-pink-500 to-purple-500 text-white">
+                                <i class="fas fa-calendar ml-2"></i>
+                                ${venue.events} رویداد
+                            </span>
+                        </div> -->
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-1">
+                            <%=venue.title%>
+                        </h3>
+                        <p class="text-gray-600 mb-4 line-clamp-2">
+                            <%=venue.description%>
+                        </p>
+
+                        <!-- Details -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-users w-4 h-4 text-teal-500"></i>
+                                    <span>ظرفیت: <%=venue.capacity.toLocaleString()%> نفر</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <span class="font-medium"><%=venue.rating%></span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 text-gray-700 text-sm">
+                                <i class="fas fa-map-marker-alt w-4 h-4 text-indigo-500"></i>
+                                <span class="font-medium"><%=venue.city%></span>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+
+                        <button class="w-full py-3 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all hover:scale-105 shimmer"
+                        data-venue='<%- JSON.stringify(venue) %>'
+                        onclick="openLocationModal(JSON.parse(this.dataset.venue))">
+                            <span>مشاهده جزئیات</span>
+                            <i class="fas fa-eye w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                    <% } %>
+        
+
+        <!-- Locations Container -->
+        <div id="locationsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Locations will be populated by JavaScript -->
+        </div>
+
+        <!-- List View Container (Hidden by default) -->
+        <div id="listContainer" class="space-y-6 mb-16 hidden">
+            <!-- List view items will be populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20 hidden">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="text-6xl">🗺️</div>
+                <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-2xl animate-pulse"></div>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">مکانی یافت نشد</h3>
+            <p class="text-gray-600 text-lg mb-8 max-w-lg mx-auto">
+                متأسفانه هیچ مکانی مطابق با جستجوی شما وجود ندارد. می‌توانید کلمات کلیدی دیگر را امتحان کنید.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="clearFilters()" 
+                        class="px-8 py-4 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all flex items-center gap-3 hover:scale-105 shimmer">
+                    <i class="fas fa-eye w-5 h-5"></i>
+                    نمایش همه مکان‌ها
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- JavaScript -->
+    <script>
+        // داده‌های مکان‌ها
+
+        // متغیرهای حالت
+        let currentSort = "popular";
+        let currentViewMode = "grid";
+        let filteredLocations = [...locationsData];
+
+        // ایجاد ذرات متحرک
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            if (!container) return;
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 80 + 30;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 15 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.animation = `pulse ${duration}s infinite ease-in-out`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // مقداردهی اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('All Locations page loaded');
+            createParticles();
+            renderLocations();
+            updateStats();
+            setupEventListeners();
+        });
+
+        // تنظیم حالت نمایش
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            
+            const gridView = document.getElementById('gridView');
+            const listView = document.getElementById('listView');
+            
+            if (gridView && listView) {
+                if (mode === 'grid') {
+                    gridView.className = 'p-3 rounded-xl transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg';
+                    listView.className = 'p-3 rounded-xl transition-all hover:bg-gray-100';
+                    gridView.querySelector('i').className = 'fas fa-th-large h-5 w-5';
+                    listView.querySelector('i').className = 'fas fa-list h-5 w-5 text-gray-500';
+                } else {
+                    gridView.className = 'p-3 rounded-xl transition-all hover:bg-gray-100';
+                    listView.className = 'p-3 rounded-xl transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg';
+                    gridView.querySelector('i').className = 'fas fa-th-large h-5 w-5 text-gray-500';
+                    listView.querySelector('i').className = 'fas fa-list h-5 w-5';
+                }
+            }
+            
+            const locationsContainer = document.getElementById('locationsContainer');
+            const listContainer = document.getElementById('listContainer');
+            
+            if (locationsContainer && listContainer) {
+                locationsContainer.classList.toggle('hidden', mode === 'list');
+                listContainer.classList.toggle('hidden', mode === 'grid');
+            }
+            
+            renderLocations();
+        }
+
+        // فیلتر کردن مکان‌ها
+        function filterLocations() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            
+            filteredLocations = locationsData.filter(location => {
+                const matchesSearch = searchTerm === '' || 
+                    location.title.toLowerCase().includes(searchTerm) || 
+                    location.description.toLowerCase().includes(searchTerm) ||
+                    location.city.toLowerCase().includes(searchTerm) ||
+                    location.facilities.some(facility => facility.toLowerCase().includes(searchTerm));
+                
+                return matchesSearch;
+            });
+            
+            // مرتب‌سازی
+            sortLocations();
+            
+            // بروزرسانی اطلاعات
+            updateFilterInfo();
+            updateStats();
+            renderLocations();
+        }
+
+        // مرتب‌سازی مکان‌ها
+        function sortLocations() {
+            const sortSelect = document.getElementById('sortSelect');
+            currentSort = sortSelect ? sortSelect.value : 'popular';
+            
+            filteredLocations.sort((a, b) => {
+                switch(currentSort) {
+                    case "popular":
+                        return b.rating - a.rating;
+                    case "capacity":
+                        return b.capacity - a.capacity;
+                    case "events":
+                        return b.events - a.events;
+                    case "rating":
+                        return b.rating - a.rating;
+                    default:
+                        return 0;
+                }
+            });
+        }
+
+        // بروزرسانی اطلاعات فیلتر
+        function updateFilterInfo() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput ? searchInput.value : '';
+            
+            const filteredCount = document.getElementById('filteredCount');
+            const filterInfo = document.getElementById('filterInfo');
+            const clearSearchBtn = document.getElementById('clearSearch');
+            
+            if (filteredCount) {
+                filteredCount.textContent = filteredLocations.length;
+                filteredCount.className = filteredLocations.length > 0 ? 'gradient-text' : 'text-red-500';
+            }
+            
+            if (filterInfo) {
+                let infoText = "تمام مکان‌ها";
+                if (searchTerm) infoText += ` - جستجو برای "${searchTerm}"`;
+                filterInfo.textContent = infoText;
+            }
+            
+            if (clearSearchBtn) {
+                clearSearchBtn.classList.toggle('hidden', !searchTerm);
+            }
+            
+            const emptyState = document.getElementById('emptyState');
+            if (emptyState) {
+                emptyState.classList.toggle('hidden', filteredLocations.length > 0);
+            }
+        }
+
+        // بروزرسانی آمار
+        function updateStats() {
+            const totalEvents = locationsData.reduce((sum, location) => sum + location.events, 0);
+            const totalCapacity = locationsData.reduce((sum, location) => sum + location.capacity, 0);
+            
+            document.getElementById('locationsCount').textContent = locationsData.length;
+            document.getElementById('eventsCount').textContent = totalEvents;
+            document.getElementById('capacityCount').textContent = totalCapacity.toLocaleString();
+        }
+
+
+
+        // باز کردن مودال مکان
+        // window.openLocationModal = function(location) {
+
+            
+        // }
+
+        // بستن مودال مکان
+        
+
+
+
+        // پاک کردن جستجو
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                filterLocations();
+            }
+        }
+
+        // پاک کردن همه فیلترها
+        function clearFilters() {
+            clearSearch();
+            const sortSelect = document.getElementById('sortSelect');
+            if (sortSelect) sortSelect.value = 'popular';
+            filterLocations();
+        }
+
+        // تنظیم event listeners
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const sortSelect = document.getElementById('sortSelect');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', filterLocations);
+            }
+            
+            if (sortSelect) {
+                sortSelect.addEventListener('change', filterLocations);
+            }
+            
+            // بستن مودال با کلیک بیرون
+            document.addEventListener('click', (e) => {
+                const modal = document.getElementById('locationModal');
+                if (modal && e.target === modal) {
+                    closeLocationModal();
+                }
+            });
+            
+            // بستن مودال با دکمه ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeLocationModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

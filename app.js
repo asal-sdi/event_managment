@@ -38,13 +38,16 @@ app.use(session({
 
 }))
 
-//* statics
-app.use(express.static(path.join(__dirname , "public"))) 
-
 
 //*passport
 app.use(passport.initialize())
 app.use(passport.session())
+
+//* statics
+app.use(express.static(path.join(__dirname , "public"))) 
+
+
+
 
 
 app.use("/", require("./routes/main"))

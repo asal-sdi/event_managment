@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم درخواست‌ها | مدیر رویداد</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #c1ddec 0%, #e4b2e2 100%);
+            min-height: 100vh;
+            color: #39121d;
+        }
+   
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-pending {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .status-approved {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .status-rejected {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .status-completed {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.1));
+            color: #1d4ed8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #7c3aed;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            border-color: rgba(236, 72, 153, 0.5);
+            background: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .btn-reject {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-view {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.1));
+            color: #1d4ed8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-right: 30px;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: 8px;
+            top: 0;
+            bottom: -2rem;
+            width: 2px;
+            background: linear-gradient(to bottom, #ec4899, #a855f7, transparent);
+        }
+        
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #ec4899;
+        }
+        
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Filter Chips */
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .filter-chip.active {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screent p-4 md:p-10">
+    
+    <!-- Header -->
+    <header class="mb-8 ">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+            <div>
+                <h1 class="text-3xl md:text-4xl pt-14 font-bold gradient-text mb-2">سیستم درخواست‌ها</h1>
+                <p class="text-pink-700">مدیریت درخواست‌های برگزاری رویداد در مکان‌ها</p>
+            </div>
+            
+           
+        </div>
+        
+        <!-- Stats Cards -->
+       
+        
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative">
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button class="filter-chip active" onclick="filterRequests('all')">
+                همه درخواست‌ها (۱۲)
+            </button>
+            <button class="filter-chip" onclick="filterRequests('pending')">
+                <i class="fas fa-clock ml-2"></i> در انتظار (۵)
+            </button>
+            <button class="filter-chip" onclick="filterRequests('approved')">
+                <i class="fas fa-check-circle ml-2"></i> تایید شده (۴)
+            </button>
+            <button class="filter-chip" onclick="filterRequests('rejected')">
+                <i class="fas fa-times-circle ml-2"></i> رد شده (۲)
+            </button>
+            <button class="filter-chip" onclick="filterRequests('completed')">
+                <i class="fas fa-check-double ml-2"></i> تکمیل شده (۱)
+            </button>
+        </div>
+        
+        <!-- Search and Actions -->
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <div class="flex-1">
+                <div class="relative">
+                    <input type="text" 
+                           placeholder="جستجوی درخواست (مکان، تاریخ، سازمان...)" 
+                           class="w-full p-3 pr-12 rounded-xl border border-pink-200 focus:border-pink-400 focus:ring-2 focus:ring-pink-100 outline-none"
+                           id="searchInput"
+                           oninput="searchRequests()">
+                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-pink-400"></i>
+                </div>
+            </div>
+            
+            <div class="flex gap-3">
+                <button class="btn-secondary" onclick="exportRequests()">
+                    <i class="fas fa-download ml-2"></i> خروجی
+                </button>
+                <button class="btn-secondary" onclick="refreshRequests()">
+                    <i class="fas fa-sync-alt ml-2"></i> بروزرسانی
+                </button>
+            </div>
+        </div>
+        
+        <!-- Requests List -->
+        <div class="glass-card overflow-hidden">
+            <div class="p-6 border-b border-pink-100">
+                <div class="grid grid-cols-12 gap-4 text-pink-700 font-bold">
+                    <div class="col-span-3">سازمان درخواست‌دهنده</div>
+                    <div class="col-span-3">مکان درخواستی</div>
+                    <div class="col-span-2">تاریخ رویداد</div>
+                    <div class="col-span-2">وضعیت</div>
+                    <div class="col-span-2">عملیات</div>
+                </div>
+            </div>
+            
+            <div id="requests-container" class="max-h-[600px] overflow-y-auto">
+                <!-- Request 1 -->
+                <div class="p-6 border-b border-pink-50 hover:bg-pink-50/50 transition-colors"
+                     data-status="pending"
+                     data-search="شرکت فناوری ایرانیان مرکز همایش‌های تهران ۱۴۰۳/۰۴/۱۵">
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-3">
+                            <div class="font-bold text-pink-900 mb-1">شرکت فناوری ایرانیان</div>
+                            <div class="text-sm text-pink-600">ثبت‌شده: ۱۴۰۳/۰۲/۱۰</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-pink-900 mb-1">مرکز همایش‌های بین‌المللی تهران</div>
+                            <div class="text-sm text-pink-600">تهران، خیابان ولیعصر</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-pink-900">۱۴۰۳/۰۴/۱۵</div>
+                            <div class="text-sm text-pink-500">۱۰:۰۰ - ۱۸:۰۰</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-pending">
+                                <i class="fas fa-clock"></i> در انتظار
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="flex gap-2">
+                                <button onclick="viewRequestDetails(1)" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="approveRequest(1)" class="action-btn btn-approve">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button onclick="rejectRequest(1)" class="action-btn btn-reject">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Request 2 -->
+                <div class="p-6 border-b border-pink-50 hover:bg-pink-50/50 transition-colors"
+                     data-status="approved"
+                     data-search="دانشگاه صنعتی شریف سالن همایش‌ها ۱۴۰۳/۰۵/۲۰">
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-3">
+                            <div class="font-bold text-pink-900 mb-1">دانشگاه صنعتی شریف</div>
+                            <div class="text-sm text-pink-600">ثبت‌شده: ۱۴۰۳/۰۱/۲۵</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-pink-900 mb-1">سالن همایش‌های دانشکده مهندسی</div>
+                            <div class="text-sm text-pink-600">تهران، خیابان آزادی</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-pink-900">۱۴۰۳/۰۵/۲۰</div>
+                            <div class="text-sm text-pink-500">۰۹:۰۰ - ۱۶:۰۰</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-approved">
+                                <i class="fas fa-check-circle"></i> تایید شده
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="flex gap-2">
+                                <button onclick="viewRequestDetails(2)" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="viewContract(2)" class="action-btn btn-approve">
+                                    <i class="fas fa-file-contract"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Request 3 -->
+                <div class="p-6 border-b border-pink-50 hover:bg-pink-50/50 transition-colors"
+                     data-status="rejected"
+                     data-search="استارتاپ نوآوران هتل اسپیناس ۱۴۰۳/۰۳/۰۵">
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-3">
+                            <div class="font-bold text-pink-900 mb-1">استارتاپ نوآوران</div>
+                            <div class="text-sm text-pink-600">ثبت‌شده: ۱۴۰۲/۱۲/۱۵</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-pink-900 mb-1">هتل اسپیناس پالاس</div>
+                            <div class="text-sm text-pink-600">تهران، خیابان ولیعصر</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-pink-900">۱۴۰۳/۰۳/۰۵</div>
+                            <div class="text-sm text-pink-500">۱۸:۰۰ - ۲۲:۰۰</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-rejected">
+                                <i class="fas fa-times-circle"></i> رد شده
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="flex gap-2">
+                                <button onclick="viewRequestDetails(3)" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="resubmitRequest(3)" class="action-btn btn-approve">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Request 4 -->
+                <div class="p-6 border-b border-pink-50 hover:bg-pink-50/50 transition-colors"
+                     data-status="pending"
+                     data-search="انجمن علمی کامپیوتر تالار وحدت ۱۴۰۳/۰۶/۱۰">
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-3">
+                            <div class="font-bold text-pink-900 mb-1">انجمن علمی کامپیوتر</div>
+                            <div class="text-sm text-pink-600">ثبت‌شده: ۱۴۰۳/۰۳/۰۱</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-pink-900 mb-1">تالار وحدت</div>
+                            <div class="text-sm text-pink-600">تهران، خیابان حافظ</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-pink-900">۱۴۰۳/۰۶/۱۰</div>
+                            <div class="text-sm text-pink-500">۱۴:۰۰ - ۲۰:۰۰</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-pending">
+                                <i class="fas fa-clock"></i> در انتظار
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="flex gap-2">
+                                <button onclick="viewRequestDetails(4)" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="approveRequest(4)" class="action-btn btn-approve">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button onclick="rejectRequest(4)" class="action-btn btn-reject">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Request 5 -->
+                <div class="p-6 border-b border-pink-50 hover:bg-pink-50/50 transition-colors"
+                     data-status="completed"
+                     data-search="شرکت رایان‌شبکه باغ کتاب ۱۴۰۳/۰۱/۲۰">
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-3">
+                            <div class="font-bold text-pink-900 mb-1">شرکت رایان‌شبکه</div>
+                            <div class="text-sm text-pink-600">ثبت‌شده: ۱۴۰۲/۱۱/۱۰</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-pink-900 mb-1">باغ کتاب تهران</div>
+                            <div class="text-sm text-pink-600">تهران، اتوبان حقانی</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-pink-900">۱۴۰۳/۰۱/۲۰</div>
+                            <div class="text-sm text-pink-500">۰۹:۰۰ - ۱۸:۰۰</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-completed">
+                                <i class="fas fa-check-double"></i> تکمیل شده
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="flex gap-2">
+                                <button onclick="viewRequestDetails(5)" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="viewReport(5)" class="action-btn btn-approve">
+                                    <i class="fas fa-chart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Request 6 -->
+                <div class="p-6 border-b border-pink-50 hover:bg-pink-50/50 transition-colors"
+                     data-status="approved"
+                     data-search="فستیوال هنرهای تجسمی موزه هنرهای معاصر ۱۴۰۳/۰۴/۳۰">
+                    <div class="grid grid-cols-12 gap-4 items-center">
+                        <div class="col-span-3">
+                            <div class="font-bold text-pink-900 mb-1">فستیوال هنرهای تجسمی</div>
+                            <div class="text-sm text-pink-600">ثبت‌شده: ۱۴۰۳/۰۲/۰۵</div>
+                        </div>
+                        
+                        <div class="col-span-3">
+                            <div class="font-medium text-pink-900 mb-1">موزه هنرهای معاصر</div>
+                            <div class="text-sm text-pink-600">تهران، خیابان کارگر شمالی</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="font-medium text-pink-900">۱۴۰۳/۰۴/۳۰</div>
+                            <div class="text-sm text-pink-500">۱۰:۰۰ - ۲۲:۰۰</div>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <span class="status-badge status-approved">
+                                <i class="fas fa-check-circle"></i> تایید شده
+                            </span>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <div class="flex gap-2">
+                                <button onclick="viewRequestDetails(6)" class="action-btn btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="viewContract(6)" class="action-btn btn-approve">
+                                    <i class="fas fa-file-contract"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary -->
+            <div class="p-6 border-t border-pink-100 flex justify-between items-center">
+                <div class="text-pink-600">
+                    نمایش <span class="font-bold text-pink-700">۶</span> درخواست از <span class="font-bold">۱۲</span> درخواست
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="btn-secondary">
+                        <i class="fas fa-chevron-right ml-2"></i> قبلی
+                    </button>
+                    <button class="btn-secondary">
+                        بعدی <i class="fas fa-chevron-left ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Request Details Modal -->
+    <div id="requestModal" class="modal">
+        <div class="glass-card max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-pink-900 mb-2" id="modalTitle">جزئیات درخواست</h3>
+                        <div class="flex items-center gap-3">
+                            <span class="status-badge" id="modalStatus">در انتظار</span>
+                            <span class="text-pink-600" id="modalId">#REQ-001</span>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="text-pink-400 hover:text-pink-600 p-2">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="space-y-8">
+                    <!-- Basic Info -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-4 bg-pink-50 rounded-xl">
+                            <h4 class="font-bold text-pink-900 mb-3">اطلاعات درخواست‌دهنده</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-pink-600">سازمان:</span>
+                                    <span class="font-medium" id="modalOrganization">شرکت فناوری ایرانیان</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-pink-600">تماس:</span>
+                                    <span class="font-medium" id="modalContact">۰۹۱۲۳۴۵۶۷۸۹</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-pink-600">ایمیل:</span>
+                                    <span class="font-medium" id="modalEmail">info@tech-iranian.ir</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-purple-50 rounded-xl">
+                            <h4 class="font-bold text-purple-900 mb-3">اطلاعات مکان</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-purple-600">مکان:</span>
+                                    <span class="font-medium" id="modalLocation">مرکز همایش‌های بین‌المللی تهران</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-purple-600">آدرس:</span>
+                                    <span class="font-medium" id="modalAddress">تهران، خیابان ولیعصر</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-purple-600">ظرفیت:</span>
+                                    <span class="font-medium" id="modalCapacity">۵۰۰ نفر</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Details -->
+                    <div class="p-6 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl">
+                        <h4 class="font-bold text-pink-900 mb-4">جزئیات رویداد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-3 bg-white rounded-lg">
+                                <div class="text-lg font-bold text-pink-600 mb-1" id="modalDate">۱۴۰۳/۰۴/۱۵</div>
+                                <div class="text-sm text-pink-500">تاریخ رویداد</div>
+                            </div>
+                            <div class="text-center p-3 bg-white rounded-lg">
+                                <div class="text-lg font-bold text-purple-600 mb-1" id="modalTime">۱۰:۰۰ - ۱۸:۰۰</div>
+                                <div class="text-sm text-purple-500">ساعت برگزاری</div>
+                            </div>
+                            <div class="text-center p-3 bg-white rounded-lg">
+                                <div class="text-lg font-bold text-indigo-600 mb-1" id="modalType">کنفرانس</div>
+                                <div class="text-sm text-indigo-500">نوع رویداد</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div>
+                        <h4 class="font-bold text-pink-900 mb-3">توضیحات درخواست</h4>
+                        <p class="text-pink-700 leading-relaxed" id="modalDescription">
+                            درخواست برگزاری کنفرانس سالیانه فناوری با حضور ۳۰۰ نفر از متخصصان صنعت. 
+                            شامل ۵ سخنرانی کلیدی، ۳ کارگاه آموزشی و نمایشگاه جانبی.
+                        </p>
+                    </div>
+                    
+                    <!-- Requirements -->
+                    <div>
+                        <h4 class="font-bold text-pink-900 mb-3">نیازمندی‌های خاص</h4>
+                        <div class="flex flex-wrap gap-2" id="modalRequirements">
+                            <span class="px-3 py-1 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 rounded-full text-sm">
+                                سیستم صوتی پیشرفته
+                            </span>
+                            <span class="px-3 py-1 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 rounded-full text-sm">
+                                ویدئو پروژکتور HD
+                            </span>
+                            <span class="px-3 py-1 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 rounded-full text-sm">
+                                اینترنت پرسرعت
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline -->
+                    <div>
+                        <h4 class="font-bold text-pink-900 mb-4">تاریخچه درخواست</h4>
+                        <div class="space-y-6" id="modalTimeline">
+                            <!-- Timeline items will be added here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex gap-4 pt-6 border-t border-pink-200">
+                        <button onclick="approveModalRequest()" class="flex-1 btn-primary">
+                            <i class="fas fa-check ml-2"></i> تایید درخواست
+                        </button>
+                        <button onclick="rejectModalRequest()" class="flex-1 btn-secondary">
+                            <i class="fas fa-times ml-2"></i> رد درخواست
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // داده‌های درخواست‌ها
+        const requestsData = {
+            1: {
+                id: "REQ-001",
+                organization: "شرکت فناوری ایرانیان",
+                contact: "۰۹۱۲۳۴۵۶۷۸۹",
+                email: "info@tech-iranian.ir",
+                location: "مرکز همایش‌های بین‌المللی تهران",
+                address: "تهران، خیابان ولیعصر",
+                capacity: "۵۰۰ نفر",
+                date: "۱۴۰۳/۰۴/۱۵",
+                time: "۱۰:۰۰ - ۱۸:۰۰",
+                type: "کنفرانس",
+                description: "درخواست برگزاری کنفرانس سالیانه فناوری با حضور ۳۰۰ نفر از متخصصان صنعت. شامل ۵ سخنرانی کلیدی، ۳ کارگاه آموزشی و نمایشگاه جانبی.",
+                requirements: ["سیستم صوتی پیشرفته", "ویدئو پروژکتور HD", "اینترنت پرسرعت", "سالن غذاخوری", "پارکینگ اختصاصی"],
+                status: "pending",
+                timeline: [
+                    { date: "۱۴۰۳/۰۲/۱۰", action: "ثبت درخواست", description: "درخواست توسط شرکت فناوری ایرانیان ثبت شد" },
+                    { date: "۱۴۰۳/۰۲/۱۲", action: "بررسی اولیه", description: "بررسی مدارک تکمیل شد" }
+                ]
+            },
+            2: {
+                id: "REQ-002",
+                organization: "دانشگاه صنعتی شریف",
+                contact: "۰۲۱-۶۶۰۰۰۰۰۰",
+                email: "events@sharif.edu",
+                location: "سالن همایش‌های دانشکده مهندسی",
+                address: "تهران، خیابان آزادی",
+                capacity: "۲۰۰ نفر",
+                date: "۱۴۰۳/۰۵/۲۰",
+                time: "۰۹:۰۰ - ۱۶:۰۰",
+                type: "سمینار",
+                description: "سمینار تخصصی هوش مصنوعی و کاربردهای آن در صنعت با حضور اساتید و دانشجویان دانشگاه.",
+                requirements: ["ویدئو پروژکتور", "سیستم صوتی", "اینترنت", "ناهار"],
+                status: "approved",
+                timeline: [
+                    { date: "۱۴۰۳/۰۱/۲۵", action: "ثبت درخواست", description: "درخواست توسط دانشگاه شریف ثبت شد" },
+                    { date: "۱۴۰۳/۰۲/۰۱", action: "بررسی مدارک", description: "مدارک مورد نیاز دریافت شد" },
+                    { date: "۱۴۰۳/۰۲/۱۰", action: "تایید نهایی", description: "درخواست توسط مدیر سیستم تایید شد" }
+                ]
+            }
+        };
+
+        let currentFilter = 'all';
+        let currentModalRequest = null;
+
+        // فیلتر کردن درخواست‌ها
+        function filterRequests(filter) {
+            currentFilter = filter;
+            
+            // Update filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter requests
+            searchRequests();
+        }
+
+        // جستجوی درخواست‌ها
+        function searchRequests() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const requests = document.querySelectorAll('#requests-container > div');
+            
+            requests.forEach(request => {
+                const searchData = request.getAttribute('data-search');
+                const status = request.getAttribute('data-status');
+                
+                const matchesSearch = searchData.includes(searchTerm);
+                const matchesFilter = currentFilter === 'all' || status === currentFilter;
+                
+                if (matchesSearch && matchesFilter) {
+                    request.style.display = 'flex';
+                } else {
+                    request.style.display = 'none';
+                }
+            });
+        }
+
+        // مشاهده جزئیات درخواست
+        function viewRequestDetails(requestId) {
+            currentModalRequest = requestId;
+            const request = requestsData[requestId];
+            
+            if (!request) return;
+            
+            // پر کردن اطلاعات مودال
+            document.getElementById('modalTitle').textContent = `درخواست ${request.id}`;
+            document.getElementById('modalId').textContent = `#${request.id}`;
+            document.getElementById('modalOrganization').textContent = request.organization;
+            document.getElementById('modalContact').textContent = request.contact;
+            document.getElementById('modalEmail').textContent = request.email;
+            document.getElementById('modalLocation').textContent = request.location;
+            document.getElementById('modalAddress').textContent = request.address;
+            document.getElementById('modalCapacity').textContent = request.capacity;
+            document.getElementById('modalDate').textContent = request.date;
+            document.getElementById('modalTime').textContent = request.time;
+            document.getElementById('modalType').textContent = request.type;
+            document.getElementById('modalDescription').textContent = request.description;
+            
+            // بروزرسانی وضعیت
+            const statusBadge = document.getElementById('modalStatus');
+            statusBadge.className = `status-badge status-${request.status}`;
+            statusBadge.innerHTML = request.status === 'pending' ? '<i class="fas fa-clock"></i> در انتظار' :
+                                   request.status === 'approved' ? '<i class="fas fa-check-circle"></i> تایید شده' :
+                                   '<i class="fas fa-times-circle"></i> رد شده';
+            
+            // اضافه کردن نیازمندی‌ها
+            const requirementsContainer = document.getElementById('modalRequirements');
+            requirementsContainer.innerHTML = '';
+            request.requirements.forEach(req => {
+                const span = document.createElement('span');
+                span.className = 'px-3 py-1 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 rounded-full text-sm';
+                span.textContent = req;
+                requirementsContainer.appendChild(span);
+            });
+            
+            // اضافه کردن timeline
+            const timelineContainer = document.getElementById('modalTimeline');
+            timelineContainer.innerHTML = '';
+            request.timeline.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="font-bold text-pink-900">${item.action}</div>
+                            <div class="text-sm text-pink-500">${item.date}</div>
+                        </div>
+                        <p class="text-pink-700 text-sm">${item.description}</p>
+                    </div>
+                `;
+                timelineContainer.appendChild(timelineItem);
+            });
+            
+            // نمایش مودال
+            document.getElementById('requestModal').classList.add('active');
+        }
+
+        // بستن مودال
+        function closeModal() {
+            document.getElementById('requestModal').classList.remove('active');
+            currentModalRequest = null;
+        }
+
+        // تایید درخواست
+        function approveRequest(requestId) {
+            if (confirm('آیا از تایید این درخواست اطمینان دارید؟')) {
+                showNotification(`درخواست ${requestId} با موفقیت تایید شد`, 'success');
+                // در حالت واقعی درخواست به API ارسال می‌شود
+            }
+        }
+
+        function approveModalRequest() {
+            if (currentModalRequest) {
+                approveRequest(currentModalRequest);
+                closeModal();
+            }
+        }
+
+        // رد درخواست
+        function rejectRequest(requestId) {
+            const reason = prompt('لطفاً دلیل رد درخواست را وارد کنید:');
+            if (reason) {
+                showNotification(`درخواست ${requestId} به دلیل "${reason}" رد شد`, 'error');
+                // در حالت واقعی درخواست به API ارسال می‌شود
+            }
+        }
+
+        function rejectModalRequest() {
+            if (currentModalRequest) {
+                rejectRequest(currentModalRequest);
+                closeModal();
+            }
+        }
+
+        // مشاهده قرارداد
+        function viewContract(requestId) {
+            showNotification(`قرارداد درخواست ${requestId} در حال بارگذاری...`, 'info');
+            setTimeout(() => {
+                showNotification('قرارداد با موفقیت بارگذاری شد', 'success');
+            }, 1500);
+        }
+
+        // ارسال مجدد درخواست
+        function resubmitRequest(requestId) {
+            showNotification(`درخواست ${requestId} برای ارسال مجدد آماده شد`, 'info');
+        }
+
+        // مشاهده گزارش
+        function viewReport(requestId) {
+            showNotification(`گزارش درخواست ${requestId} در حال آماده‌سازی...`, 'info');
+        }
+
+        // خروجی گرفتن
+        function exportRequests() {
+            showNotification('گزارش درخواست‌ها در حال آماده‌سازی...', 'info');
+            setTimeout(() => {
+                showNotification('گزارش با فرمت Excel دانلود شد', 'success');
+            }, 2000);
+        }
+
+        // بروزرسانی
+        function refreshRequests() {
+            showNotification('در حال بروزرسانی درخواست‌ها...', 'info');
+            setTimeout(() => {
+                showNotification('درخواست‌ها با موفقیت بروزرسانی شدند', 'success');
+            }, 1000);
+        }
+
+        // نمایش نوتیفیکیشن
+        function showNotification(message, type = 'info') {
+            // حذف نوتیفیکیشن قبلی
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = `fixed top-6 left-6 z-50 p-4 rounded-xl border backdrop-blur-lg ${
+                type === 'success' ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 text-green-800' :
+                type === 'error' ? 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200 text-red-800' :
+                'bg-gradient-to-r from-pink-50 to-purple-50 border-pink-200 text-pink-800'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-${type === 'success' ? 'check-circle text-green-500' : type === 'error' ? 'exclamation-circle text-red-500' : 'info-circle text-pink-500'} text-xl"></i>
+                    <span class="font-medium">${message}</span>
+                </div>
+            `;
+            
+            notification.classList.add('notification');
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // بستن مودال با کلیک خارج
+            document.getElementById('requestModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+            
+            // بستن مودال با ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

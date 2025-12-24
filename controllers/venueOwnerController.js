@@ -1,10 +1,48 @@
 const path = require('path');
-const {Venue,VenueRequest,Event,EventManger} = require('../models')
+const {Venue,VenueRequest,Event,EventManger} = require('../models');
+const { stat } = require('fs');
 
 exports.voDashboard = async(req,res) =>{
     try {
-    const venues = await Venue.findAll({where:{venueOwnerId:req.user.id}})
-    res.render("dashboards/vo-dashboard",{pageTitle:"داشبورد" , user:req.user ,venues , path:"/dashboard" })
+    const venues = await Venue.findAll({where:{venueOwnerId:req.user.id},
+        order: [['createdAt', 'DESC']],
+        raw:true
+})
+    const requests = await VenueRequest.findAll({
+            include: [
+                {
+                model: Venue,
+                required: true,
+                where: {
+                    venueOwnerId:req.user.id
+                },
+                }
+            ],
+                order: [['createdAt', 'DESC']],
+                raw:true
+
+            });
+
+    const reservations = await VenueRequest.findAll({
+        where:{status:"accepted"},
+            include: [
+                {
+                model: Venue,
+                required: true,
+                where: {
+                    venueOwnerId:req.user.id,
+                },
+                
+
+                }
+            ],order: [['createdAt', 'DESC']],
+            raw:true
+            })
+            const user = req.user
+            if(!user){
+                return res.redirect("auth/vo-login")
+            }
+    res.render("dashboards/vo-dashboard",{pageTitle:"داشبورد" , user ,venues,requests ,reservations, path:"/dashboard" })
    
     } catch (error) {
         console.log(error);
@@ -64,7 +102,10 @@ exports.createVenue = async(req,res) => {
 
 
 exports.getEditVenue = async (req,res) => {
-    const venue = await Blog.findbyPk(req.params.id)
+    try {
+        const venue = await Venue.findByPk(req.params.id)
+
+
 
     if(!venue){
         // return res.redirect("errors/404")
@@ -72,9 +113,10 @@ exports.getEditVenue = async (req,res) => {
         return res.send("چنین مکانی وجود ندارد")
     }
     
-    if(venue.VenueOwnerId != req.user.id){
+    if(venue.venueOwnerId !== req.user.id){
+
         req.flash("error" , "شما اجازه ویرایش این مکان را ندارید")
-        return res.redirect("venue-owner/dashboard")
+        return res.redirect("/venue-owner/dashboard")
     }else{
         res.render("venue-owner/editVenue" , {
             pageTitle:"ویرایش مکان ",
@@ -85,12 +127,16 @@ exports.getEditVenue = async (req,res) => {
             error:req.flash("error")
         })
     }
+    } catch (err) {
+        console.log(err);
+    }
+    
 }
 
 exports.editVenue = async (req,res) => {
     const errors = []
     try{
-        const{ name,type,city,address,capacity,price} = req.body
+        const{ name,type,city,address,description,capacity,price,features,opening,closing,image} = req.body
         const venue = await Venue.findOne({where:{id:req.params.id}})
 
         await venue.update({
@@ -98,8 +144,13 @@ exports.editVenue = async (req,res) => {
             type,
             city,
             address,
+            description,
             capacity,
-            price
+            price,
+            features,
+            opening,
+            closing,
+            image
         })
 
         req.flash("success_msg" , "مکان با موفقیت ویرایش شد")
@@ -140,14 +191,31 @@ exports.deleteVenue = async(req,res) => {
 }
 
 exports.showVenueRequests = async(req,res) => {
-    const venueRequests = await VenueRequest.findAll({where:{venueOwnerId:req.user.id,status:"pending"}, include:[Venue,EventManger]})
+    try {
+    const requests = await VenueRequest.findAll({
+            include: [
+                {
+                model: Venue,
+                required: true,
+                where: {
+                    venueOwnerId:req.user.id
+                },
+                }
+            ],
+                order: [['createdAt', 'DESC']],
+                raw:true
 
-    res.render("venue-owner/requests" , {
-        pageTitle:"درخواست ها",
-        user:req.user,
-        path:"/requests",
-        venueRequests
-    })
+            });
+        res.render("venue-owner/requests" , {
+            pageTitle:"درخواست ها",
+            user:req.user,
+            path:"/requests",
+            requests
+        })
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 exports.acceptRequest = async(req,res) => {

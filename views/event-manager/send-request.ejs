@@ -1,214 +1,1301 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ثبت مکان جدید - Momentum</title>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Shabnam Font -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.0/dist/font-face.css">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Shabnam', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #f3e7ff 0%, #fce4ec 50%, #e8eaf6 100%);
-      overflow-x: hidden;
-    }
-
-    /* Background circles */
-    .background-circles {
-      position: fixed;
-      inset: 0;
-      z-index: -10;
-      overflow: hidden;
-    }
-    .background-circles div {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-    }
-    .circle1 { width: 400px; height: 400px; background: rgba(236,72,153,0.2); top: 10%; left: -10%; }
-    .circle2 { width: 350px; height: 350px; background: rgba(139,92,246,0.15); bottom: 15%; right: -15%; }
-    .circle3 { inset:0; background: linear-gradient(135deg, rgba(243,231,255,0.3), rgba(252,228,236,0.3), rgba(232,234,246,0.3)); }
-
-    /* Card */
-    .form-card {
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(15px);
-      border-radius: 30px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-      border: 1px solid rgba(255,255,255,0.4);
-      width: 100%;
-      max-width: 800px;
-      overflow: hidden;
-    }
-
-    .form-header {
-      background: linear-gradient(90deg, #ec4899, #8b5cf6, #6366f1);
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-    .form-header h1 { font-size: 2rem; margin-bottom: 5px; }
-    .form-header p { font-size: 1rem; }
-
-    /* Form content */
-    .form-body {
-      padding: 30px 40px;
-    }
-
-    h2.section-title {
-      color: #7b1fa2;
-      margin-bottom: 15px;
-      font-size: 1.2rem;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    input, select, textarea {
-      padding: 12px 15px;
-      border-radius: 15px;
-      border: 1px solid #d1c4e9;
-      font-size: 1rem;
-      outline: none;
-      transition: all 0.3s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: #8b5cf6;
-      box-shadow: 0 0 10px rgba(139,92,246,0.2);
-    }
-
-    textarea { resize: vertical; }
-
-    label { font-weight: bold; color: #4a148c; display:block; margin-bottom:5px; }
-
-    /* Buttons */
-    .btn {
-      padding: 14px 25px;
-      border-radius: 25px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      border: none;
-      transition: 0.3s;
-    }
-
-    .btn-submit {
-      background: linear-gradient(90deg, #ec4899, #8b5cf6, #6366f1);
-      color: #fff;
-      width: 100%;
-    }
-
-    .btn-submit:hover {
-      opacity: 0.9;
-      box-shadow: 0 5px 15px rgba(139,92,246,0.3);
-    }
-
-    .btn-reset {
-      background: #e0e0e0;
-      color: #333;
-      width: 100%;
-    }
-
-    .btn-reset:hover { background: #d5d5d5; }
-
-    .btn-container { display: flex; gap: 15px; flex-wrap: wrap; }
-
-    /* Responsive */
-    @media (max-width: 700px) {
-      .grid { grid-template-columns: 1fr; }
-      .btn-container { flex-direction: column; }
-    }
-  </style>
-</head>
-<body>
-  <div class="background-circles">
-    <div class="circle1"></div>
-    <div class="circle2"></div>
-    <div class="circle3"></div>
-  </div>
-
-  <div class="form-card">
-    <div class="form-header">
-      <h1>ثبت مکان جدید</h1>
-      <p>صاحب مکان می‌تواند اطلاعات مکان خود را وارد کند</p>
-    </div>
-    <div class="form-body">
-      <form action="/locations/add" method="POST" enctype="multipart/form-data">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درخواست رویداد جدید | دنیای رویدادها</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
         
-        <!-- Owner Info -->
-        <div>
-          <h2 class="section-title">اطلاعات صاحب مکان</h2>
-          <div class="grid">
-            <input type="text" name="firstName" placeholder="نام" required>
-            <input type="text" name="lastName" placeholder="نام خانوادگی" required>
-            <input type="text" name="nationalId" placeholder="کد ملی" required>
-            <input type="email" name="email" placeholder="ایمیل" required>
-            <input type="tel" name="phone" placeholder="شماره تماس" required>
-          </div>
-        </div>
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%);
+            min-height: 100vh;
+            color: #4c0519;
+        }
+        
+        /* تم بنفش-صورتی مشابه داشبورد */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(251, 207, 232, 0.4);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(236, 72, 153, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            box-shadow: 0 30px 80px rgba(236, 72, 153, 0.25);
+            transform: translateY(-8px);
+            border-color: rgba(236, 72, 153, 0.6);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 20px rgba(236, 72, 153, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+        }
+        
+        .gradient-border {
+            border: 2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #ec4899, #a855f7) border-box;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #7c3aed;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: rgba(236, 72, 153, 0.5);
+            background: white;
+        }
+        
+        .form-input {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #4c0519;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.1);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.2);
+            background: white;
+        }
+        
+        .form-label {
+            display: block;
+            color: #881337;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+        
+        .required-star {
+            color: #dc2626;
+        }
+        
+        .category-badge {
+            background: rgba(236, 72, 153, 0.1);
+            color: #db2777;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+        
+        .category-badge:hover {
+            background: rgba(236, 72, 153, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.1);
+        }
+        
+        .category-badge.selected {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.2);
+        }
+        
+        /* Floating elements */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* File upload area */
+        .file-upload-area {
+            border: 3px dashed rgba(236, 72, 153, 0.3);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #ec4899;
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.1);
+        }
+        
+        /* Form sections */
+        .form-section {
+            border-bottom: 2px solid rgba(236, 72, 153, 0.1);
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            color: #db2777;
+        }
+        
+        .form-section-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #db2777;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.15);
+        }
+        
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            right: 10%;
+            left: 10%;
+            height: 3px;
+            background: rgba(236, 72, 153, 0.2);
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid rgba(236, 72, 153, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+            color: #ec4899;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.1);
+        }
+        
+        .step.active .step-circle {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+        }
+        
+        .step-label {
+            font-weight: 600;
+            color: #881337;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-label {
+            color: #ec4899;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(251, 207, 232, 0.3);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            border-radius: 10px;
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Shimmer effect */
+        .shimmer {
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                transparent 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        /* Status badges */
+        .status-badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .status-active {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.1));
+            color: #db2777;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        
+        /* Particles background */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: particle-float 20s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-6 relative overflow-x-hidden">
+    
+    <!-- Particles Background -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Floating Shapes -->
+    <div class="fixed top-1/4 right-10 w-64 h-64 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 blur-3xl floating z-0"></div>
+    <div class="fixed bottom-1/3 left-10 w-48 h-48 rounded-full bg-gradient-to-r from-indigo-500/10 to-blue-500/10 blur-3xl floating z-0" style="animation-delay: 2s;"></div>
 
-        <!-- Location Info -->
-        <div>
-          <h2 class="section-title">اطلاعات مکان</h2>
-          <div class="grid">
-            <input type="text" name="locationName" placeholder="نام مکان" required>
-            <select name="locationType" required>
-              <option value="">نوع مکان</option>
-              <option value="هتل">هتل</option>
-              <option value="رستوران">رستوران</option>
-              <option value="سالن اجتماعات">سالن اجتماعات</option>
-              <option value="کافه">کافه</option>
-              <option value="باشگاه">باشگاه</option>
-            </select>
-            <input type="number" name="capacity" placeholder="ظرفیت (تعداد نفر)" required>
-            <input type="text" name="address" placeholder="آدرس کامل" required>
-            <input type="text" name="latitude" placeholder="عرض جغرافیایی (Latitude)" required>
-            <input type="text" name="longitude" placeholder="طول جغرافیایی (Longitude)" required>
-          </div>
-        </div>
+    <!-- Main Container -->
+    <div class="max-w-5xl mx-auto relative z-10">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-3">درخواست رویداد جدید</h1>
+                    <p class="text-pink-700 text-lg">فرم جامع درخواست برگزاری رویداد - دنیای رویدادها</p>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <a href="#" class="btn-secondary" onclick="history.back()">
+                        <i class="fas fa-arrow-right"></i> بازگشت به داشبورد
+                    </a>
+                    <div class="flex items-center gap-3 glass-card px-6 py-4">
+                        <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold">
+                            ع.م
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-pink-900 text-lg">مبینا رسایی</div>
+                            <div class="text-sm text-pink-600">مدیر ارشد رویداد</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Steps -->
+            <div class="glass-card p-6 mb-8">
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">اطلاعات پایه</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">زمان‌بندی</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">مکان و هزینه</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">برگزاری</div>
+                    </div>
+                    <div class="step" data-step="5">
+                        <div class="step-circle">5</div>
+                        <div class="step-label">تایید نهایی</div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-center gap-4 mt-6">
+                    <div class="glass-morphism p-4 rounded-xl border border-pink-100">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-info-circle text-pink-500 text-xl"></i>
+                            <span>فیلدهای ستاره‌دار (<span class="required-star">*</span>) اجباری هستند</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-        <!-- Description & Image -->
-        <div>
-          <label>توضیحات بیشتر</label>
-          <textarea name="description" rows="4" placeholder="هر نکته مهم درباره مکان..."></textarea>
+        <!-- Main Form -->
+        <div class="glass-card p-8 mb-8">
+            <form id="eventRequestForm" action="/event-manager/send-request/<%= venueId %>" method="post" class="space-y-10">
+                
+                <!-- Section 1: Basic Information -->
+                <div class="form-section" data-step="1">
+                    <div class="form-section-title">
+                        <div class="form-section-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-900">اطلاعات پایه رویداد</h2>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <label class="form-label">
+                                عنوان رویداد <span class="required-star">*</span>
+                            </label>
+                            <input type="text" 
+                                   id="eventTitle"
+                                   name="title"
+                                   required
+                                   placeholder="مثال: همایش نوآوری در فناوری"
+                                   class="form-input"
+                                   maxlength="100">
+                            <div class="text-sm text-pink-500 mt-3 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i>
+                                <span>حداکثر ۱۰۰ کاراکتر - عنوان جذاب و توصیفی انتخاب کنید</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">
+                                توضیحات کامل <span class="required-star">*</span>
+                            </label>
+                            <textarea id="eventDescription" 
+                                      name="description"
+                                      rows="4" 
+                                      required
+                                      placeholder="توضیحات کامل درباره رویداد، اهداف، مخاطبان، سرفصل‌ها و ارزش‌های رویداد..."
+                                      class="form-input resize-none"></textarea>
+                            <div class="flex justify-between items-center mt-3">
+                                <div class="text-sm text-pink-500 flex items-center gap-2">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>توضیحات کامل شانس تایید رویداد را افزایش می‌دهد</span>
+                                </div>
+                                <div class="text-sm text-pink-500" id="charCount">0/2000 کاراکتر</div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label mb-4">
+                                دسته‌بندی رویداد <span class="required-star">*</span>
+                            </label>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="کنفرانس">
+                                    <i class="fas fa-chalkboard-teacher text-lg"></i> کنفرانس
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="کارگاه">
+                                    <i class="fas fa-laptop-code text-lg"></i> کارگاه
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="فستیوال">
+                                    <i class="fas fa-music text-lg"></i> فستیوال
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="سمینار">
+                                    <i class="fas fa-graduation-cap text-lg"></i> سمینار
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="نمایشگاه">
+                                    <i class="fas fa-palette text-lg"></i> نمایشگاه
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="مسابقه">
+                                    <i class="fas fa-trophy text-lg"></i> مسابقه
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="شبکه‌سازی">
+                                    <i class="fas fa-network-wired text-lg"></i> شبکه‌سازی
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="خیریه">
+                                    <i class="fas fa-hands-helping text-lg"></i> خیریه
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="گالا">
+                                    <i class="fas fa-glass-cheers text-lg"></i> گالا
+                                </div>
+                                <div class="category-badge" onclick="selectCategory(this)" data-value="ورزشی">
+                                    <i class="fas fa-running text-lg"></i> ورزشی
+                                </div>
+                            </div>
+                            <input type="hidden" id="selectedCategory" , name="type" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 2: Time & Date -->
+                <div class="form-section" data-step="2">
+                    <div class="form-section-title">
+                        <div class="form-section-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-900">زمان‌بندی رویداد</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                        <div>
+                            <label class="form-label">
+                                تاریخ  <span class="required-star">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="date" 
+                                       id="startDate"
+                                       required
+                                       class="form-input">
+                                <i class="fas absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-500"></i>
+                            </div>
+                        </div>
+                        
+                        
+                        <div>
+                            <label class="form-label">
+                                ساعت  <span class="required-star">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="time" 
+                                       id="startTime"
+                                       required
+                                       class="form-input">
+                                <i class="fas absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-500"></i>
+                            </div>
+                        </div>
+                        
+                    
+                    </div>
+                    
+      
+                    
+                    <div class="mt-8 p-6 bg-gradient-to-l from-pink-50 to-purple-50 rounded-2xl border border-pink-100">
+                        <div class="flex items-start gap-4">
+                            <i class="fas  text-pink-500 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-pink-900 text-lg mb-2">توصیه زمانی</h4>
+                                <p class="text-pink-700">
+                                    برای افزایش مشارکت، زمان برگزاری را در ساعات کاری و روزهای اخر هفته قرار دهید.
+                                    رویدادهای آخر هفته معمولاً جذابیت بیشتری دارند.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+               
+                
+                <!-- Section 4: Organizer Information -->
+                <div class="form-section" data-step="4">
+                    <div class="form-section-title">
+                        <div class="form-section-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-900">اطلاعات برگزارکننده</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="form-label">
+                                نام سازمان <span class="required-star">*</span>
+                            </label>
+                            <input type="text" 
+                                   id="organizerName"
+                                   required
+                                   placeholder="نام سازمان یا شرکت"
+                                   class="form-input">
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">
+                                تلفن تماس <span class="required-star">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="tel" 
+                                       id="organizerPhone"
+                                       required
+                                       placeholder="۰۹۱۲۱۲۳۴۵۶۷"
+                                       class="form-input">
+                                <i class="fas absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-500"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <label class="form-label">
+                            درباره برگزارکننده
+                        </label>
+                        <textarea id="organizerDescription" 
+                                  rows="3"
+                                  placeholder="توضیحات درباره سازمان برگزارکننده، سابقه کاری، رویدادهای قبلی و..."
+                                  class="form-input resize-none"></textarea>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="p-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl border border-pink-100">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-pink-900">تیم پشتیبانی</div>
+                                    <div class="text-sm text-pink-500">همراه شماست</div>
+                                </div>
+                            </div>
+                            <p class="text-pink-700 text-sm">
+                                پس از ثبت درخواست، تیم پشتیبانی ما برای هماهنگی‌های بیشتر با شما تماس خواهد گرفت.
+                            </p>
+                        </div>
+                        
+                        <div class="p-6 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl border border-purple-100">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center text-white">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-purple-900">اطلاعات محرمانه</div>
+                                    <div class="text-sm text-purple-500">در امان خواهد ماند</div>
+                                </div>
+                            </div>
+                            <p class="text-purple-700 text-sm">
+                                اطلاعات تماس شما صرفاً برای هماهنگی رویداد استفاده می‌شود و محرمانه باقی می‌ماند.
+                            </p>
+                        </div>
+                        
+                        <div class="p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl border border-indigo-100">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-indigo-900">زمان بررسی</div>
+                                    <div class="text-sm text-indigo-500">۲۴-۴۸ ساعت</div>
+                                </div>
+                            </div>
+                            <p class="text-indigo-700 text-sm">
+                                درخواست شما حداکثر طی ۴۸ ساعت کاری بررسی و نتیجه به شما اعلام خواهد شد.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 5: Media & Final -->
+                <div class="form-section" data-step="5">
+                    <div class="form-section-title">
+                        <div class="form-section-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-900">رسانه‌ها و تایید نهایی</h2>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <label class="form-label">
+                                    عکس اصلی رویداد
+                                </label>
+                                <div class="file-upload-area" onclick="document.getElementById('mainImage').click()">
+                                    <i class="fas fa-cloud-upload-alt text-5xl text-pink-500 mb-4"></i>
+                                    <p class="text-pink-700 font-medium mb-2">برای آپلود عکس کلیک کنید</p>
+                                    <p class="text-pink-500 text-sm">فرمت‌های مجاز: JPG, PNG, GIF (حداکثر ۵MB)</p>
+                                    <p class="text-pink-400 text-xs mt-3">سایز پیشنهادی: 1200×630 پیکسل</p>
+                                    <input type="file" 
+                                           id="mainImage" 
+                                           name="image"
+                                           accept="image/*"
+                                           class="hidden"
+                                           onchange="previewImage(this)">
+                                </div>
+                                <div id="imagePreview" class="mt-6 hidden">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-medium text-pink-900">پیش‌نمایش عکس:</span>
+                                        <button onclick="removeImage()" class="text-sm text-red-500 hover:text-red-700">
+                                            <i class="fas fa-trash ml-1"></i> حذف عکس
+                                        </button>
+                                    </div>
+                                    <img id="previewImage" class="w-full h-64 object-cover rounded-xl border-2 border-pink-200">
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="form-label">
+                                        سطح رویداد
+                                    </label>
+                                    <div class="flex flex-wrap gap-4">
+                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
+                                            <input type="radio" name="level" value="beginner" class="ml-3 text-pink-600 w-5 h-5">
+                                            <div>
+                                                <div class="font-medium text-pink-900">مقدماتی</div>
+                                                <div class="text-sm text-pink-500">برای تازه‌کاران</div>
+                                            </div>
+                                        </label>
+                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
+                                            <input type="radio" name="level" value="intermediate" checked class="ml-3 text-pink-600 w-5 h-5">
+                                            <div>
+                                                <div class="font-medium text-pink-900">متوسط</div>
+                                                <div class="text-sm text-pink-500">برای افراد با تجربه</div>
+                                            </div>
+                                        </label>
+                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
+                                            <input type="radio" name="level" value="advanced" class="ml-3 text-pink-600 w-5 h-5">
+                                            <div>
+                                                <div class="font-medium text-pink-900">پیشرفته</div>
+                                                <div class="text-sm text-pink-500">برای حرفه‌ای‌ها</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="form-label">
+                                        زبان رویداد
+                                    </label>
+                                    <div class="flex flex-wrap gap-4">
+                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
+                                            <input type="checkbox" value="persian" checked class="ml-3 text-pink-600 w-5 h-5">
+                                            <div>
+                                                <div class="font-medium text-pink-900">فارسی</div>
+                                                <div class="text-sm text-pink-500">زبان اصلی</div>
+                                            </div>
+                                        </label>
+                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
+                                            <input type="checkbox" value="english" class="ml-3 text-pink-600 w-5 h-5">
+                                            <div>
+                                                <div class="font-medium text-pink-900">انگلیسی</div>
+                                                <div class="text-sm text-pink-500">زبان دوم</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">
+                                توضیحات اضافی برای تیم بررسی
+                            </label>
+                            <textarea id="additionalNotes" 
+                                      rows="3"
+                                      placeholder="هر توضیح اضافی برای کمک به بررسی درخواست، نیازمندی‌های خاص، امکانات مورد نیاز و..."
+                                      class="form-input resize-none"></textarea>
+                        </div>
+                        
+                        <div class="p-6 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl border border-pink-100">
+                            <div class="flex items-start gap-4">
+                                <i class="fas fa-file-contract text-pink-500 text-3xl mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-pink-900 text-xl mb-3">شرایط و قوانین</h4>
+                                    <ul class="space-y-3 text-pink-700">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                            <span>پس از تایید رویداد، امکان لغو آن تا ۷ روز قبل از برگزاری وجود دارد.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                            <span>برگزارکننده مسئول تمامی جنبه‌های اجرایی رویداد است.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                            <span>تیم ما تنها مسئولیت معرفی رویداد در پلتفرم را بر عهده دارد.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                            <span>رعایت کلیه قوانین جمهوری اسلامی ایران الزامی است.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="mt-4">
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" id="acceptTerms" required class="ml-3 text-pink-600 w-5 h-5">
+                                            <span class="font-medium text-pink-900">با شرایط و قوانین موافقم <span class="required-star">*</span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submit Section -->
+                <div class="pt-8 border-t border-pink-100">
+                    <div class="flex flex-col lg:flex-row gap-6 justify-between items-center">
+                        <div class="flex items-center gap-4">
+                            <div class="status-badge status-active">
+                                <i class="fas fa-save"></i> ذخیره پیش‌نویس
+                            </div>
+                            <div class="text-pink-600">
+                                <i class="fas fa-info-circle ml-1"></i>
+                                آخرین ذخیره: همین حالا
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button type="button" onclick="saveDraft()" class="btn-secondary">
+                                <i class="fas fa-save"></i> ذخیره پیش‌نویس
+                            </button>
+                            <button type="button" onclick="previewRequest()" class="btn-secondary">
+                                <i class="fas fa-eye"></i> پیش‌نمایش
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-paper-plane"></i> ارسال درخواست
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl border border-pink-100">
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-shield-alt text-pink-500 text-3xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-pink-900 text-xl mb-2">اطمینان از اطلاعات</h4>
+                                <p class="text-pink-700">
+                                    قبل از ارسال نهایی، لطفاً از صحت تمامی اطلاعات وارد شده اطمینان حاصل کنید.
+                                    پس از ارسال، امکان ویرایش اطلاعات تا زمان بررسی توسط تیم فنی وجود ندارد.
+                                    شماره پیگیری درخواست پس از ثبت نهایی به ایمیل و تلفن شما ارسال خواهد شد.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div>
-          <label>عکس مکان</label>
-          <input type="file" name="image" accept="image/*">
-        </div>
-
-        <!-- Buttons -->
-        <div class="btn-container">
-          <button type="submit" class="btn btn-submit"><i class="fas fa-check-circle"></i> ثبت مکان</button>
-          <button type="reset" class="btn btn-reset"><i class="fas fa-undo-alt"></i> پاک کردن فرم</button>
-        </div>
-
-      </form>
+        
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-pink-600">
+            <p class="text-lg">© ۱۴۰۳ -  Momentum  </p>
+            <p class="text-sm mt-2">در صورت نیاز به راهنمایی با پشتیبانی تماس بگیرید: 
+                <span class="font-bold">۰۲۱-۸۸۵۶۱۲۳۴</span> یا 
+                <a href="mailto:support@eventworld.com" class="text-pink-500 hover:text-pink-700">support@eventworld.com</a>
+            </p>
+        </footer>
     </div>
-  </div>
+
+    <script>
+        // ایجاد ذرات پس‌زمینه
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // اندازه تصادفی
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // موقعیت تصادفی
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // تأخیر انیمیشن
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Category Selection
+        function selectCategory(element) {
+            // Remove selected class from all
+            document.querySelectorAll('.category-badge').forEach(badge => {
+                badge.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked
+            element.classList.add('selected');
+            
+            // Update hidden input
+            document.getElementById('selectedCategory').value = element.dataset.value;
+            
+            // Update step progress
+            updateProgress(1);
+        }
+        
+        // Show/Hide custom location section
+        document.getElementById('locationSelect').addEventListener('change', function() {
+            const customSection = document.getElementById('customLocationSection');
+            if (this.value === 'other') {
+                customSection.style.display = 'block';
+                // Make custom location fields required
+                document.getElementById('customLocationName').required = true;
+                document.getElementById('customLocationCity').required = true;
+                document.getElementById('customLocationAddress').required = true;
+            } else {
+                customSection.style.display = 'none';
+                // Remove required from custom location fields
+                document.getElementById('customLocationName').required = false;
+                document.getElementById('customLocationCity').required = false;
+                document.getElementById('customLocationAddress').required = false;
+            }
+            updateProgress(3);
+        });
+        
+        // Show/Hide price section based on event type
+        document.getElementById('eventType').addEventListener('change', function() {
+            const priceSection = document.getElementById('priceSection');
+            if (this.value === 'paid') {
+                priceSection.style.display = 'block';
+                document.getElementById('price').required = true;
+            } else {
+                priceSection.style.display = 'none';
+                document.getElementById('price').required = false;
+            }
+            updateProgress(3);
+        });
+        
+        // Image Preview
+        function previewImage(input) {
+            const preview = document.getElementById('previewImage');
+            const previewContainer = document.getElementById('imagePreview');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        // Remove Image
+        function removeImage() {
+            const previewContainer = document.getElementById('imagePreview');
+            const fileInput = document.getElementById('mainImage');
+            
+            previewContainer.style.display = 'none';
+            fileInput.value = '';
+        }
+        
+        // Character Count for Description
+        document.getElementById('eventDescription').addEventListener('input', function() {
+            const charCount = document.getElementById('charCount');
+            const currentLength = this.value.length;
+            charCount.textContent = `${currentLength}/2000 کاراکتر`;
+            
+            // Update color based on length
+            if (currentLength > 1800) {
+                charCount.style.color = '#dc2626';
+            } else if (currentLength > 1500) {
+                charCount.style.color = '#f59e0b';
+            } else {
+                charCount.style.color = '#ec4899';
+            }
+        });
+        
+        // Progress Steps Update
+        function updateProgress(stepNumber) {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach(step => {
+                const stepData = parseInt(step.dataset.step);
+                if (stepData <= stepNumber) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+        
+        // Save Draft
+        function saveDraft() {
+            const title = document.getElementById('eventTitle').value;
+            if (!title) {
+                showNotification('لطفاً حداقل عنوان رویداد را وارد کنید', 'error');
+                return;
+            }
+            
+            showNotification('پیش‌نویس با موفقیت ذخیره شد', 'success');
+            
+            // Simulate saving to localStorage
+            const formData = {
+                title: title,
+                timestamp: new Date().toLocaleString('fa-IR'),
+                status: 'draft'
+            };
+            localStorage.setItem('eventDraft', JSON.stringify(formData));
+        }
+        
+        // Preview Request
+        function previewRequest() {
+            showNotification('در حال آماده‌سازی پیش‌نمایش...', 'info');
+            setTimeout(() => {
+                showNotification('پیش‌نمایش در تب جدید باز می‌شود', 'success');
+                // In a real app, this would open a preview page
+            }, 1000);
+        }
+        
+        // Form Validation and Submission
+        document.getElementById('eventRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check terms acceptance
+            if (!document.getElementById('acceptTerms').checked) {
+                showNotification('لطفاً شرایط و قوانین را تأیید کنید', 'error');
+                return;
+            }
+            
+            // Basic validation
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#dc2626';
+                    field.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.1)';
+                } else {
+                    field.style.borderColor = '';
+                    field.style.boxShadow = '';
+                }
+            });
+            
+            // Check if category is selected
+            const category = document.getElementById('selectedCategory').value;
+            if (!category) {
+                isValid = false;
+                showNotification('لطفاً دسته‌بندی رویداد را انتخاب کنید', 'error');
+            }
+            
+            if (isValid) {
+                // Show loading
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال درخواست...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Generate tracking code
+                    const trackingCode = 'EVT-' + Math.floor(100000 + Math.random() * 900000);
+                    const eventId = Date.now();
+                    
+                    // Success message
+                    showSuccessModal(trackingCode, eventId);
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            } else {
+                showNotification('لطفاً تمام فیلدهای الزامی را پر کنید', 'error');
+            }
+        });
+        
+        // Success Modal
+        function showSuccessModal(trackingCode, eventId) {
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="glass-card max-w-lg w-full p-8 animate-slideUp">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-pink-900 mb-4">درخواست شما ثبت شد!</h3>
+                        <p class="text-pink-700 mb-6">
+                            درخواست برگزاری رویداد با موفقیت ثبت شد و در صف بررسی قرار گرفت.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between items-center p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl">
+                            <span class="text-pink-700">شماره پیگیری:</span>
+                            <span class="font-bold text-xl text-pink-900">${trackingCode}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl">
+                            <span class="text-purple-700">کد رویداد:</span>
+                            <span class="font-bold text-xl text-purple-900">${eventId}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl">
+                            <span class="text-indigo-700">زمان بررسی:</span>
+                            <span class="font-bold text-xl text-indigo-900">۲۴-۴۸ ساعت</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button onclick="window.location.href='/dashboard'" class="btn-primary flex-1">
+                            <i class="fas fa-tachometer-alt"></i> بازگشت به داشبورد
+                        </button>
+                        <button onclick="this.closest('div.fixed').remove()" class="btn-secondary flex-1">
+                            <i class="fas fa-times"></i> بستن
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                        <p class="text-green-700 text-sm text-center">
+                            <i class="fas fa-info-circle ml-1"></i>
+                            نتیجه بررسی به ایمیل و پیامک اطلاع‌رسانی خواهد شد.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add animation style
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(50px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                .animate-slideUp {
+                    animation: slideUp 0.5s ease-out;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Notification Function
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `fixed top-6 left-6 z-50 p-4 rounded-xl border backdrop-blur-lg notification animate-slideIn ${
+                type === 'success' ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 text-green-800' :
+                type === 'error' ? 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200 text-red-800' :
+                'bg-gradient-to-r from-pink-50 to-purple-50 border-pink-200 text-pink-800'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-${type === 'success' ? 'check-circle text-green-500' : type === 'error' ? 'exclamation-circle text-red-500' : 'info-circle text-pink-500'} text-xl"></i>
+                    <span class="font-medium text-lg">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
+        }
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').min = today;
+        document.getElementById('endDate').min = today;
+        document.getElementById('discountEndDate').min = today;
+        
+        // Auto-fill end date based on start date
+        document.getElementById('startDate').addEventListener('change', function() {
+            const endDate = document.getElementById('endDate');
+            if (!endDate.value || endDate.value < this.value) {
+                endDate.value = this.value;
+            }
+            endDate.min = this.value;
+            updateProgress(2);
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Set default date values
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            const nextWeekStr = nextWeek.toISOString().split('T')[0];
+            
+            document.getElementById('startDate').value = nextWeekStr;
+            document.getElementById('endDate').value = nextWeekStr;
+            
+            // Set default times
+            document.getElementById('startTime').value = '09:00';
+            document.getElementById('endTime').value = '17:00';
+            
+            // Load draft if exists
+            const savedDraft = localStorage.getItem('eventDraft');
+            if (savedDraft) {
+                try {
+                    const draft = JSON.parse(savedDraft);
+                    document.getElementById('eventTitle').value = draft.title || '';
+                    showNotification('پیش‌نویس ذخیره‌شده بازیابی شد', 'info');
+                } catch (e) {
+                    console.error('Error loading draft:', e);
+                }
+            }
+            
+            // Add input listeners for progress tracking
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    const section = input.closest('.form-section');
+                    if (section) {
+                        const step = parseInt(section.dataset.step);
+                        updateProgress(step);
+                    }
+                });
+                
+                input.addEventListener('change', () => {
+                    const section = input.closest('.form-section');
+                    if (section) {
+                        const step = parseInt(section.dataset.step);
+                        updateProgress(step);
+                    }
+                });
+            });
+            
+            // Add animation style for notifications
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        opacity: 0;
+                        transform: translateX(-100%);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+                .animate-slideIn {
+                    animation: slideIn 0.3s ease-out;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
 </body>
 </html>

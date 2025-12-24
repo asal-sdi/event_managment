@@ -15,6 +15,15 @@ const Event = sequelize.define('Event', {
         type: DataTypes.DATE,
         allowNull: false,
     },
+    time:{
+        type: DataTypes.STRING(20),
+        allowNull: false,
+    },
+    status:{
+        type: DataTypes.ENUM('upcoming', 'completed'),
+        allowNull: false,
+        defaultValue: 'upcoming',
+    },
     location: {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -23,24 +32,19 @@ const Event = sequelize.define('Event', {
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    price:{
-        type: DataTypes.FLOAT
+    type:{
+        type: DataTypes.ENUM("کنفرانس","کارگاه","فستیوال","سمینار",
+            "نمایشگاه","مسابقه","شبکه‌سازی","خیریه","گالا","ورزشی"),
+        allowNull: true,
     },
-    // eventManagerId:{
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     references:{
-    //         model: 'eventmangers',
-    //         key: 'id',
-    //     }
-    // },
-    // venueId: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: true,
-    //     references: {
-    //         model: 'venues', 
-    //         key: 'id',
-    //     }},
+    price:{
+        type: DataTypes.FLOAT,
+        allowNull:true
+    },
+    image:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
 
     ratingAvg: { type: DataTypes.FLOAT, defaultValue: 0 },
     ratingCount: { type: DataTypes.INTEGER, defaultValue: 0 },

@@ -76,7 +76,7 @@ passport.use('venue-local', new Strategy({usernameField: "phoneNumber" ,password
 
  passport.serializeUser((user, done) => {
         console.log("SERIALIZE:", user);
-        done(null, user);
+        done(null, { id: user.id, type: user.type });
     });
 
   

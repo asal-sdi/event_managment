@@ -8,7 +8,8 @@ exports.userDashboard = (req,res) =>{
 exports.getEvents = async (req, res) => {
   const events = await Event.findAll({
     include: ["venue"],
-    order: [["date", "ASC"]]
+    order: [["date", "ASC"]],
+    raw:true
   });
 
   res.render("show-events", {

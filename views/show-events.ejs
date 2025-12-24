@@ -1,0 +1,1127 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+            color: #1e1b4b;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Background Elements */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background: linear-gradient(45deg, #fdf2f8 0%, #fce7f3 50%, #fae8ff 100%);
+        }
+        
+        /* Floating 3D Spheres - اضافه کردن گوی‌های 3D */
+        .sphere-1 {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ec4899, #db2777);
+            opacity: 0.15;
+            filter: blur(40px);
+            top: 10%;
+            right: 5%;
+            animation: floatSphere1 25s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        .sphere-2 {
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, #a855f7, #8b5cf6);
+            opacity: 0.12;
+            filter: blur(35px);
+            bottom: 15%;
+            left: 10%;
+            animation: floatSphere2 20s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        .sphere-3 {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, #f472b6, #ec4899);
+            opacity: 0.1;
+            filter: blur(30px);
+            top: 50%;
+            right: 15%;
+            animation: floatSphere3 30s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        /* Animated Particles */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        /* Floating Animations for Spheres */
+        @keyframes floatSphere1 {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(40px, 20px) scale(1.1);
+            }
+            50% {
+                transform: translate(20px, 40px) scale(0.9);
+            }
+            75% {
+                transform: translate(-20px, 20px) scale(1.05);
+            }
+        }
+        
+        @keyframes floatSphere2 {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(-30px, 30px) scale(1.15);
+            }
+            66% {
+                transform: translate(30px, -20px) scale(0.85);
+            }
+        }
+        
+        @keyframes floatSphere3 {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(25px, 25px) rotate(180deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.15;
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Glass Morphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 60px rgba(236, 72, 153, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 80px rgba(236, 72, 153, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: rgba(236, 72, 153, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        .event-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 20px 60px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 40px 80px rgba(139, 92, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+        
+        .event-image {
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .event-card:hover .event-image {
+            transform: scale(1.1);
+        }
+        
+        /* 3D Rotating Cube */
+        .rotating-cube {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            transform-style: preserve-3d;
+            animation: rotateCube 20s infinite linear;
+            z-index: -1;
+            opacity: 0.05;
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
+        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(75px); }
+        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(75px); }
+        .cube-face:nth-child(4) { transform: rotateY(270deg) translateZ(75px); }
+        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
+        
+        @keyframes rotateCube {
+            0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(216, 180, 254, 0.3);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            border-radius: 10px;
+        }
+        
+        /* Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        /* Category Badge */
+        .category-badge {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Background extends to footer */
+        .background-extended {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -3;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+        }
+        
+     
+        
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Extended Background -->
+    <div class="background-extended"></div>
+    
+    <!-- 3D Background Elements -->
+    <div class="bg-pattern"></div>
+    
+    <!-- Floating 3D Spheres - گوی‌های 3D اضافه شدند -->
+    <div class="sphere-1"></div>
+    <div class="sphere-2"></div>
+    <div class="sphere-3"></div>
+    
+    <!-- Rotating Cube -->
+    <div class="rotating-cube" style="top: 20%; right: 10%;">
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+    </div>
+    
+    <div class="rotating-cube" style="bottom: 20%; left: 15%; transform: scale(0.8); opacity: 0.03;">
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+        <div class="cube-face"></div>
+    </div>
+    
+    <!-- Animated Particles -->
+    <div id="particles-container"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[70vh] flex items-center justify-center pt-24">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+             
+
+                <!-- Main Title -->
+                <h1 class="text-5xl md:text-6xl pt-7  lg:text-7xl font-bold leading-tight mb-8 text-gray-900 animate-fade-in-up">
+                    <span class="gradient-text">دنیای رویدادها</span>
+                    <br />
+                    در انتظار شماست
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s">
+                    کشف و مشارکت در برترین رویدادهای ایران و جهان. از کنفرانس‌های تخصصی تا جشنواره‌های شاد،
+                    تجربه‌ای فراموش‌نشدنی برای شما آماده کرده‌ایم.
+                </p>
+
+                <!-- Search Bar -->
+                <div class="max-w-3xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                            <i class="fas fa-search h-6 w-6 text-gray-400"></i>
+                        </div>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="چه رویدادی را دنبال می‌کنید؟ (عنوان، مکان، موضوع...)"
+                            class="w-full pr-14 pl-4 py-5 text-xl rounded-2xl glass-card border-0 shadow-xl focus:ring-4 focus:ring-purple-200/50 outline-none transition-all placeholder-gray-500"
+                        >
+                        <button id="clearSearch" onclick="clearSearch()" 
+                                class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors hidden">
+                            <i class="fas fa-times h-5 w-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.3s">
+                    <div class="glass-card p-6 text-center hover:scale-105 transition-transform">
+                        <div class="text-4xl mb-4 gradient-text">🎯</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">انتخاب هوشمند</h3>
+                        <p class="text-gray-600 text-sm">فیلترهای پیشرفته برای یافتن بهترین رویداد</p>
+                    </div>
+                    <div class="glass-card p-6 text-center hover:scale-105 transition-transform">
+                        <div class="text-4xl mb-4 gradient-text">⚡</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">رزرو فوری</h3>
+                        <p class="text-gray-600 text-sm">رزرو آنلاین و سریع بلیت‌ها</p>
+                    </div>
+                    <div class="glass-card p-6 text-center hover:scale-105 transition-transform">
+                        <div class="text-4xl mb-4 gradient-text">🌟</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">تجربه برتر</h3>
+                        <p class="text-gray-600 text-sm">رویدادهای باکیفیت و سازمان‌یافته</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12 relative z-10">
+        <!-- Control Panel -->
+        <div class="mb-12 glass-card p-8">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+                <!-- Left - Results & Category -->
+                <div class="flex-1">
+                    <div class="flex items-center gap-6 mb-4">
+                        <div class="p-4 rounded-2xl bg-gradient-to-l from-pink-500 to-purple-500 shadow-lg">
+                            <i class="fas fa-calendar h-8 w-8 text-white"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">
+                                <span class="gradient-text" id="eventsCount">6</span> رویداد فعال
+                            </h2>
+                            <p class="text-gray-600" id="filterInfo">
+                                در تمام دسته‌بندی‌ها
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="relative">
+                        <div class="flex items-center gap-4">
+                            <span class="text-gray-700 font-medium">دسته‌بندی:</span>
+                            <div id="selectedCategory" 
+                                 class="flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg cursor-pointer hover:scale-105 transition-transform shimmer"
+                                 onclick="toggleCategoryDropdown()">
+                                <span class="text-xl">🎯</span>
+                                <span class="font-semibold">همه</span>
+                                <i class="fas fa-chevron-down h-5 w-5 transition-transform"></i>
+                            </div>
+                        </div>
+
+                        <!-- Category Dropdown -->
+                        <div id="categoryDropdown" class="absolute top-full mt-2 left-0 right-0 z-50 glass-card shadow-2xl border-0 p-6 hidden">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4" id="categoryGrid">
+                                <!-- Categories will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Controls -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Sort Select -->
+                    <div class="relative">
+                        <select id="sortSelect" class="appearance-none glass-card border-0 px-5 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-4 focus:ring-purple-200/50 cursor-pointer shadow-lg">
+                            <option value="featured">ویژه‌ها</option>
+                            <option value="trending">پربازدید</option>
+                            <option value="rating">بالاترین امتیاز</option>
+                            <option value="attendees">تعداد شرکت‌کنندگان</option>
+                            <option value="date">جدیدترین</option>
+                        </select>
+                        <i class="fas fa-chart-line absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none"></i>
+                    </div>
+
+                    <!-- View Toggle -->
+                    <div class="flex glass-card p-1 rounded-xl">
+                        <button id="gridView" onclick="setViewMode('grid')" 
+                                class="p-3 rounded-xl transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg">
+                            <i class="fas fa-th-large h-5 w-5"></i>
+                        </button>
+                        <button id="listView" onclick="setViewMode('list')" 
+                                class="p-3 rounded-xl transition-all hover:bg-gray-100">
+                            <i class="fas fa-list h-5 w-5 text-gray-500"></i>
+                        </button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <button onclick="clearFilters()" 
+                                class="px-6 py-3 glass-card text-gray-700 font-medium shadow-lg hover:shadow-xl transition-all flex items-center gap-2 hover:scale-105 shimmer">
+                            <i class="fas fa-times h-4 w-4"></i>
+                            حذف فیلترها
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Container -->
+        <div id="eventsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Events will be populated by JavaScript -->
+        </div>
+
+        <!-- List View Container (Hidden by default) -->
+        <div id="listContainer" class="space-y-6 mb-16 hidden">
+            <!-- List view items will be populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20 hidden">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="text-6xl">🔍</div>
+                <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-2xl animate-pulse"></div>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">رویدادی یافت نشد</h3>
+            <p class="text-gray-600 text-lg mb-8 max-w-lg mx-auto">
+                متأسفانه هیچ رویدادی مطابق با جستجوی شما وجود ندارد. می‌توانید دسته‌بندی را تغییر دهید یا کلمات کلیدی دیگر را امتحان کنید.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="clearFilters()" 
+                        class="px-8 py-4 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all flex items-center gap-3 hover:scale-105 shimmer">
+                    <i class="fas fa-eye w-5 h-5"></i>
+                    نمایش همه رویدادها
+                </button>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-20">
+            <div class="bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-indigo-500/20 rounded-3xl p-12 text-center glass-card relative overflow-hidden">
+                <div class="absolute w-40 h-40 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 -top-20 -right-20"></div>
+                <div class="absolute w-32 h-32 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 bottom-10 -left-16"></div>
+                
+                <div class="relative z-10">
+                    <div class="text-5xl mb-6 gradient-text">🎉</div>
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">رویداد خاصی در نظر دارید؟</h2>
+                    <p class="text-xl mb-8 text-gray-600 max-w-2xl mx-auto">
+                        اگر رویداد مورد نظر خود را پیدا نکردید، ما می‌توانیم آن را برای شما برگزار کنیم!
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="requestCustomEvent()" 
+                                class="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105 shimmer">
+                            درخواست رویداد سفارشی
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    
+
+    <!-- JavaScript -->
+    <script>
+        // داده‌های رویدادها
+        const eventsData = [
+            {
+                id: 1,
+                image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop",
+                title: "همایش نوآوری فناوری",
+                description: "همایش سالیانه نوآوری در فناوری با حضور برترین شرکت‌های تکنولوژی جهان",
+                date: "۱۵ فروردین ۱۴۰۴",
+                time: "۱۰:۰۰ - ۱۸:۰۰",
+                location: "سان فرانسیسکو، آمریکا",
+                category: "کنفرانس",
+                attendees: 1200,
+                price: "رایگان",
+                categoryColor: "bg-gradient-to-r from-blue-500 to-cyan-500",
+                featured: true,
+                trending: true,
+                rating: 4.8,
+                organizer: "گروه فناوری ایرانیان",
+            },
+            {
+                id: 2,
+                image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&h=400&fit=crop",
+                title: "جشنواره موسیقی تابستانه",
+                description: "بزرگترین جشنواره موسیقی سال با اجرای هنرمندان مطرح بین‌المللی",
+                date: "۲۰ تا ۲۲ تیر ۱۴۰۴",
+                time: "۱۶:۰۰ - ۲۴:۰۰",
+                location: "آستین، تگزاس",
+                category: "فستیوال",
+                attendees: 5000,
+                price: "۲۹۰,۰۰۰ تومان",
+                categoryColor: "bg-gradient-to-r from-pink-500 to-red-500",
+                featured: true,
+                trending: true,
+                rating: 4.9,
+                organizer: "فستیوال بین‌المللی موسیقی",
+            },
+            {
+                id: 3,
+                image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop",
+                title: "شب گالا و تجملی",
+                description: "مراسم گالای خیریه با حضور چهره‌های سرشناس و جمع‌آوری کمک برای کودکان",
+                date: "۱۶ اردیبهشت ۱۴۰۴",
+                time: "۲۰:۰۰ - ۲۳:۰۰",
+                location: "نیویورک، آمریکا",
+                category: "گالا",
+                attendees: 300,
+                price: "۵۰۰,۰۰۰ تومان",
+                categoryColor: "bg-gradient-to-r from-purple-500 to-indigo-500",
+                featured: true,
+                trending: false,
+                rating: 4.7,
+                organizer: "بنیاد خیریه کودکان",
+            },
+            {
+                id: 4,
+                image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&h=400&fit=crop",
+                title: "شب شبکه‌سازی استارتاپ‌ها",
+                description: "فرصتی برای ملاقات با سرمایه‌گذاران و کارآفرینان موفق",
+                date: "۸ فروردین ۱۴۰۴",
+                time: "۱۷:۰۰ - ۲۱:۰۰",
+                location: "سیاتل، واشنگتن",
+                category: "شبکه‌سازی",
+                attendees: 450,
+                price: "۱۵۰,۰۰۰ تومان",
+                categoryColor: "bg-gradient-to-r from-green-500 to-teal-500",
+                featured: false,
+                trending: true,
+                rating: 4.6,
+                organizer: "مرکز رشد فناوری",
+            },
+            {
+                id: 5,
+                image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&h=400&fit=crop",
+                title: "نمایشگاه هنر و طراحی",
+                description: "نمایشگاه آثار هنرمندان معاصر و طراحان نوآور",
+                date: "۱۰ تا ۱۲ اردیبهشت ۱۴۰۴",
+                time: "۱۱:۰۰ - ۱۹:۰۰",
+                location: "لس‌آنجلس، آمریکا",
+                category: "نمایشگاه",
+                attendees: 2500,
+                price: "۸۰,۰۰۰ تومان",
+                categoryColor: "bg-gradient-to-r from-yellow-500 to-orange-500",
+                featured: false,
+                trending: true,
+                rating: 4.5,
+                organizer: "گالری هنر معاصر",
+            },
+            {
+                id: 6,
+                image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop",
+                title: "گردهمایی شرکتی سالانه",
+                description: "گردهمایی کارکنان و مدیران برای بررسی دستاوردهای سال",
+                date: "۱۸ تا ۲۰ تیر ۱۴۰۴",
+                time: "۰۹:۰۰ - ۱۷:۰۰",
+                location: "دنور، کلرادو",
+                category: "شرکتی",
+                attendees: 800,
+                price: "عضویت شرکتی",
+                categoryColor: "bg-gradient-to-r from-gray-600 to-blue-600",
+                featured: false,
+                trending: false,
+                rating: 4.3,
+                organizer: "شرکت توسعه نرم‌افزار",
+            }
+        ];
+
+        // دسته‌بندی‌ها
+        const categories = [
+            { name: "همه", icon: "🎯", color: "from-purple-500 to-pink-500" },
+            { name: "کنفرانس", icon: "💼", color: "from-blue-500 to-cyan-500" },
+            { name: "فستیوال", icon: "🎉", color: "from-pink-500 to-red-500" },
+            { name: "گالا", icon: "✨", color: "from-purple-500 to-indigo-500" },
+            { name: "شبکه‌سازی", icon: "🤝", color: "from-green-500 to-teal-500" },
+            { name: "نمایشگاه", icon: "🎨", color: "from-yellow-500 to-orange-500" },
+            { name: "شرکتی", icon: "🏢", color: "from-gray-600 to-blue-600" }
+        ];
+
+        // متغیرهای حالت
+        let currentCategory = "همه";
+        let currentSort = "featured";
+        let currentViewMode = "grid";
+        let filteredEvents = [...eventsData];
+
+        // ایجاد ذرات متحرک
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            if (!container) return;
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // اندازه تصادفی
+                const size = Math.random() * 100 + 50;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // موقعیت تصادفی
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // انیمیشن
+                particle.style.animation = `pulse ${Math.random() * 10 + 10}s infinite ease-in-out`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // مقداردهی اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing...');
+            createParticles();
+            initializeCategories();
+            renderEvents();
+            setupEventListeners();
+        });
+
+        // تنظیم دسته‌بندی‌ها
+        function initializeCategories() {
+            const categoryGrid = document.getElementById('categoryGrid');
+            if (!categoryGrid) {
+                console.error('categoryGrid element not found');
+                return;
+            }
+            
+            categoryGrid.innerHTML = '';
+            
+            categories.forEach(category => {
+                const count = category.name === "همه" 
+                    ? eventsData.length 
+                    : eventsData.filter(event => event.category === category.name).length;
+                
+                const categoryElement = document.createElement('button');
+                categoryElement.className = `flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:scale-105 glass-card border-0 ${category.name === "همه" ? 'bg-gradient-to-r ' + category.color + ' text-white shadow-lg' : 'bg-white/80 hover:bg-white text-gray-700 shadow-md hover:shadow-lg'}`;
+                categoryElement.innerHTML = `
+                    <span class="text-2xl mb-2">${category.icon}</span>
+                    <span class="font-medium">${category.name}</span>
+                    <span class="text-xs mt-1 opacity-75">${count}</span>
+                `;
+                categoryElement.onclick = () => selectCategory(category.name);
+                categoryGrid.appendChild(categoryElement);
+            });
+        }
+
+        // انتخاب دسته‌بندی
+        function selectCategory(categoryName) {
+            currentCategory = categoryName;
+            const selectedCategory = categories.find(c => c.name === categoryName);
+            
+            if (!selectedCategory) return;
+            
+            const selectedElement = document.getElementById('selectedCategory');
+            if (selectedElement) {
+                selectedElement.innerHTML = `
+                    <span class="text-xl">${selectedCategory.icon}</span>
+                    <span class="font-semibold">${selectedCategory.name}</span>
+                    <i class="fas fa-chevron-down h-5 w-5"></i>
+                `;
+                selectedElement.className = `flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r ${selectedCategory.color} text-white shadow-lg cursor-pointer hover:scale-105 transition-transform shimmer`;
+            }
+            
+            const dropdown = document.getElementById('categoryDropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+            
+            filterEvents();
+        }
+
+        // نمایش/مخفی کردن منوی دسته‌بندی
+        function toggleCategoryDropdown() {
+            const dropdown = document.getElementById('categoryDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+            }
+        }
+
+        // تنظیم حالت نمایش
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            
+            const gridView = document.getElementById('gridView');
+            const listView = document.getElementById('listView');
+            
+            if (gridView && listView) {
+                if (mode === 'grid') {
+                    gridView.className = 'p-3 rounded-xl transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg';
+                    listView.className = 'p-3 rounded-xl transition-all hover:bg-gray-100';
+                    gridView.querySelector('i').className = 'fas fa-th-large h-5 w-5';
+                    listView.querySelector('i').className = 'fas fa-list h-5 w-5 text-gray-500';
+                } else {
+                    gridView.className = 'p-3 rounded-xl transition-all hover:bg-gray-100';
+                    listView.className = 'p-3 rounded-xl transition-all bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg';
+                    gridView.querySelector('i').className = 'fas fa-th-large h-5 w-5 text-gray-500';
+                    listView.querySelector('i').className = 'fas fa-list h-5 w-5';
+                }
+            }
+            
+            const eventsContainer = document.getElementById('eventsContainer');
+            const listContainer = document.getElementById('listContainer');
+            
+            if (eventsContainer && listContainer) {
+                eventsContainer.classList.toggle('hidden', mode === 'list');
+                listContainer.classList.toggle('hidden', mode === 'grid');
+            }
+            
+            renderEvents();
+        }
+
+        // فیلتر کردن رویدادها
+        function filterEvents() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            
+            filteredEvents = eventsData.filter(event => {
+                const matchesSearch = searchTerm === '' || 
+                    event.title.toLowerCase().includes(searchTerm) || 
+                    event.description.toLowerCase().includes(searchTerm) ||
+                    event.location.toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = currentCategory === "همه" || event.category === currentCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            // مرتب‌سازی
+            sortEvents();
+            
+            // بروزرسانی اطلاعات
+            updateFilterInfo();
+            renderEvents();
+        }
+
+        // مرتب‌سازی رویدادها
+        function sortEvents() {
+            const sortSelect = document.getElementById('sortSelect');
+            currentSort = sortSelect ? sortSelect.value : 'featured';
+            
+            filteredEvents.sort((a, b) => {
+                switch(currentSort) {
+                    case "featured":
+                        return (b.featured === a.featured) ? 0 : b.featured ? 1 : -1;
+                    case "trending":
+                        return (b.trending === a.trending) ? 0 : b.trending ? 1 : -1;
+                    case "rating":
+                        return b.rating - a.rating;
+                    case "attendees":
+                        return b.attendees - a.attendees;
+                    default:
+                        return 0;
+                }
+            });
+        }
+
+        // بروزرسانی اطلاعات فیلتر
+        function updateFilterInfo() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput ? searchInput.value : '';
+            
+            const eventsCount = document.getElementById('eventsCount');
+            const filterInfo = document.getElementById('filterInfo');
+            const clearSearchBtn = document.getElementById('clearSearch');
+            
+            if (eventsCount) {
+                eventsCount.textContent = filteredEvents.length;
+                eventsCount.className = filteredEvents.length > 0 ? 'gradient-text' : 'text-red-500';
+            }
+            
+            if (filterInfo) {
+                let infoText = currentCategory !== "همه" ? `در دسته "${currentCategory}"` : "در تمام دسته‌بندی‌ها";
+                if (searchTerm) infoText += ` برای "${searchTerm}"`;
+                filterInfo.textContent = infoText;
+            }
+            
+            if (clearSearchBtn) {
+                clearSearchBtn.classList.toggle('hidden', !searchTerm);
+            }
+            
+            const emptyState = document.getElementById('emptyState');
+            if (emptyState) {
+                emptyState.classList.toggle('hidden', filteredEvents.length > 0);
+            }
+        }
+
+        // رندر رویدادها
+        function renderEvents() {
+            if (currentViewMode === 'grid') {
+                renderGridView();
+            } else {
+                renderListView();
+            }
+        }
+
+        // رندر حالت گرید
+        function renderGridView() {
+            const container = document.getElementById('eventsContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (filteredEvents.length === 0) {
+                return;
+            }
+            
+            filteredEvents.forEach((event, index) => {
+                const eventElement = document.createElement('div');
+                eventElement.className = `animate-fade-in-up event-card`;
+                eventElement.style.animationDelay = `${index * 0.1}s`;
+                
+                eventElement.innerHTML = `
+                    <!-- Image with Overlay -->
+                    <div class="relative h-64 overflow-hidden">
+                        <img
+                            src="${event.image}"
+                            alt="${event.title}"
+                            class="event-image w-full h-full object-cover"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                        
+                        <!-- Badges -->
+                        <div class="absolute top-4 right-4 flex gap-2">
+                            ${event.featured ? `
+                            <span class="category-badge bg-gradient-to-r from-yellow-400 to-orange-400 text-white">
+                                <i class="fas fa-star w-4 h-4"></i>
+                                ویژه
+                            </span>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Category -->
+                        <div class="absolute top-20 right-4 category-badge ${event.categoryColor} text-white">
+                            ${event.category}
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">
+                            ${event.title}
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            ${event.description}
+                        </p>
+
+                        <!-- Details -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-calendar w-4 h-4 text-pink-500"></i>
+                                    <span class="font-medium">${event.date}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-clock w-4 h-4 text-purple-500"></i>
+                                    <span>${event.time}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 text-gray-700 text-sm">
+                                <i class="fas fa-map-marker-alt w-4 h-4 text-indigo-500"></i>
+                                <span class="font-medium">${event.location}</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-users w-4 h-4 text-teal-500"></i>
+                                    <span>${event.attendees.toLocaleString()} نفر</span>
+                                </div>
+                                <div class="flex items-center gap-2 font-bold ${event.price === "رایگان" || event.price === "عضویت شرکتی" ? "text-green-600" : "text-pink-600"}">
+                                    <i class="fas fa-tag w-4 h-4"></i>
+                                    <span>${event.price}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <button class="w-full py-4 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all hover:scale-105 shimmer">
+                            <span>مشاهده رویداد</span>
+                            <i class="fas fa-arrow-right w-5 h-5"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(eventElement);
+            });
+        }
+
+        // رندر حالت لیست
+        function renderListView() {
+            const container = document.getElementById('listContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (filteredEvents.length === 0) {
+                return;
+            }
+            
+            filteredEvents.forEach((event, index) => {
+                const eventElement = document.createElement('div');
+                eventElement.className = `animate-fade-in-up glass-card p-6`;
+                eventElement.style.animationDelay = `${index * 0.1}s`;
+                
+                eventElement.innerHTML = `
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <!-- Image -->
+                        <div class="lg:w-1/4">
+                            <div class="relative h-48 rounded-xl overflow-hidden">
+                                <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="lg:flex-1">
+                            <div class="flex flex-col lg:flex-row lg:items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">${event.title}</h3>
+                                    <div class="flex items-center gap-4 mb-3">
+                                        <span class="${event.categoryColor} text-white px-3 py-1 rounded-full text-sm">
+                                            ${event.category}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="text-lg font-bold ${event.price === "رایگان" || event.price === "عضویت شرکتی" ? "text-green-600" : "text-pink-600"}">
+                                    ${event.price}
+                                </div>
+                            </div>
+                            
+                            <p class="text-gray-600 mb-4">${event.description}</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-calendar text-pink-500 w-4"></i>
+                                    <span class="text-sm">${event.date}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-map-marker-alt text-purple-500 w-4"></i>
+                                    <span class="text-sm">${event.location}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-users text-teal-500 w-4"></i>
+                                    <span class="text-sm">${event.attendees.toLocaleString()} نفر</span>
+                                </div>
+                            </div>
+                            
+                            <button class="px-6 py-3 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all hover:scale-105 w-full lg:w-auto shimmer">
+                                <span>مشاهده جزئیات</span>
+                                <i class="fas fa-arrow-right w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(eventElement);
+            });
+        }
+
+        // پاک کردن جستجو
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                filterEvents();
+            }
+        }
+
+        // پاک کردن همه فیلترها
+        function clearFilters() {
+            clearSearch();
+            selectCategory('همه');
+            const sortSelect = document.getElementById('sortSelect');
+            if (sortSelect) sortSelect.value = 'featured';
+            filterEvents();
+        }
+
+        // درخواست رویداد سفارشی
+        function requestCustomEvent() {
+            alert('به زودی امکان درخواست رویداد سفارشی اضافه خواهد شد.');
+        }
+
+        // تنظیم event listeners
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const sortSelect = document.getElementById('sortSelect');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', filterEvents);
+            }
+            
+            if (sortSelect) {
+                sortSelect.addEventListener('change', filterEvents);
+            }
+            
+            // بستن منوی دسته‌بندی با کلیک بیرون
+            document.addEventListener('click', (e) => {
+                const dropdown = document.getElementById('categoryDropdown');
+                const selected = document.getElementById('selectedCategory');
+                
+                if (dropdown && selected && !selected.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
