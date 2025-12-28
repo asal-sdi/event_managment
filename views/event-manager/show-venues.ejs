@@ -571,7 +571,7 @@
                     
                     <!-- Upcoming Events -->
                     <div>
-                        <h4 class="text-lg font-bold text-gray-900 mb-3">رویدادهای آینده</h4>
+                        <h4 class="text-lg font-bold text-gray-900 mb-3">روز های فعال</h4>
                         <div id="modalUpcomingEvents" class="space-y-3">
                             <!-- Upcoming events will be populated by JavaScript -->
                         </div>
@@ -605,7 +605,7 @@
                             </button>
                             <button onclick="shareLocation()" class="w-full py-3 bg-white text-gray-700 font-semibold border-2 border-gray-200 rounded-xl hover:border-pink-300 hover:bg-pink-50 transition-all">
                                 <i class="fas fa-share-alt ml-2"></i>
-                                اشتراک‌گذاری
+                                ارسال درخواست
                             </button>
                         </div>
                     </div>
@@ -615,33 +615,77 @@
     </div>
 
         <script>
-        window.openLocationModal = function(location) {
-            console.log('MODAL FUNCTION CALLED', location);
-            console.log('Location Title:', location);
-            
+let currentModalLocation = null;
+window.openLocationModal = function (location) {
+            currentModalLocation = location;
+    console.log('LOCATION OBJECT:', location);
+    console.log(Object.keys(location));
 
-            // currentModalLocation = location;
-            
-            document.getElementById('modalTitle').textContent = location.name;
-            document.getElementById('modalLocation').textContent = `${location.city}`;
-            document.getElementById('modalImage').src = location.image;
-            document.getElementById('modalImage').alt = location.name;
-            // document.getElementById('modalEvents').textContent = location.events;
-            document.getElementById('modalCapacity').textContent = location.capacity.toLocaleString();
-            // document.getElementById('modalRating').textContent = location.rating;
-            document.getElementById('modalPrice').textContent = location.price;
-            document.getElementById('modalDescription').textContent = location.description;
-            document.getElementById('modalPhone').textContent = location.phoneNumber;
-            
-            
-            // نمایش مودال
-            document.getElementById('locationModal').classList.add('active');
+    console.log('MODAL FUNCTION CALLED', location);
+
+    document.getElementById('modalTitle').textContent = location.name;
+    document.getElementById('modalLocation').textContent = location.city;
+    document.getElementById('modalImage').src = location.image;
+    document.getElementById('modalImage').alt = location.name;
+
+    document.getElementById('modalCapacity').textContent =
+        location.capacity?.toLocaleString() ?? '-';
+
+    document.getElementById('modalPrice').textContent =
+        location.price ?? '-';
+
+    document.getElementById('modalDescription').textContent =
+        location.description ?? '—';
+
+    document.getElementById('modalPhone').textContent =
+        location.phoneNumber ?? '—';
+
+    /* Facilities */
+    const facilities = document.getElementById('modalFacilities');
+    facilities.innerHTML = '';
+
+    if (Array.isArray(location.features)) {
+        location.features.forEach(f => {
+            const span = document.createElement('span');
+            span.className =
+                'px-3 py-1 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 rounded-full text-sm';
+            span.textContent = f;
+            facilities.appendChild(span);
+        });
+    }
+
+    /* Active Days */
+    const days = document.getElementById('modalUpcomingEvents');
+    days.innerHTML = '';
+
+    if (Array.isArray(location.activeDays)) {
+        location.activeDays.forEach(d => {
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-3 p-3 bg-white/50 rounded-xl';
+            div.innerHTML = `<i class="fas fa-calendar text-pink-500"></i><span>${d}</span>`;
+            days.appendChild(div);
+        });
+    }
+
+    document.getElementById('locationModal').classList.add('active');
+};
+
+function closeLocationModal() {
+    document.getElementById('locationModal').classList.remove('active');
 }
 
-        function closeLocationModal() {
-            document.getElementById('locationModal').classList.remove('active');
-        }
+function shareLocation() {
+    console.log('currentModalLocation:', currentModalLocation);
+            if (currentModalLocation) {
+                window.location.href = '/event-manager/send-request/' + currentModalLocation.id;  
+                
+                } else {
+                    alert('مکان پیدا نشد');
+                }
+            }
+        
 </script>
+
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         <% for (let venue of venues) { %>
@@ -668,7 +712,7 @@
                     <!-- Content -->
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-1">
-                            <%=venue.title%>
+                            <%=venue.name%>
                         </h3>
                         <p class="text-gray-600 mb-4 line-clamp-2">
                             <%=venue.description%>
@@ -746,6 +790,8 @@
         let currentSort = "popular";
         let currentViewMode = "grid";
         let filteredLocations = [...locationsData];
+        // let currentModalLocation = null;
+
 
         // ایجاد ذرات متحرک
         function createParticles() {
@@ -812,6 +858,8 @@
             
             renderLocations();
         }
+
+        
 
         // فیلتر کردن مکان‌ها
         function filterLocations() {

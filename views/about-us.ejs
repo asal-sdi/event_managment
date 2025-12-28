@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momentum | درباره ما</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+            color: #1e1b4b;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Background Elements */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background: linear-gradient(45deg, #fdf2f8 0%, #fce7f3 50%, #fae8ff 100%);
+        }
+        
+        /* Floating Small 3D Spheres - گوی‌های کوچک */
+        .small-sphere {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(15px);
+            animation: floatSphere 25s infinite ease-in-out;
+        }
+        
+        /* Sphere 1 - Pink */
+        .sphere-pink-1 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #ec4899, #db2777);
+            opacity: 0.2;
+            top: 15%;
+            right: 8%;
+            animation-duration: 20s;
+        }
+        
+        .sphere-pink-2 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 70% 30%, #f472b6, #ec4899);
+            opacity: 0.15;
+            top: 40%;
+            left: 5%;
+            animation-duration: 25s;
+            animation-delay: 2s;
+        }
+        
+        .sphere-pink-3 {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 50% 50%, #f9a8d4, #f472b6);
+            opacity: 0.1;
+            bottom: 25%;
+            right: 12%;
+            animation-duration: 30s;
+            animation-delay: 5s;
+        }
+        
+        /* Sphere 2 - Purple */
+        .sphere-purple-1 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 40% 40%, #a855f7, #8b5cf6);
+            opacity: 0.18;
+            top: 25%;
+            left: 10%;
+            animation-duration: 22s;
+            animation-delay: 1s;
+        }
+        
+        .sphere-purple-2 {
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle at 60% 60%, #c084fc, #a855f7);
+            opacity: 0.12;
+            bottom: 15%;
+            left: 20%;
+            animation-duration: 28s;
+            animation-delay: 3s;
+        }
+        
+        .sphere-purple-3 {
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle at 80% 20%, #d8b4fe, #c084fc);
+            opacity: 0.14;
+            top: 70%;
+            right: 25%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+        }
+        
+        /* Sphere 3 - Blue */
+        .sphere-blue-1 {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 20% 80%, #6366f1, #4f46e5);
+            opacity: 0.16;
+            bottom: 30%;
+            right: 5%;
+            animation-duration: 24s;
+            animation-delay: 6s;
+        }
+        
+        .sphere-blue-2 {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 90% 10%, #818cf8, #6366f1);
+            opacity: 0.09;
+            top: 20%;
+            left: 25%;
+            animation-duration: 32s;
+        }
+        
+        .sphere-blue-3 {
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle at 10% 90%, #a5b4fc, #818cf8);
+            opacity: 0.11;
+            top: 60%;
+            left: 8%;
+            animation-duration: 27s;
+            animation-delay: 7s;
+        }
+        
+        /* Floating Animation */
+        @keyframes floatSphere {
+            0%, 100% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translate(30px, 15px) scale(1.2) rotate(90deg);
+            }
+            50% {
+                transform: translate(15px, 30px) scale(0.8) rotate(180deg);
+            }
+            75% {
+                transform: translate(-20px, 10px) scale(1.1) rotate(270deg);
+            }
+        }
+        
+        /* Animated Particles */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            opacity: 0.08;
+            z-index: -1;
+            animation: floatParticle 15s infinite linear;
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Glass Morphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 60px rgba(236, 72, 153, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 40px 80px rgba(236, 72, 153, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: rgba(236, 72, 153, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        /* Image Hover Effect */
+        .hover-zoom {
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover .hover-zoom {
+            transform: scale(1.1);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(216, 180, 254, 0.3);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            border-radius: 10px;
+        }
+        
+        /* Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-right: 60px;
+            margin-bottom: 60px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            z-index: 2;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            right: 11px;
+            top: 24px;
+            width: 3px;
+            height: calc(100% + 60px);
+            background: linear-gradient(to bottom, #ec4899, #a855f7);
+            z-index: 1;
+        }
+        
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+        
+        /* Floating Bubbles */
+        .floating-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: floatBubble 20s infinite ease-in-out;
+        }
+        
+        @keyframes floatBubble {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px) rotate(180deg);
+                opacity: 0.5;
+            }
+        }
+        
+        /* Background extends to footer */
+        .background-extended {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -3;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+        }
+        
+        /* Section Spacing */
+        section {
+            padding: 100px 0;
+        }
+        
+        /* Text Colors */
+        .text-primary {
+            color: #1e1b4b;
+        }
+        
+        .text-secondary {
+            color: #4b5563;
+        }
+        
+        .text-muted {
+            color: #6b7280;
+        }
+        
+        /* Team Card */
+        .team-card {
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #a855f7, #6366f1);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .team-card:hover::before {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Extended Background -->
+    <div class="background-extended"></div>
+    
+    <!-- 3D Background Elements -->
+    <div class="bg-pattern"></div>
+    
+    <!-- Floating Small 3D Spheres -->
+    <div class="small-sphere sphere-pink-1"></div>
+    <div class="small-sphere sphere-pink-2"></div>
+    <div class="small-sphere sphere-pink-3"></div>
+    <div class="small-sphere sphere-purple-1"></div>
+    <div class="small-sphere sphere-purple-2"></div>
+    <div class="small-sphere sphere-purple-3"></div>
+    <div class="small-sphere sphere-blue-1"></div>
+    <div class="small-sphere sphere-blue-2"></div>
+    <div class="small-sphere sphere-blue-3"></div>
+    
+    <!-- Animated Particles -->
+    <div id="particles-container"></div>
+    
+    <!-- Floating Bubbles -->
+    <div class="floating-bubble" style="width: 80px; height: 80px; top: 10%; left: 15%;"></div>
+    <div class="floating-bubble" style="width: 60px; height: 60px; top: 40%; right: 20%; animation-delay: 3s;"></div>
+    <div class="floating-bubble" style="width: 100px; height: 100px; bottom: 20%; left: 10%; animation-delay: 6s;"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[60vh] flex items-center justify-center">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-primary animate-fade-in-up">
+                    درباره <span class="gradient-text">Momentum</span>
+                </h1>
+                <p class="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s">
+                    ما خالق تجربیات فراموش‌نشدنی هستیم. تیمی متخصص که با اشتیاق و خلاقیت، 
+                    هر رویداد را به یک خاطره ماندگار تبدیل می‌کند.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style="animation-delay: 0.2s">
+                    <a href="#story" class="btn-gradient shimmer">
+                        <span>داستان ما</span>
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#team" class="glass-card px-8 py-4 text-primary font-semibold rounded-xl hover:shadow-xl transition-all flex items-center gap-3">
+                        <i class="fas fa-users text-purple-500"></i>
+                        <span>تیم ما</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section id="mission" class="relative">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <!-- Mission Card -->
+                <div class="glass-card p-8 animate-fade-in-up">
+                    <div class="flex flex-col items-center text-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-gradient-to-l from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-xl">
+                            <i class="fas fa-bullseye text-white text-4xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-primary mb-3">
+                            <span class="gradient-text">ماموریت</span> ما
+                        </h2>
+                    </div>
+                    <p class="text-secondary text-lg leading-relaxed mb-8 text-justify">
+                        ایجاد تحول در صنعت رویدادها با ارائه راه‌حل‌های نوآورانه و خدمات استثنایی. 
+                        ما متعهد به خلق لحظات به‌یادماندنی هستیم که ارزش افزوده واقعی برای مشتریانمان ایجاد کند.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-teal-400 flex items-center justify-center">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span class="font-medium">ارائه خدمات با کیفیت جهانی</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-white"></i>
+                            </div>
+                            <span class="font-medium">نوآوری مستمر در خدمات</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center">
+                                <i class="fas fa-heart text-white"></i>
+                            </div>
+                            <span class="font-medium">رضایت کامل مشتریان</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vision Card -->
+                <div class="glass-card p-8 animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="flex flex-col items-center text-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-gradient-to-l from-purple-500 to-indigo-500 flex items-center justify-center mb-4 shadow-xl">
+                            <i class="fas fa-eye text-white text-4xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-primary mb-3">
+                            <span class="gradient-text">چشم‌انداز</span> ما
+                        </h2>
+                    </div>
+                    <p class="text-secondary text-lg leading-relaxed mb-8 text-justify">
+                        تبدیل شدن به پیشروترین پلتفرم مدیریت رویداد در خاورمیانه و تعریف استانداردهای جدید 
+                        در صنعت رویدادها با ارائه تجربه‌ای بی‌نقص.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 flex items-center justify-center">
+                                <i class="fas fa-crown text-white"></i>
+                            </div>
+                            <span class="font-medium">پیشرو در صنعت رویدادها</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-blue-400 flex items-center justify-center">
+                                <i class="fas fa-globe text-white"></i>
+                            </div>
+                            <span class="font-medium">گسترش به بازارهای بین‌المللی</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-secondary">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-400 to-rose-400 flex items-center justify-center">
+                                <i class="fas fa-rocket text-white"></i>
+                            </div>
+                            <span class="font-medium">توسعه فناوری‌های پیشرفته</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Values Section -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-12 text-primary">
+                    <span class="gradient-text">ارزش‌های</span> اصلی ما
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Value 1 -->
+                    <div class="glass-card p-8 text-center animate-fade-in-up hover:scale-105 transition-transform">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-l from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-handshake text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-4">اعتماد</h3>
+                        <p class="text-secondary">
+                            اعتماد مشتریان بزرگترین سرمایه ماست
+                        </p>
+                    </div>
+                    
+                    <!-- Value 2 -->
+                    <div class="glass-card p-8 text-center animate-fade-in-up hover:scale-105 transition-transform" style="animation-delay: 0.1s">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-l from-purple-500 to-indigo-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-lightbulb text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-4">نوآوری</h3>
+                        <p class="text-secondary">
+                            همیشه در جستجوی راه‌حل‌های خلاقانه
+                        </p>
+                    </div>
+                    
+                    <!-- Value 3 -->
+                    <div class="glass-card p-8 text-center animate-fade-in-up hover:scale-105 transition-transform" style="animation-delay: 0.2s">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-l from-indigo-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-users text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-4">همکاری</h3>
+                        <p class="text-secondary">
+                            قدرت ما در کار تیمی و همکاری
+                        </p>
+                    </div>
+                    
+                    <!-- Value 4 -->
+                    <div class="glass-card p-8 text-center animate-fade-in-up hover:scale-105 transition-transform" style="animation-delay: 0.3s">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-l from-pink-500 to-indigo-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-award text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-4">کیفیت</h3>
+                        <p class="text-secondary">
+                            هیچ چیز کمتر از بهترین قابل قبول نیست
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="story" class="relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-primary">
+                    <span class="gradient-text">داستان</span> ما
+                </h2>
+                <p class="text-secondary text-xl max-w-2xl mx-auto">
+                    از یک ایده کوچک تا تبدیل شدن به یکی از پیشروهای صنعت
+                </p>
+            </div>
+
+            <div class="timeline-container max-w-4xl mx-auto">
+                <!-- Year 2016 -->
+                <div class="timeline-item animate-fade-in-up">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="pr-16">
+                        <div class="glass-card p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-l from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                    ۱۳۹۵
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary">تاسیس Momentum</h3>
+                            </div>
+                            <p class="text-secondary text-lg leading-relaxed">
+                                شروع کار با تیم ۳ نفره و برگزاری اولین رویداد موفق با ۱۰۰ شرکت‌کننده. 
+                                پایه‌گذاری اصول کاری و تعهد به کیفیت.
+                            </p>
+                            <div class="mt-6">
+                                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=300&fit=crop" 
+                                     alt="تاسیس" 
+                                     class="w-full h-48 object-cover rounded-xl hover-zoom shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year 2019 -->
+                <div class="timeline-item animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="pr-16">
+                        <div class="glass-card p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-l from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                    ۱۳۹۸
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary">راه‌اندازی پلتفرم</h3>
+                            </div>
+                            <p class="text-secondary text-lg leading-relaxed">
+                                توسعه اولین نسخه پلتفرم مدیریت رویداد آنلاین و ارائه خدمات به ۱۰۰۰ رویداد موفق. 
+                                گسترش تیم به ۱۵ نفر.
+                            </p>
+                            <div class="mt-6">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop" 
+                                     alt="پلتفرم" 
+                                     class="w-full h-48 object-cover rounded-xl hover-zoom shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year 2021 -->
+                <div class="timeline-item animate-fade-in-up" style="animation-delay: 0.4s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="pr-16">
+                        <div class="glass-card p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-l from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                    ۱۴۰۰
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary">گسترش بین‌المللی</h3>
+                            </div>
+                            <p class="text-secondary text-lg leading-relaxed">
+                                افتتاح دفاتر در دبی و استانبول، برگزاری رویدادهای بین‌المللی و همکاری با برندهای معتبر جهانی.
+                            </p>
+                            <div class="mt-6">
+                                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=300&fit=crop" 
+                                     alt="بین‌المللی" 
+                                     class="w-full h-48 object-cover rounded-xl hover-zoom shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Present -->
+                <div class="timeline-item animate-fade-in-up" style="animation-delay: 0.6s">
+                    <div class="timeline-dot"></div>
+                    <div class="pr-16">
+                        <div class="glass-card p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-l from-pink-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                    امروز
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary">پیشرو در صنعت</h3>
+                            </div>
+                            <p class="text-secondary text-lg leading-relaxed">
+                                مدیریت بیش از ۵۰۰ رویداد سالیانه با تیم ۵۰ نفره متخصص. 
+                                دریافت جوایز متعدد ملی و بین‌المللی در حوزه مدیریت رویداد.
+                            </p>
+                            <div class="mt-6">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop" 
+                                     alt="امروز" 
+                                     class="w-full h-48 object-cover rounded-xl hover-zoom shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-primary">
+                    <span class="gradient-text">تیم</span> رهبری
+                </h2>
+                <p class="text-secondary text-xl max-w-2xl mx-auto">
+                    متخصصان با استعدادی که پشت هر رویداد موفق Momentum قرار دارند
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Team Member 1 -->
+                <div class="team-card glass-card animate-fade-in-up">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" 
+                             alt="مدیرعامل" 
+                             class="w-full h-full object-cover hover-zoom">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        <div class="absolute bottom-4 right-4">
+                            <div class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                مدیرعامل
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center">
+                        <h3 class="text-2xl font-bold text-primary mb-2">رضا محمدی</h3>
+                        <p class="text-muted mb-6">بنیان‌گذار و مدیرعامل</p>
+                        <p class="text-secondary text-sm mb-6">
+                            با ۱۵ سال تجربه در صنعت رویدادها و رهبری موفق تیم Momentum
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-card glass-card animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop" 
+                             alt="مدیر عملیات" 
+                             class="w-full h-full object-cover hover-zoom">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        <div class="absolute bottom-4 right-4">
+                            <div class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                مدیر عملیات
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center">
+                        <h3 class="text-2xl font-bold text-primary mb-2">سارا کریمی</h3>
+                        <p class="text-muted mb-6">مدیر عملیات</p>
+                        <p class="text-secondary text-sm mb-6">
+                            متخصص مدیریت پروژه با ۱۰ سال سابقه در سازماندهی رویدادهای بزرگ
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                <i class="fab fa-behance"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-card glass-card animate-fade-in-up" style="animation-delay: 0.4s">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" 
+                             alt="مدیر خلاقیت" 
+                             class="w-full h-full object-cover hover-zoom">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        <div class="absolute bottom-4 right-4">
+                            <div class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                مدیر خلاقیت
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center">
+                        <h3 class="text-2xl font-bold text-primary mb-2">امیرحسین نوری</h3>
+                        <p class="text-muted mb-6">مدیر خلاقیت</p>
+                        <p class="text-secondary text-sm mb-6">
+                            طراح برنده جوایز بین‌المللی و متخصص در خلق تجربیات منحصر به فرد
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                <i class="fab fa-dribbble"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                <i class="fab fa-behance"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="/team" class="btn-gradient shimmer inline-flex items-center gap-3">
+                    <i class="fas fa-users"></i>
+                    <span>مشاهده کامل تیم</span>
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="relative">
+        <div class="container mx-auto px-4">
+            <div class="glass-card p-12">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center animate-fade-in-up">
+                        <div class="text-5xl md:text-6xl font-bold gradient-text mb-4">۷+</div>
+                        <div class="text-xl font-semibold text-primary">سال تجربه</div>
+                        <p class="text-muted mt-2">با افتخار و سابقه درخشان</p>
+                    </div>
+                    
+                    <div class="text-center animate-fade-in-up" style="animation-delay: 0.1s">
+                        <div class="text-5xl md:text-6xl font-bold gradient-text mb-4">۵۰۰+</div>
+                        <div class="text-xl font-semibold text-primary">رویداد موفق</div>
+                        <p class="text-muted mt-2">با رضایت ۱۰۰٪ مشتریان</p>
+                    </div>
+                    
+                    <div class="text-center animate-fade-in-up" style="animation-delay: 0.2s">
+                        <div class="text-5xl md:text-6xl font-bold gradient-text mb-4">۵۰+</div>
+                        <div class="text-xl font-semibold text-primary">متخصص</div>
+                        <p class="text-muted mt-2">تیم متعهد و متخصص</p>
+                    </div>
+                    
+                    <div class="text-center animate-fade-in-up" style="animation-delay: 0.3s">
+                        <div class="text-5xl md:text-6xl font-bold gradient-text mb-4">۹۸٪</div>
+                        <div class="text-xl font-semibold text-primary">رضایت</div>
+                        <p class="text-muted mt-2">مشتریان راضی و وفادار</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="glass-card p-12 relative overflow-hidden">
+                    <div class="absolute w-40 h-40 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 -top-20 -right-20"></div>
+                    <div class="absolute w-32 h-32 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 bottom-10 -left-16"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="text-6xl mb-6 gradient-text">🚀</div>
+                        <h2 class="text-4xl font-bold mb-6 text-primary">
+                            آماده خلق <span class="gradient-text">رویداد استثنایی</span> خود هستید؟
+                        </h2>
+                        <p class="text-secondary text-xl mb-8 max-w-2xl mx-auto">
+                            تیم متخصص Momentum آماده است تا ایده‌های شما را به واقعیت تبدیل کند
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                            <a href="/contact" class="btn-gradient shimmer">
+                                <i class="fas fa-envelope"></i>
+                                <span>تماس با ما</span>
+                            </a>
+                            
+                            <a href="/portfolio" class="glass-card px-8 py-4 text-primary font-semibold rounded-xl hover:shadow-xl transition-all flex items-center gap-3">
+                                <i class="fas fa-images text-pink-500"></i>
+                                <span>نمونه کارها</span>
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script>
+        // ایجاد ذرات متحرک
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            if (!container) return;
+            
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // اندازه تصادفی
+                const size = Math.random() * 30 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // موقعیت تصادفی
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // رنگ تصادفی
+                const colors = [
+                    'rgba(236, 72, 153, 0.1)',
+                    'rgba(168, 85, 247, 0.1)',
+                    'rgba(99, 102, 241, 0.1)'
+                ];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = `radial-gradient(circle, ${randomColor} 0%, transparent 70%)`;
+                
+                // انیمیشن
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // اسکرول نرم
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('صفحه درباره ما بارگذاری شد');
+            createParticles();
+            
+            // هموار کردن اسکرول برای لینک‌های داخلی
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

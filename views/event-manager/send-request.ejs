@@ -412,18 +412,10 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <a href="#" class="btn-secondary" onclick="history.back()">
+                    <a href="#" class="btn-secondary" onclick="window.location.href='/event-manager/dashboard'">
                         <i class="fas fa-arrow-right"></i> بازگشت به داشبورد
                     </a>
-                    <div class="flex items-center gap-3 glass-card px-6 py-4">
-                        <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold">
-                            ع.م
-                        </div>
-                        <div class="text-right">
-                            <div class="font-bold text-pink-900 text-lg">مبینا رسایی</div>
-                            <div class="text-sm text-pink-600">مدیر ارشد رویداد</div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             
@@ -570,6 +562,7 @@
                             </label>
                             <div class="relative">
                                 <input type="date" 
+                                        name="date"
                                        id="startDate"
                                        required
                                        class="form-input">
@@ -583,7 +576,8 @@
                                 ساعت  <span class="required-star">*</span>
                             </label>
                             <div class="relative">
-                                <input type="time" 
+                                <input type="time"
+                                        name="time"
                                        id="startTime"
                                        required
                                        class="form-input">
@@ -648,15 +642,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-8">
-                        <label class="form-label">
-                            درباره برگزارکننده
-                        </label>
-                        <textarea id="organizerDescription" 
-                                  rows="3"
-                                  placeholder="توضیحات درباره سازمان برگزارکننده، سابقه کاری، رویدادهای قبلی و..."
-                                  class="form-input resize-none"></textarea>
-                    </div>
+                 
                     
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="p-6 bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl border border-pink-100">
@@ -847,22 +833,12 @@
                 <div class="pt-8 border-t border-pink-100">
                     <div class="flex flex-col lg:flex-row gap-6 justify-between items-center">
                         <div class="flex items-center gap-4">
-                            <div class="status-badge status-active">
-                                <i class="fas fa-save"></i> ذخیره پیش‌نویس
-                            </div>
-                            <div class="text-pink-600">
-                                <i class="fas fa-info-circle ml-1"></i>
-                                آخرین ذخیره: همین حالا
-                            </div>
+                           
+                           
                         </div>
                         
                         <div class="flex gap-4">
-                            <button type="button" onclick="saveDraft()" class="btn-secondary">
-                                <i class="fas fa-save"></i> ذخیره پیش‌نویس
-                            </button>
-                            <button type="button" onclick="previewRequest()" class="btn-secondary">
-                                <i class="fas fa-eye"></i> پیش‌نمایش
-                            </button>
+                           
                             <button type="submit" class="btn-primary">
                                 <i class="fas fa-paper-plane"></i> ارسال درخواست
                             </button>

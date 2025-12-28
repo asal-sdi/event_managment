@@ -30,7 +30,7 @@ exports.emDashboard = (req,res) =>{
 
 exports.showVenuesForRequest = async(req,res) => {
     try {
-        const venues = await Venue.findAll()
+        const venues = await Venue.findAll({raw:true})
         res.render("event-manager/show-venues",{pageTitle:"ارسال درخواست مکان", user:req.user,path:"/show-venues", venues})
     } catch (err) {
         console.log(err);
@@ -57,7 +57,7 @@ exports.showSendRequestForm = async(req,res) => {
 
 exports.sendRequest = async(req,res) => {
     try {
-        const{title,location,date,description,price} = req.body
+        const{title,type,date,description,time,price} = req.body
         const venueId = req.params.id
 
         const imagePath = req.file
@@ -66,9 +66,10 @@ exports.sendRequest = async(req,res) => {
 
         await VenueRequest.create({
             title,
-            location,
+            type,
             date,
             description,
+            time,
             price,
             venueId,
             image: imagePath,

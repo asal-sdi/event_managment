@@ -18,9 +18,21 @@ const VenueRequest = sequelize.define("VenueRequest", {
     date: { 
         type: DataTypes.DATE,
         allowNull: false },
-
+    time:{
+        type: DataTypes.STRING(20),
+        allowNull: false
+    },
     description: { type: DataTypes.TEXT },
+    type:{
+            type: DataTypes.ENUM("کنفرانس","کارگاه","فستیوال","سمینار",
+                "نمایشگاه","مسابقه","شبکه‌سازی","خیریه","گالا","ورزشی"),
+            allowNull: true,
+    },
     price: { type: DataTypes.FLOAT },
+    image:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
 
     venueId: { 
         type: DataTypes.INTEGER,

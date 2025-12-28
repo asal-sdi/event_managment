@@ -713,56 +713,24 @@
                 <h3 class="text-2xl font-bold text-pink-900 mb-6">درخواست های آتی</h3>
                 
                 <div class="space-y-4">
-                    <div class="p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl border border-pink-100">
+                    <%for (let request of requests ) { %>
+                        <div class="p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl border border-pink-100">
                         <div class="flex justify-between items-center">
                             <div>
-                                <div class="font-bold text-pink-900 text-lg">همایش فناوری هوش مصنوعی</div>
-                                <div class="text-sm text-pink-600 mt-1">مرکز همایش بین‌المللی - ۱۴۰۳/۰۴/۱۵</div>
+                                <div class="font-bold text-pink-900 text-lg"><%= request.title %></div>
+                                <div class="text-sm text-pink-600 mt-1"><%= request.time %> - <%= request.date %></div>
                             </div>
                             <div class="text-right">
-                                <div class="font-bold text-pink-900 text-xl">۱۲,۵۰۰,۰۰۰</div>
-                                <div class="text-sm text-pink-500">تومان</div>
+                                <div class="font-bold text-pink-900 text-xl"><%= request.type %> </div>
+                                <div class="text-sm text-pink-500"></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 mt-3">
-                            <span class="text-sm text-pink-600 bg-pink-50 px-3 py-1 rounded-full">تایید شده</span>
-                            <span class="text-sm text-pink-600">مدیر رویداد: آقای احمدی</span>
+                            <span class="text-sm text-pink-600 bg-pink-50 px-3 py-1 rounded-full"><%= request.status %></span>
                         </div>
                     </div>
-                    
-                    <div class="p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="font-bold text-purple-900 text-lg">کارگاه برنامه‌نویسی پایتون</div>
-                                <div class="text-sm text-purple-600 mt-1">پارک علم و فناوری - ۱۴۰۳/۰۴/۲۰</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="font-bold text-purple-900 text-xl">۸,۰۰۰,۰۰۰</div>
-                                <div class="text-sm text-purple-500">تومان</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4 mt-3">
-                            <span class="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full">تایید شده</span>
-                            <span class="text-sm text-purple-600">دانشگاه تهران</span>
-                        </div>
-                    </div>
-                    
-                    <div class="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl border border-indigo-100">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="font-bold text-indigo-900 text-lg">فستیوال موسیقی کلاسیک</div>
-                                <div class="text-sm text-indigo-600 mt-1">تالار رودکی اصفهان - ۱۴۰۳/۰۵/۱۰</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="font-bold text-indigo-900 text-xl">۱۵,۰۰۰,۰۰۰</div>
-                                <div class="text-sm text-indigo-500">تومان</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4 mt-3">
-                            <span class="text-sm text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">در انتظار تایید</span>
-                            <span class="text-sm text-indigo-600">خانم محمدی</span>
-                        </div>
-                    </div>
+                        <% }%>
+
                 </div>
             </div>
         </div>

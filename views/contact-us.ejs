@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تماس با ما | Momentum</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+            color: #1e1b4b;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Background Elements */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background: linear-gradient(45deg, #da9fbf 0%, #c3abfc 50%, #fae8ff 100%);
+        }
+        
+        /* Floating Small 3D Spheres */
+        .small-sphere {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(15px);
+            animation: floatSphere 25s infinite ease-in-out;
+        }
+        
+        /* Sphere Colors */
+        .sphere-pink-1 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #b72870, #c03e78);
+            opacity: 0.15;
+            top: 10%;
+            right: 10%;
+            animation-duration: 25s;
+        }
+        
+        .sphere-purple-1 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 40% 40%, #b98ce2, #8b5cf6);
+            opacity: 0.12;
+            top: 60%;
+            left: 15%;
+            animation-duration: 30s;
+        }
+        
+        .sphere-blue-1 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 20% 80%, #7779fb, #4f46e5);
+            opacity: 0.1;
+            bottom: 20%;
+            right: 20%;
+            animation-duration: 20s;
+        }
+        
+        /* Floating Animation */
+        @keyframes floatSphere {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(40px, 20px) scale(1.1);
+            }
+            50% {
+                transform: translate(20px, 40px) scale(0.9);
+            }
+            75% {
+                transform: translate(-20px, 20px) scale(1.05);
+            }
+        }
+        
+        /* Glass Morphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 60px rgba(236, 72, 153, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 40px 80px rgba(236, 72, 153, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: rgba(236, 72, 153, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Button Styles */
+        .btn-gradient {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        /* Background extends */
+        .background-extended {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -3;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+        }
+        
+        /* Text Colors */
+        .text-primary {
+            color: #1e1b4b;
+        }
+        
+        .text-secondary {
+            color: #5480bd;
+        }
+        
+        /* Contact Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 2px solid rgba(236, 72, 153, 0.2);
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #1e1b4b;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+            background: white;
+        }
+        
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Contact Info Cards */
+        .contact-card {
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #a855f7, #6366f1);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .contact-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        /* Map Container */
+        .map-container {
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
+            pointer-events: none;
+        }
+        
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: none;
+        }
+        
+        /* Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        /* Social Media Icons */
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Working Hours */
+        .hours-item {
+            padding: 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .hours-item:hover {
+            background: rgba(236, 72, 153, 0.05);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body class="min-h-screen pt-14">
+    <!-- Extended Background -->
+    <div class="background-extended"></div>
+    
+    <!-- 3D Background Elements -->
+    <div class="bg-pattern"></div>
+    
+    <!-- Floating Small 3D Spheres -->
+    <div class="small-sphere sphere-pink-1"></div>
+    <div class="small-sphere sphere-purple-1"></div>
+    <div class="small-sphere sphere-blue-1"></div>
+
+    <!-- Main Content -->
+    <div class="container pt-14 mx-auto px-4 py-12">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-primary animate-fade-in-up">
+                تماس با <span class="gradient-text">ما</span>
+            </h1>
+            <p class="text-xl text-secondary max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s">
+                ما در Momentum همیشه مشتاق شنیدن از شما هستیم. 
+                هر سوال، پیشنهاد یا درخواستی دارید، تیم پشتیبانی ما آماده پاسخگویی است.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Left Column - Contact Info -->
+            <div class="space-y-8">
+                <!-- Contact Card 1 -->
+                <div class="contact-card glass-card p-8 animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white">
+                            <i class="fas fa-phone-alt text-2xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <h3 class="text-xl font-bold text-primary">تماس تلفنی</h3>
+                            <p class="text-secondary">۲۴/۷ پشتیبانی</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">پشتیبانی مشتریان:</span>
+                            <a href="tel:+982188776655" class="text-secondary hover:text-pink-600 transition-colors">
+                                ۰۲۱-۸۸۷۷۶۶۵۵
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">فروش و همکاری:</span>
+                            <a href="tel:+982199887766" class="text-secondary hover:text-pink-600 transition-colors">
+                                ۰۲۱-۹۹۸۸۷۷۶۶
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Card 2 -->
+                <div class="contact-card glass-card p-8 animate-fade-in-up" style="animation-delay: 0.3s">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center text-white">
+                            <i class="fas fa-envelope text-2xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <h3 class="text-xl font-bold text-primary">ایمیل</h3>
+                            <p class="text-secondary">پاسخ در کمتر از ۲۴ ساعت</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">پشتیبانی:</span>
+                            <a href="mailto:support@momentum.com" class="text-secondary hover:text-pink-600 transition-colors text-sm">
+                                support@momentum.com
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">همکاری:</span>
+                            <a href="mailto:partnership@momentum.com" class="text-secondary hover:text-pink-600 transition-colors text-sm">
+                                partnership@momentum.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Card 3 -->
+                <div class="contact-card glass-card p-8 animate-fade-in-up" style="animation-delay: 0.4s">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center text-white">
+                            <i class="fas fa-map-marker-alt text-2xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <h3 class="text-xl font-bold text-primary">آدرس دفتر</h3>
+                            <p class="text-secondary">تهران، ایران</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="text-primary">
+                            تهران، خیابان ولیعصر، خیابان توانیر، پلاک ۱۲۳
+                        </p>
+                        <p class="text-sm text-secondary">
+                            طبقه ۳، واحد ۵ - کد پستی: ۱۴۳۵۶۷۸۹۱۰
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Working Hours -->
+                <div class="glass-card p-8 animate-fade-in-up" style="animation-delay: 0.5s">
+                    <h3 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
+                        <i class="fas fa-clock text-purple-500"></i>
+                        ساعات کاری
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="hours-item flex justify-between items-center">
+                            <span class="text-primary font-medium">شنبه تا چهارشنبه:</span>
+                            <span class="text-secondary">۹:۰۰ - ۱۸:۰۰</span>
+                        </div>
+                        <div class="hours-item flex justify-between items-center">
+                            <span class="text-primary font-medium">پنجشنبه:</span>
+                            <span class="text-secondary">۹:۰۰ - ۱۴:۰۰</span>
+                        </div>
+                        <div class="hours-item flex justify-between items-center">
+                            <span class="text-primary font-medium">جمعه و تعطیلات:</span>
+                            <span class="text-secondary">تعطیل</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Column - Contact Form -->
+            <div class="lg:col-span-2">
+                <div class="glass-card p-8 h-full animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-primary mb-4">
+                            <span class="gradient-text">فرم تماس</span> با ما
+                        </h2>
+                        <p class="text-secondary">
+                            فرم زیر را پر کنید تا تیم پشتیبانی ما در اسرع وقت با شما تماس بگیرد.
+                        </p>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div id="successMessage" class="success-message mb-6 hidden">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold">پیام شما با موفقیت ارسال شد!</h4>
+                                <p class="text-sm opacity-90">کارشناسان ما در کمتر از ۲۴ ساعت با شما تماس خواهند گرفت.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-primary font-medium mb-2">
+                                    <i class="fas fa-user text-pink-500 ml-1"></i>
+                                    نام و نام خانوادگی
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    class="form-input"
+                                    placeholder="نام خود را وارد کنید"
+                                    required
+                                >
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-primary font-medium mb-2">
+                                    <i class="fas fa-phone text-purple-500 ml-1"></i>
+                                    شماره تماس
+                                </label>
+                                <input 
+                                    type="tel" 
+                                    id="phone" 
+                                    class="form-input"
+                                    placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                                    required
+                                >
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-primary font-medium mb-2">
+                                <i class="fas fa-envelope text-indigo-500 ml-1"></i>
+                                آدرس ایمیل
+                            </label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input"
+                                placeholder="example@domain.com"
+                                required
+                            >
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block text-primary font-medium mb-2">
+                                <i class="fas fa-tag text-pink-500 ml-1"></i>
+                                موضوع
+                            </label>
+                            <select id="subject" class="form-input">
+                                <option value="">انتخاب موضوع</option>
+                                <option value="support">پشتیبانی فنی</option>
+                                <option value="sales">فروش و همکاری</option>
+                                <option value="feedback">نظرات و پیشنهادات</option>
+                                <option value="event">سازماندهی رویداد</option>
+                                <option value="other">سایر</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-primary font-medium mb-2">
+                                <i class="fas fa-comment-dots text-purple-500 ml-1"></i>
+                                پیام شما
+                            </label>
+                            <textarea 
+                                id="message" 
+                                class="form-input form-textarea"
+                                placeholder="پیام خود را با جزئیات بنویسید..."
+                                rows="5"
+                                required
+                            ></textarea>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <input 
+                                type="checkbox" 
+                                id="newsletter" 
+                                class="w-5 h-5 text-pink-500 rounded"
+                            >
+                            <label for="newsletter" class="text-primary text-sm">
+                                مایل به دریافت خبرنامه و اطلاعیه‌های Momentum هستم
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn-gradient w-full shimmer">
+                            <i class="fas fa-paper-plane"></i>
+                            ارسال پیام
+                        </button>
+                    </form>
+                    
+                    <!-- Privacy Note -->
+                    <div class="mt-8 p-4 rounded-xl bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-100">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-shield-alt text-pink-500 text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-primary mb-1">اطلاعات شما محفوظ است</h4>
+                                <p class="text-secondary text-sm">
+                                    ما به حریم خصوصی شما احترام می‌گذاریم. اطلاعات شما نزد ما امن بوده 
+                                    و فقط برای پاسخگویی به درخواستتان استفاده خواهد شد.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="mb-16 animate-fade-in-up" style="animation-delay: 0.3s">
+            <div class="glass-card p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary">موقعیت مکانی ما</h3>
+                </div>
+                
+                <div class="map-container">
+                    <!-- Map Placeholder -->
+                    <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4 gradient-text">
+                                <i class="fas fa-map"></i>
+                            </div>
+                            <p class="text-primary font-medium">تهران، خیابان ولیعصر</p>
+                            <p class="text-secondary text-sm">دفتر مرکزی Momentum</p>
+                        </div>
+                    </div>
+                    <div class="map-overlay"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="text-center p-4 rounded-xl bg-gradient-to-r from-pink-50 to-pink-100">
+                        <i class="fas fa-subway text-pink-500 text-2xl mb-2"></i>
+                        <h4 class="font-bold text-primary">ایستگاه مترو</h4>
+                        <p class="text-secondary text-sm">میدان ولیعصر - ۵ دقیقه پیاده‌روی</p>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100">
+                        <i class="fas fa-bus text-purple-500 text-2xl mb-2"></i>
+                        <h4 class="font-bold text-primary">ایستگاه اتوبوس</h4>
+                        <p class="text-secondary text-sm">ولیعصر - ۲ دقیقه پیاده‌روی</p>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-indigo-100">
+                        <i class="fas fa-car text-indigo-500 text-2xl mb-2"></i>
+                        <h4 class="font-bold text-primary">پارکینگ عمومی</h4>
+                        <p class="text-secondary text-sm">پارکینگ طبقاتی ولیعصر</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="text-center animate-fade-in-up" style="animation-delay: 0.4s">
+            <div class="glass-card p-8">
+                <h3 class="text-2xl font-bold text-primary mb-6">
+                    <span class="gradient-text">در شبکه‌های اجتماعی</span> همراه ما باشید
+                </h3>
+                <p class="text-secondary mb-8 max-w-2xl mx-auto">
+                    برای دریافت آخرین اخبار، تخفیف‌ها و اطلاعیه‌های Momentum، 
+                    ما را در شبکه‌های اجتماعی دنبال کنید.
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <a href="#" class="social-icon bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                        <i class="fab fa-telegram text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon bg-gradient-to-r from-pink-500 to-red-500 text-white">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon bg-gradient-to-r from-blue-400 to-blue-500 text-white">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon bg-gradient-to-r from-green-500 to-green-600 text-white">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                    <div class="p-4 rounded-xl bg-gradient-to-r from-pink-50 to-purple-50">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-headset text-2xl text-pink-500"></i>
+                            <div class="text-right">
+                                <h4 class="font-bold text-primary">پشتیبانی آنلاین</h4>
+                                <p class="text-secondary text-sm">پاسخگویی در واتس‌اپ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-gradient-to-r from-purple-50 to-indigo-50">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-bullhorn text-2xl text-purple-500"></i>
+                            <div class="text-right">
+                                <h4 class="font-bold text-primary">کانال اطلاع‌رسانی</h4>
+                                <p class="text-secondary text-sm">آخرین اخبار در تلگرام</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-16 animate-fade-in-up" style="animation-delay: 0.5s">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-primary mb-4">
+                    <span class="gradient-text">سوالات متداول</span>
+                </h3>
+                <p class="text-secondary max-w-2xl mx-auto">
+                    پاسخ سوالات پرتکرار خود را در اینجا بیابید
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white flex-shrink-0">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div class="text-right">
+                            <h4 class="font-bold text-primary mb-2">چطور می‌توانم رویداد ثبت کنم؟</h4>
+                            <p class="text-secondary text-sm">
+                                از طریق صفحه اصلی سایت روی دکمه "برنامه‌ریزی رویداد شما" کلیک کرده 
+                                و فرم مربوطه را پر کنید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center text-white flex-shrink-0">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div class="text-right">
+                            <h4 class="font-bold text-primary mb-2">مدت زمان پاسخگویی چقدر است؟</h4>
+                            <p class="text-secondary text-sm">
+                                معمولاً در کمتر از ۲۴ ساعت کاری به درخواست‌ها پاسخ داده می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center text-white flex-shrink-0">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div class="text-right">
+                            <h4 class="font-bold text-primary mb-2">آیا امکان بازدید از دفتر وجود دارد؟</h4>
+                            <p class="text-secondary text-sm">
+                                بله، با هماهنگی قبلی می‌توانید از دوشنبه تا چهارشنبه از دفتر بازدید کنید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-indigo-500 flex items-center justify-center text-white flex-shrink-0">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div class="text-right">
+                            <h4 class="font-bold text-primary mb-2">آیا خدمات شما بین‌المللی است؟</h4>
+                            <p class="text-secondary text-sm">
+                                بله، Momentum در کشورهای ایران، امارات، ترکیه و کانادا فعال است.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle form submission
+            const contactForm = document.getElementById('contactForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    successMessage.classList.add('animate-fade-in-up');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                }, 2000);
+            });
+            
+            // Add hover effects to contact cards
+            const contactCards = document.querySelectorAll('.contact-card');
+            contactCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Phone number formatting
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+                
+                // Format as Iranian phone number
+                if (value.length > 4) {
+                    value = value.replace(/(\d{4})(\d{3})(\d{4})/, '$1-$2-$3');
+                } else if (value.length > 1) {
+                    value = value.replace(/(\d{4})/, '$1-');
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Add particle effect on click
+            document.addEventListener('click', function(e) {
+                if (e.target.type === 'submit' || e.target.closest('button[type="submit"]')) {
+                    createParticles(e.clientX, e.clientY);
+                }
+            });
+            
+            // Create particles function
+            function createParticles(x, y) {
+                for (let i = 0; i < 8; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.width = '6px';
+                    particle.style.height = '6px';
+                    particle.style.borderRadius = '50%';
+                    
+                    // Random color from gradient
+                    const colors = [
+                        'radial-gradient(circle, #ec4899, transparent)',
+                        'radial-gradient(circle, #a855f7, transparent)',
+                        'radial-gradient(circle, #6366f1, transparent)'
+                    ];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '9999';
+                    
+                    document.body.appendChild(particle);
+                    
+                    // Random direction and animation
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 3 + 2;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    
+                    let currentX = x;
+                    let currentY = y;
+                    let opacity = 1;
+                    
+                    const animation = setInterval(() => {
+                        currentX += vx;
+                        currentY += vy;
+                        opacity -= 0.05;
+                        
+                        particle.style.left = currentX + 'px';
+                        particle.style.top = currentY + 'px';
+                        particle.style.opacity = opacity;
+                        
+                        if (opacity <= 0) {
+                            clearInterval(animation);
+                            particle.remove();
+                        }
+                    }, 30);
+                }
+            }
+        });
+        
+        // Navigation back function
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

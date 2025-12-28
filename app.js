@@ -64,7 +64,7 @@ sequelize.sync().then(result => {
     console.log(err);
 });
 
-app.get('/404' , (req,res) => {
+app.use( (req,res) => {
     res.status(404).render("errors/404", { pageTitle: "error", path: "/404" });
 })
 
