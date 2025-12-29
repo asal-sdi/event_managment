@@ -1,22 +1,24 @@
 const path = require('path')
 const {Event,EventManger,VenueRequest,Venue} = require('../models')
+const { stat } = require('fs');
 
-exports.emDashboard = (req,res) =>{
-    console.log(req.user);
 
-    const events = Event.findAll(
+exports.emDashboard = async(req,res) =>{
+    try {
+        const events = await Event.findAll(
         {where:{eventManagerId:req.user.id},
         include:[{
             model:Venue,
-            required:true
         }],
         order: [['createdAt', 'DESC']],
         raw:true
     })
-    const upcomingEvent = Event.findAll({where:{eventManagerId:req.user.id, status:'upcoming'}})
-    const requests = VenueRequest.findAll({where:{eventManagerId:req.user.id , status:'pending'}})
-    const completedEvent = Event.findAll({where:{eventManagerId:req.user.id, status:'completed'}})
-
+   
+    const upcomingEvent = await Event.findAll({where:{eventManagerId:req.user.id, status:'upcoming'}})
+    const requests = await VenueRequest.findAll({where:{eventManagerId:req.user.id , status:'pending'}})
+    const completedEvent = await Event.findAll({where:{eventManagerId:req.user.id, status:'completed'}})
+    console.log(req.user.id)
+    console.log(events)
     res.render("dashboards/em-dashboard",{pageTitle:"داشبورد" ,
          user:req.user ,
          path:"/dashboard",
@@ -25,6 +27,10 @@ exports.emDashboard = (req,res) =>{
         requests,
         completedEvent,
      })
+    } catch (error) {
+        console.log(error)
+    }
+    
 }
 
 

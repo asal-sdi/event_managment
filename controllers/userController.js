@@ -1,17 +1,53 @@
 const path = require('path');
-const {User} = require('../models')
+const {User,Event,Venue} = require('../models')
 
-exports.userDashboard = (req,res) =>{
-    res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , user:req.user,path:"/dashboard" })
+exports.userDashboard = async(req,res) =>{
+  try{
+    const user = await User.findByPk(req.user.id, {
+          include: {
+            model:Event,
+            include: {model:Venue,
+              as: 'Venue'
+            }
+          }
+          
+        });
+
+    const allEvents = await Event.findAll();
+
+    const upcoming = await Event.findAll({
+      where: {status:'upcoming'},
+          include:{
+            model: User,
+            where: {id: req.user.id}
+          }
+          
+        });
+
+    const completed = await Event.findAll({
+      where: {status:'completed'},
+          include:{
+            model: User,
+            where: {id: req.user.id}
+          }
+          
+        });
+  res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , path:"/dashboard",user,upcoming,allEvents,completed}) 
+}catch(err){
+  console.log(err);
+}
+  
 }
 
 exports.getEvents = async (req, res) => {
   const events = await Event.findAll({
-    include: ["venue"],
+    include: ["Venue"],
     order: [["date", "ASC"]],
     raw:true
   });
 
+  console.log("############################################################################################")
+  console.log(events);
   res.render("show-events", {
     pageTitle: "رویدادها",
     path: "/all-events",
@@ -22,7 +58,7 @@ exports.getEvents = async (req, res) => {
 
 exports.getEventDetails = async (req, res) => {
   const event = await Event.findByPk(req.params.id, {
-    include: ["venue", "eventManager"]
+    include: ["Venue"]
   }); 
   if (!event) {
     req.flash("error", "رویداد یافت نشد");

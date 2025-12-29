@@ -526,7 +526,87 @@
 
         <!-- Events Container -->
         <div id="eventsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            <!-- Events will be populated by JavaScript -->
+            <% for(let event of events) { 
+                
+                let formattedDate = '';
+                            if (event.date) {
+                                const date = new Date(event.date);
+                                if (!isNaN(date)) {
+                                    formattedDate = date.toLocaleDateString('fa-IR');
+                                } else {
+                                    const parts = event.date.split('-');
+                                    if (parts.length === 3) {
+                                        formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                                    } else {
+                                        formattedDate = event.date;
+                                    }
+                                }
+                            }%>
+                <div class="animate-fade-in-up event-card">
+                <div class="relative h-64 overflow-hidden">
+                        <img
+                            src="<%=event.image%>"
+                            alt="<%=event.title%>"
+                            class="event-image w-full h-full object-cover"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                        
+                                                
+                        <!-- Category -->
+                        <div class="absolute top-20 right-4 category-badge <%=event.type%> text-white">
+                             <%=event.type%>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">
+                             <%=event.title%>
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            <%=event.description.slice(0,60)+'...'%>
+                        </p>
+
+                        <!-- Details -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-calendar w-4 h-4 text-pink-500"></i>
+                                    <span class="font-medium"><%=formattedDate%></span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-clock w-4 h-4 text-purple-500"></i>
+                                    <span><%=event.time%></span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 text-gray-700 text-sm">
+                                <i class="fas fa-map-marker-alt w-4 h-4 text-indigo-500"></i>
+                                <span class="font-medium"><%=event.location%></span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i class="fas fa-users w-4 h-4 text-teal-500"></i>
+                                    <span><%=event['Venue.capacity']%> نفر</span>
+                                </div>
+                                <div class="flex items-center gap-2 font-bold <%=event.price === "رایگان" || event.price === "عضویت شرکتی" ? "text-green-600" : "text-pink-600"%>">
+                                    <i class="fas fa-tag w-4 h-4"></i>
+                                    <span>رایگان</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <button class="w-full py-4 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all hover:scale-105 shimmer"
+                        onclick="window.location.href='user/event/<%=event.id%>'">
+                            <span>مشاهده رویداد</span>
+                            <i class="fas fa-arrow-right w-5 h-5"></i>
+                        </button>
+                    </div>
+                    </div>
+                <% } %>
+             
         </div>
 
         <!-- List View Container (Hidden by default) -->
@@ -563,12 +643,12 @@
                     <div class="text-5xl mb-6 gradient-text">🎉</div>
                     <h2 class="text-3xl font-bold mb-4 text-gray-900">رویداد خاصی در نظر دارید؟</h2>
                     <p class="text-xl mb-8 text-gray-600 max-w-2xl mx-auto">
-                        اگر رویداد مورد نظر خود را پیدا نکردید، ما می‌توانیم آن را برای شما برگزار کنیم!
+                        اگر رویداد مورد نظر خود را پیدا نکردید، ان را برگزار کنید!
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="requestCustomEvent()" 
+                        <button onclick="window.location.href='/auth/em-reigster'" 
                                 class="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105 shimmer">
-                            درخواست رویداد سفارشی
+                            ساخت رویداد سفارشی
                         </button>
                     </div>
                 </div>
@@ -913,98 +993,7 @@
             }
         }
 
-        // رندر حالت گرید
-        function renderGridView() {
-            const container = document.getElementById('eventsContainer');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (filteredEvents.length === 0) {
-                return;
-            }
-            
-            filteredEvents.forEach((event, index) => {
-                const eventElement = document.createElement('div');
-                eventElement.className = `animate-fade-in-up event-card`;
-                eventElement.style.animationDelay = `${index * 0.1}s`;
-                
-                eventElement.innerHTML = `
-                    <!-- Image with Overlay -->
-                    <div class="relative h-64 overflow-hidden">
-                        <img
-                            src="${event.image}"
-                            alt="${event.title}"
-                            class="event-image w-full h-full object-cover"
-                        />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                        
-                        <!-- Badges -->
-                        <div class="absolute top-4 right-4 flex gap-2">
-                            ${event.featured ? `
-                            <span class="category-badge bg-gradient-to-r from-yellow-400 to-orange-400 text-white">
-                                <i class="fas fa-star w-4 h-4"></i>
-                                ویژه
-                            </span>
-                            ` : ''}
-                        </div>
-                        
-                        <!-- Category -->
-                        <div class="absolute top-20 right-4 category-badge ${event.categoryColor} text-white">
-                            ${event.category}
-                        </div>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">
-                            ${event.title}
-                        </h3>
-                        <p class="text-gray-600 mb-6">
-                            ${event.description}
-                        </p>
-
-                        <!-- Details -->
-                        <div class="space-y-4 mb-6">
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex items-center gap-2 text-gray-700">
-                                    <i class="fas fa-calendar w-4 h-4 text-pink-500"></i>
-                                    <span class="font-medium">${event.date}</span>
-                                </div>
-                                <div class="flex items-center gap-2 text-gray-700">
-                                    <i class="fas fa-clock w-4 h-4 text-purple-500"></i>
-                                    <span>${event.time}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-2 text-gray-700 text-sm">
-                                <i class="fas fa-map-marker-alt w-4 h-4 text-indigo-500"></i>
-                                <span class="font-medium">${event.location}</span>
-                            </div>
-                            
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex items-center gap-2 text-gray-700">
-                                    <i class="fas fa-users w-4 h-4 text-teal-500"></i>
-                                    <span>${event.attendees.toLocaleString()} نفر</span>
-                                </div>
-                                <div class="flex items-center gap-2 font-bold ${event.price === "رایگان" || event.price === "عضویت شرکتی" ? "text-green-600" : "text-pink-600"}">
-                                    <i class="fas fa-tag w-4 h-4"></i>
-                                    <span>${event.price}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Action Button -->
-                        <button class="w-full py-4 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all hover:scale-105 shimmer">
-                            <span>مشاهده رویداد</span>
-                            <i class="fas fa-arrow-right w-5 h-5"></i>
-                        </button>
-                    </div>
-                `;
-                
-                container.appendChild(eventElement);
-            });
-        }
+       
 
         // رندر حالت لیست
         function renderListView() {

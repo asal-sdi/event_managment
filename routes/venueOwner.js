@@ -1,12 +1,12 @@
 const {Router} = require('express');
 const venueOwnerContoller = require('../controllers/venueOwnerController');
 const{isVenueOwner} = require('../middlewares/authMiddlewares');
-const upload = require('../middlewares/upload');
+const uploadImage = require('../middlewares/upload');
 const router = Router();
 
 
 router.get('/create-venue', isVenueOwner, venueOwnerContoller.getCreateVenue);
-router.post('/create-venue',upload.single('image'), venueOwnerContoller.createVenue);
+router.post('/create-venue',uploadImage.single('image'), venueOwnerContoller.createVenue);
 
 router.get('/edit-venue/:id',isVenueOwner, venueOwnerContoller.getEditVenue);
 router.post('/edit-venue/:id', venueOwnerContoller.editVenue);

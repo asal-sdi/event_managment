@@ -457,7 +457,7 @@
 
         <!-- Main Form -->
         <div class="glass-card p-8 mb-8">
-            <form id="eventRequestForm" action="/event-manager/send-request/<%= venueId %>" method="post" class="space-y-10">
+            <form id="eventRequestForm" action="/event-manager/send-request/<%= venueId %>" method="post" enctype="multipart/form-data" class="space-y-10">
                 
                 <!-- Section 1: Basic Information -->
                 <div class="form-section" data-step="1">
@@ -760,27 +760,7 @@
                                     </div>
                                 </div>
                                 
-                                <div>
-                                    <label class="form-label">
-                                        زبان رویداد
-                                    </label>
-                                    <div class="flex flex-wrap gap-4">
-                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
-                                            <input type="checkbox" value="persian" checked class="ml-3 text-pink-600 w-5 h-5">
-                                            <div>
-                                                <div class="font-medium text-pink-900">فارسی</div>
-                                                <div class="text-sm text-pink-500">زبان اصلی</div>
-                                            </div>
-                                        </label>
-                                        <label class="inline-flex items-center glass-card px-6 py-4 rounded-xl cursor-pointer hover:shadow-lg transition-all">
-                                            <input type="checkbox" value="english" class="ml-3 text-pink-600 w-5 h-5">
-                                            <div>
-                                                <div class="font-medium text-pink-900">انگلیسی</div>
-                                                <div class="text-sm text-pink-500">زبان دوم</div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                         

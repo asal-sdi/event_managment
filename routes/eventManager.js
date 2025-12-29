@@ -1,7 +1,7 @@
 const {Router} = require("express")
 const eventMangerController = require("../controllers/eventManagerController")
 const { isEventManager } = require("../middlewares/authMiddlewares");
-const upload = require('../middlewares/upload');
+const uploadImage = require('../middlewares/upload');
 const router = Router()
 
 router.get("/dashboard",isEventManager, eventMangerController.emDashboard)
@@ -10,7 +10,7 @@ router.get("/show-venues",isEventManager, eventMangerController.showVenuesForReq
 router.get("/venue/:id", eventMangerController.getSingleVenue)
 
 router.get("/send-request/:id",isEventManager, eventMangerController.showSendRequestForm)
-router.post("/send-request/:id",upload.single('image'), eventMangerController.sendRequest)
+router.post("/send-request/:id",uploadImage.single('image'), eventMangerController.sendRequest)
 
 router.get("/edit-event/:id",isEventManager, eventMangerController.getEditEvent)
 router.post("/edit-event/:id",isEventManager, eventMangerController.editEvent)

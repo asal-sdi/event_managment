@@ -206,11 +206,15 @@ exports.showVenueRequests = async(req,res) => {
                 raw:true
 
             });
+
+        const user = req.user
+        
         res.render("venue-owner/requests" , {
             pageTitle:"درخواست ها",
             user:req.user,
             path:"/requests",
-            requests
+            requests,
+            user,   
         })
     } catch (error) {
         console.log(error);
@@ -220,20 +224,33 @@ exports.showVenueRequests = async(req,res) => {
 
 exports.acceptRequest = async(req,res) => {
     try {
-        const request  = await VenueRequest.findByPk(req.params.id)
-
+        const request  = await VenueRequest.findByPk(req.params.id , {
+        include: [
+            {
+            model: Venue,
+            attributes: ['name', 'address'] 
+            }
+        ]
+        })
         await request.update({status:"accepted"})
 
         await Event.create({
-            title:request.eventName,
-            date:Date.now(),
+            title:request.title,
+            date:request.date,
+            time:request.time,
             description:request.description,
+            type:request.type,
+            image:request.image,
             price:request.price,
+            status:'upcoming',
+            location:request.Venue.name,
             eventManagerId:request.eventManagerId,
-            venueId:request.venueId
+            venueId:request.venueId,
+            
+
         })
         req.flash("success_msg" , "درخواست با موفقیت پذیرفته شد")
-        res.redirect("/venue-owner/requests")
+        res.redirect("/venue-owner/show-requests")
     } catch (error) {
         console.log(error);
     }
@@ -244,7 +261,7 @@ exports.rejectRequest = async(req,res) => {
         const request  = await VenueRequest.findByPk(req.params.id)
         await request.update({status:"rejected"})
         req.flash("success_msg" , "درخواست توسط شما رد شد")
-        res.redirect("/venue-owner/requests")
+        res.redirect("/venue-owner/show-requests")
     } catch (error) {
         console.log(error);
     }

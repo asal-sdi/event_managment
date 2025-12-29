@@ -2,30 +2,31 @@ const multer = require('multer');
 const path = require('path');
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/uploads/venues');
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueName + ext);
-    }
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads');
+  },
+  filename: (req, file, cb) => {
+
+    const type = req.baseUrl.includes('venue')
+      ? 'venue'
+      : req.baseUrl.includes('request') 
+      ? 'event'
+      : 'file';
+
+    const uniqueName =
+      type + '-' + Date.now() + path.extname(file.originalname);
+
+    cb(null, uniqueName);
+  }
 });
 
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-        cb(null, true);
-    } else {
-        cb(new Error('Only images are allowed'), false);
-    }
-};
-
-const upload = multer({
-    storage,
-    fileFilter,
-    limits: {
-        fileSize: 10 * 1024 * 1024 // 10MB
-    }
+const uploadImage = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    file.mimetype.startsWith('image/')
+      ? cb(null, true)
+      : cb(new Error('فقط فایل تصویری مجاز است'));
+  }
 });
 
-module.exports = upload;
+module.exports = uploadImage;

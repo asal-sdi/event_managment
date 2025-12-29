@@ -1,13 +1,14 @@
 const {Router} = require("express")
 const userController = require("../controllers/userController")
+const {isUser} = require("../middlewares/authMiddlewares")
 const router = Router()
 
-router.get("/dashboard", userController.userDashboard)
+router.get("/dashboard",isUser, userController.userDashboard)
 
-router.get("/all-events", userController.getEvents)
+router.get("/show-events", userController.getEvents)
 
 router.get("/event/:id", userController.getEventDetails)
 
-router.post("/event/:id/book", userController.booking)
+router.get("/book-event/:id", userController.booking)
 
 module.exports = router

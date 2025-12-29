@@ -527,37 +527,23 @@
             <div class="stat-card gradient-pink-1 hover-lift">
                 <div class="flex justify-between items-start relative z-10">
                     <div>
-                        <div class="text-4xl font-bold mb-2">۱۲</div>
-                        <div class="text-xl opacity-90">رویدادهای شرکت‌کرده</div>
+                        <div class="text-4xl font-bold mb-2"><%= user.Events.length %></div>
+                        <div class="text-xl opacity-90">رویدادها</div>
                     </div>
                     <i class="fas  text-4xl opacity-80"></i>
                 </div>
-                <div class="mt-3 text-sm opacity-90 relative z-10 shimmer">آینده: ۳ | گذشته: ۹</div>
+                <div class="mt-3 text-sm opacity-90 relative z-10 shimmer">آینده,گذشته</div>
             </div>
             
             <div class="stat-card gradient-purple-1 hover-lift">
                 <div class="flex justify-between items-start relative z-10">
                     <div>
-                        <div class="text-4xl font-bold mb-2">۵</div>
-                        <div class="text-xl opacity-90">رویدادهای ذخیره‌شده</div>
+                        <div class="text-4xl font-bold mb-2"><%= upcoming.length %></div>
+                        <div class="text-xl opacity-90">رویدادهای پیش رو</div>
                     </div>
                     <i class="fas  text-4xl opacity-80"></i>
                 </div>
                 <div class="mt-3 text-sm opacity-90 relative z-10 shimmer">علاقه‌مندی‌ها</div>
-            </div>
-            
-          
-         
-            
-            <div class="stat-card gradient-mixed-1 hover-lift">
-                <div class="flex justify-between items-start relative z-10">
-                    <div>
-                        <div class="text-4xl font-bold mb-2">۲</div>
-                        <div class="text-xl opacity-90">اعلان‌ها</div>
-                    </div>
-                    <i class="fas  text-4xl opacity-80"></i>
-                </div>
-                <div class="mt-3 text-sm opacity-90 relative z-10 shimmer">خوانده نشده</div>
             </div>
         </div>
     </header>
@@ -583,63 +569,81 @@
         <!-- Tabs -->
         <div class="flex flex-wrap gap-3 mb-8 border-b border-pink-100 pb-4">
             <button class="tab-button active" onclick="switchTab('upcoming')" id="tab-upcoming">
-                <i class="fas fa-clock ml-2"></i> رویدادهای پیش‌رو (۳)
+                <i class="fas fa-clock ml-2"></i> رویدادهای پیش‌رو 
             </button>
             <button class="tab-button" onclick="switchTab('past')" id="tab-past">
-                <i class="fas fa-history ml-2"></i> رویدادهای گذشته (۹)
-            </button>
-            <button class="tab-button" onclick="switchTab('saved')" id="tab-saved">
-                <i class="fas fa-bookmark ml-2"></i> ذخیره‌شده‌ها (۵)
+                <i class="fas fa-history ml-2"></i> رویدادهای گذشته 
             </button>
             <button class="tab-button" onclick="switchTab('tickets')" id="tab-tickets">
-                <i class="fas fa-ticket-alt ml-2"></i> بلیط‌ها (۱۲)
+                <i class="fas fa-ticket-alt ml-2"></i> بلیط‌ها 
             </button>
-            <button class="tab-button" onclick="switchTab('messages')" id="tab-messages">
-                <i class="fas fa-envelope ml-2"></i> پیام‌ها (۷)
-            </button>
+
         </div>
         
         <!-- Tab Content - Upcoming Events -->
         <div id="upcoming-content" class="tab-content active">
             <!-- Events Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-                <!-- Event Card 1 -->
+                <% for (event of user.Events){ 
+                    let formattedDate = '';
+                            if (event.date) {
+                                const date = new Date(event.date);
+                                if (!isNaN(date)) {
+                                    formattedDate = date.toLocaleDateString('fa-IR');
+                                } else {
+                                    const parts = event.date.split('-');
+                                    if (parts.length === 3) {
+                                        formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                                    } else {
+                                        formattedDate = event.date;
+                                    }
+                                }
+                            }
+                            %>
                 <div class="glass-card p-6 hover-lift">
                     <div class="relative mb-4">
-                        <div class="w-full h-48 rounded-xl bg-gradient-to-r from-pink-400 to-purple-500 mb-4"></div>
-                        <span class="category-badge category-conference absolute top-4 left-4">همایش</span>
-                        <span class="featured-badge absolute top-4 right-4">
-                            <i class="fas fa-star"></i> ویژه
-                        </span>
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-r from-pink-400 to-purple-500 mb-4"><img
+                            src="<%=event.image%>"
+                            alt="<%=event.title%>"
+                            class="location-image w-full h-full object-cover"
+                        /></div>
+                        <span class="category-badge category-conference absolute top-4 left-4"><%= event.type %></span>
+                        
                     </div>
                     
-                    <h3 class="font-bold text-pink-900 text-xl mb-3">همایش فناوری هوش مصنوعی</h3>
+                    <h3 class="font-bold text-pink-900 text-xl mb-3"><%= event.title %></h3>
                     
                     <div class="space-y-3 mb-4">
                         <div class="flex items-center gap-3">
                             <i class="fas fa-calendar text-pink-500"></i>
-                            <span class="text-pink-700">۱۵ اردیبهشت ۱۴۰۳ - ۱۴:۰۰ تا ۱۸:۰۰</span>
+                            <span class="text-pink-700"><%= formattedDate %> -<%= event.time %></span>
                         </div>
                         <div class="flex items-center gap-3">
                             <i class="fas fa-map-marker-alt text-pink-500"></i>
-                            <span class="text-pink-700">مرکز همایش بین‌المللی تهران</span>
+                            <span class="text-pink-700"><%= event.Venue ? event.location : 'بدون مکان' %></span>
                         </div>
                         <div class="flex items-center gap-3">
                             <i class="fas fa-ticket-alt text-pink-500"></i>
-                            <span class="text-pink-700">بلیط شماره: TICKET-00123</span>
+                            <span class="text-pink-700">بلیط شماره: TICKET-'<%= event.id %>+<%= user.id %>'</span>
                         </div>
                     </div>
                     
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <div class="text-sm text-pink-500">وضعیت:</div>
+                            <% if (event.status === 'upcoming') { %>
                             <span class="status-badge status-upcoming">
                                 <i class="fas fa-clock"></i> پیش‌رو
                             </span>
+                            <% } else { %>
+                                <span class="status-badge status-pending">
+                                <i class="fas fa-clock"></i> کامل شده
+                            </span>
+                            <% } %>
                         </div>
                         <div class="text-left">
                             <div class="text-sm text-pink-500">ظرفیت:</div>
-                            <div class="font-bold text-pink-900">۸۵% پر شده</div>
+                            <div class="font-bold text-pink-900"><%= event.capacity %></div>
                         </div>
                     </div>
                     
@@ -647,17 +651,9 @@
                         <div class="progress-fill" style="width: 85%"></div>
                     </div>
                     
-                    <div class="flex gap-3">
-                        <button onclick="viewEventDetails(1)" class="action-btn btn-view flex-1">
-                            <i class="fas fa-eye"></i> جزییات
-                        </button>
-                      
-                        <button onclick="shareEvent(1)" class="action-btn btn-share">
-                            <i class="fas fa-share"></i>
-                        </button>
-                    </div>
+                    
                 </div>
-                
+                <% } %>
                 <!-- Event Card 2 -->
                 <div class="glass-card p-6 hover-lift">
                     <div class="relative mb-4">
@@ -763,72 +759,7 @@
                 </div>
             </div>
             
-            <!-- Upcoming Events Calendar -->
-            <div class="glass-card p-8 hover-lift">
-                <h3 class="text-2xl font-bold text-pink-900 mb-6">تقویم رویدادهای پیش‌رو</h3>
-                
-                <div class="grid grid-cols-7 gap-4 mb-6">
-                    <div class="text-center text-pink-700 font-bold py-2">شنبه</div>
-                    <div class="text-center text-pink-700 font-bold py-2">یکشنبه</div>
-                    <div class="text-center text-pink-700 font-bold py-2">دوشنبه</div>
-                    <div class="text-center text-pink-700 font-bold py-2">سه‌شنبه</div>
-                    <div class="text-center text-pink-700 font-bold py-2">چهارشنبه</div>
-                    <div class="text-center text-pink-700 font-bold py-2">پنجشنبه</div>
-                    <div class="text-center text-pink-700 font-bold py-2">جمعه</div>
-                    
-                    <!-- Calendar Days -->
-                    <div class="calendar-day">۱</div>
-                    <div class="calendar-day">۲</div>
-                    <div class="calendar-day">۳</div>
-                    <div class="calendar-day">۴</div>
-                    <div class="calendar-day">۵</div>
-                    <div class="calendar-day">۶</div>
-                    <div class="calendar-day">۷</div>
-                    
-                    <div class="calendar-day">۸</div>
-                    <div class="calendar-day">۹</div>
-                    <div class="calendar-day">۱۰</div>
-                    <div class="calendar-day">۱۱</div>
-                    <div class="calendar-day">۱۲</div>
-                    <div class="calendar-day">۱۳</div>
-                    <div class="calendar-day event">۱۴<br><span class="text-xs">همایش</span></div>
-                    
-                    <div class="calendar-day event">۱۵<br><span class="text-xs">همایش</span></div>
-                    <div class="calendar-day">۱۶</div>
-                    <div class="calendar-day">۱۷</div>
-                    <div class="calendar-day">۱۸</div>
-                    <div class="calendar-day">۱۹</div>
-                    <div class="calendar-day event">۲۰<br><span class="text-xs">کارگاه</span></div>
-                    <div class="calendar-day">۲۱</div>
-                    
-                    <div class="calendar-day">۲۲</div>
-                    <div class="calendar-day">۲۳</div>
-                    <div class="calendar-day">۲۴</div>
-                    <div class="calendar-day">۲۵</div>
-                    <div class="calendar-day">۲۶</div>
-                    <div class="calendar-day">۲۷</div>
-                    <div class="calendar-day">۲۸</div>
-                    
-                    <div class="calendar-day">۲۹</div>
-                    <div class="calendar-day">۳۰</div>
-                    <div class="calendar-day">۳۱</div>
-                    <div class="calendar-day"></div>
-                    <div class="calendar-day"></div>
-                    <div class="calendar-day"></div>
-                    <div class="calendar-day"></div>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                    <button onclick="prevMonth()" class="btn-secondary">
-                        <i class="fas fa-chevron-right"></i> ماه قبل
-                    </button>
-                    <div class="text-pink-900 font-bold text-xl">اردیبهشت ۱۴۰۳</div>
-                    <button onclick="nextMonth()" class="btn-secondary">
-                        ماه بعد <i class="fas fa-chevron-left"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+         
         
         <!-- Tab Content - Past Events -->
         <div id="past-content" class="tab-content" style="display: none;">
@@ -1170,24 +1101,24 @@
                 </h3>
                 <div class="space-y-5">
                     <div class="p-4 bg-gradient-to-l from-pink-50 to-transparent rounded-xl border border-pink-100 cursor-pointer hover:shadow-lg transition-all" onclick="viewEventDetails(4)">
-                        <div class="font-medium text-pink-900">نمایشگاه هنرهای تجسمی</div>
-                        <div class="text-sm text-pink-600 mt-2">۲۵ اردیبهشت - گالری آرت تهران</div>
+                        <div class="font-medium text-pink-900"><%= allEvents[0].title %> </div>
+                        <div class="text-sm text-pink-600 mt-2"><%= allEvents[0].time %> -<%= allEvents[0].type %></div>
                         <div class="flex items-center gap-3 mt-3">
                             <div class="progress-bar flex-1">
                                 <div class="progress-fill" style="width: 65%"></div>
                             </div>
-                            <span class="text-xs text-pink-600 font-bold">۶۵% پر شده</span>
+                            <span class="text-xs text-pink-600 font-bold">۰% پر شده</span>
                         </div>
                     </div>
                     
                     <div class="p-4 bg-gradient-to-l from-purple-50 to-transparent rounded-xl border border-purple-100 cursor-pointer hover:shadow-lg transition-all" onclick="viewEventDetails(5)">
-                        <div class="font-medium text-purple-900">کارگاه مذاکره حرفه‌ای</div>
-                        <div class="text-sm text-purple-600 mt-2">۵ خرداد - مرکز آموزش مدیریت</div>
+                        <div class="font-medium text-purple-900"><%= allEvents[1].name %></div>
+                        <div class="text-sm text-purple-600 mt-2"><%= allEvents[1].time %> -<%= allEvents[1].type %></div>
                         <div class="flex items-center gap-3 mt-3">
                             <div class="progress-bar flex-1">
                                 <div class="progress-fill" style="width: 82%"></div>
                             </div>
-                            <span class="text-xs text-purple-600 font-bold">۸۲% پر شده</span>
+                            <span class="text-xs text-purple-600 font-bold">۰% پر شده</span>
                         </div>
                     </div>
                 </div>
@@ -1204,8 +1135,8 @@
                 </h3>
                 <div class="space-y-5">
                     <div class="p-4 bg-gradient-to-l from-pink-50 to-transparent rounded-xl border border-pink-100">
-                        <div class="font-medium text-pink-900">همایش هوش مصنوعی</div>
-                        <div class="text-sm text-pink-600 mt-2">۱۵ اردیبهشت - ۲ روز دیگر</div>
+                        <div class="font-medium text-pink-900"><%= upcoming[0].name %> </div>
+                        <div class="text-sm text-pink-600 mt-2"><%= allEvents[0].time %> -<%= allEvents[0].type %></div>
                         <div class="flex items-center gap-3 mt-3">
                             <div class="w-full bg-pink-100 rounded-full h-2.5">
                                 <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full" style="width: 100%"></div>
@@ -1215,8 +1146,8 @@
                     </div>
                     
                     <div class="p-4 bg-gradient-to-l from-purple-50 to-transparent rounded-xl border border-purple-100">
-                        <div class="font-medium text-purple-900">کارگاه برنامه‌نویسی</div>
-                        <div class="text-sm text-purple-600 mt-2">۲۰ اردیبهشت - ۷ روز دیگر</div>
+                        <div class="font-medium text-purple-900"><%= allEvents[1].title %></div>
+                        <div class="text-sm text-purple-600 mt-2"><%= allEvents[1].time %> -<%= allEvents[1].type %></div>
                         <div class="flex items-center gap-3 mt-3">
                             <div class="w-full bg-purple-100 rounded-full h-2.5">
                                 <div class="bg-gradient-to-r from-purple-500 to-indigo-500 h-2.5 rounded-full" style="width: 100%"></div>
@@ -1234,7 +1165,7 @@
                     دسترسی سریع
                 </h3>
                 <div class="space-y-4">
-                    <button onclick="exploreEvents()" class="w-full p-4 text-right bg-gradient-to-r from-pink-500/10 to-purple-500/10 text-pink-700 border-2 border-pink-200 rounded-xl hover:shadow-xl transition-all hover:border-pink-300 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20">
+                    <button onclick="window.location.href='/user/show-events'" class="w-full p-4 text-right bg-gradient-to-r from-pink-500/10 to-purple-500/10 text-pink-700 border-2 border-pink-200 rounded-xl hover:shadow-xl transition-all hover:border-pink-300 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20">
                         <i class="fas fa-search ml-2"></i> جستجوی رویداد جدید
                     </button>
                     
@@ -1244,7 +1175,7 @@
                     
                   
                     
-                    <button onclick="contactSupport()" class="w-full p-4 text-right bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-700 border-2 border-blue-200 rounded-xl hover:shadow-xl transition-all hover:border-blue-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20">
+                    <button onclick="window.location.href = '/contact-us'" class="w-full p-4 text-right bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-700 border-2 border-blue-200 rounded-xl hover:shadow-xl transition-all hover:border-blue-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20">
                         <i class="fas fa-headset ml-2"></i> تماس با پشتیبانی
                     </button>
                 </div>
