@@ -180,34 +180,6 @@
             color: #5480bd;
         }
         
-        /* Contact Form Styles */
-        .form-input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border-radius: 16px;
-            border: 2px solid rgba(236, 72, 153, 0.2);
-            background: rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            color: #1e1b4b;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #ec4899;
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
-            background: white;
-        }
-        
-        .form-input::placeholder {
-            color: #9ca3af;
-        }
-        
-        .form-textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
         /* Contact Info Cards */
         .contact-card {
             transition: all 0.4s ease;
@@ -248,15 +220,6 @@
             inset: 0;
             background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
             pointer-events: none;
-        }
-        
-        /* Success Message */
-        .success-message {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            display: none;
         }
         
         /* Shimmer Effect */
@@ -313,6 +276,17 @@
             background: rgba(236, 72, 153, 0.05);
             transform: translateX(-5px);
         }
+        
+        /* Direct Contact Section */
+        .direct-contact-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .direct-contact-box:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+        }
     </style>
 </head>
 <body class="min-h-screen pt-14">
@@ -338,9 +312,12 @@
                 ما در Momentum همیشه مشتاق شنیدن از شما هستیم. 
                 هر سوال، پیشنهاد یا درخواستی دارید، تیم پشتیبانی ما آماده پاسخگویی است.
             </p>
+            <div class="mt-6 animate-fade-in-up" style="animation-delay: 0.2s">
+                <p class="text-lg text-primary">برای تماس با ما، از راه‌های ارتباطی زیر استفاده کنید:</p>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
             <!-- Left Column - Contact Info -->
             <div class="space-y-8">
                 <!-- Contact Card 1 -->
@@ -357,16 +334,28 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-primary font-medium">پشتیبانی مشتریان:</span>
-                            <a href="tel:+982188776655" class="text-secondary hover:text-pink-600 transition-colors">
+                            <a href="tel:+982188776655" class="text-secondary hover:text-pink-600 transition-colors text-lg">
                                 ۰۲۱-۸۸۷۷۶۶۵۵
                             </a>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-primary font-medium">فروش و همکاری:</span>
-                            <a href="tel:+982199887766" class="text-secondary hover:text-pink-600 transition-colors">
+                            <a href="tel:+982199887766" class="text-secondary hover:text-pink-600 transition-colors text-lg">
                                 ۰۲۱-۹۹۸۸۷۷۶۶
                             </a>
                         </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">مدیریت:</span>
+                            <a href="tel:+982199887766" class="text-secondary hover:text-pink-600 transition-colors text-lg">
+                                ۰۹۱۳-۱۲۳۴۵۶۷
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <p class="text-sm text-secondary text-center">
+                            <i class="fas fa-info-circle ml-1"></i>
+                            در ساعات کاری پاسخگویی سریع‌تر است
+                        </p>
                     </div>
                 </div>
 
@@ -383,20 +372,35 @@
                     </div>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-primary font-medium">پشتیبانی:</span>
-                            <a href="mailto:support@momentum.com" class="text-secondary hover:text-pink-600 transition-colors text-sm">
+                            <span class="text-primary font-medium">پشتیبانی عمومی:</span>
+                            <a href="mailto:support@momentum.com" class="text-secondary hover:text-pink-600 transition-colors">
                                 support@momentum.com
                             </a>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-primary font-medium">همکاری:</span>
-                            <a href="mailto:partnership@momentum.com" class="text-secondary hover:text-pink-600 transition-colors text-sm">
-                               mbynarsayy@gmail.com
+                            <span class="text-primary font-medium">همکاری و فروش:</span>
+                            <a href="mailto:partnership@momentum.com" class="text-secondary hover:text-pink-600 transition-colors">
+                                partnership@momentum.com
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">مدیریت:</span>
+                            <a href="mailto:mbynarsayy@gmail.com" class="text-secondary hover:text-pink-600 transition-colors">
+                                mbynarsayy@gmail.com
                             </a>
                         </div>
                     </div>
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <p class="text-sm text-secondary text-center">
+                            <i class="fas fa-clock ml-1"></i>
+                            پاسخگویی ایمیل: حداکثر ۲۴ ساعت کاری
+                        </p>
+                    </div>
                 </div>
+            </div>
 
+            <!-- Right Column - Additional Contact Info -->
+            <div class="space-y-8">
                 <!-- Contact Card 3 -->
                 <div class="contact-card glass-card p-8 animate-fade-in-up" style="animation-delay: 0.4s">
                     <div class="flex items-center gap-4 mb-6">
@@ -405,14 +409,26 @@
                         </div>
                         <div class="text-right">
                             <h3 class="text-xl font-bold text-primary">آدرس دفتر</h3>
-                            <p class="text-secondary"> ایران ، کرمان</p>
+                            <p class="text-secondary">ایران، کرمان</p>
                         </div>
                     </div>
-                    <div class="space-y-3">
-                        <p class="text-primary">
-                            کرمان، بلوار جمهوری
-                        </p>
-                        
+                    <div class="space-y-4">
+                        <div class="text-primary">
+                            <p class="mb-2 font-medium">آدرس کامل:</p>
+                            <p class="text-secondary">
+                                کرمان، بلوار جمهوری، بین جمهوری ۱۲ و ۱۴، پلاک ۲۳۶، طبقه سوم، واحد ۵
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-medium">کد پستی:</span>
+                            <span class="text-secondary">۷۶۱۸۶۵۴۳۱۱</span>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <a href="#map" class="btn-gradient w-full justify-center">
+                            <i class="fas fa-map-marked-alt"></i>
+                            مشاهده موقعیت روی نقشه
+                        </a>
                     </div>
                 </div>
 
@@ -436,141 +452,67 @@
                             <span class="text-secondary">تعطیل</span>
                         </div>
                     </div>
+                   
                 </div>
             </div>
+        </div>
 
-            <!-- Middle Column - Contact Form -->
-            <div class="lg:col-span-2">
-                <div class="glass-card p-8 h-full animate-fade-in-up" style="animation-delay: 0.2s">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-primary mb-4">
-                            <span class="gradient-text">فرم تماس</span> با ما
-                        </h2>
-                        <p class="text-secondary">
-                            فرم زیر را پر کنید تا تیم پشتیبانی ما در اسرع وقت با شما تماس بگیرد.
-                        </p>
+        <!-- Direct Contact Section -->
+        <div class="mb-16 animate-fade-in-up" style="animation-delay: 0.3s">
+            <div class="glass-card p-8">
+                <h3 class="text-2xl font-bold text-primary mb-6 text-center">
+                    <span class="gradient-text">تماس مستقیم</span> با بخش‌های مختلف
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="direct-contact-box glass-card p-6 text-center">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white mx-auto mb-4">
+                            <i class="fas fa-shopping-cart text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-primary mb-2">فروش</h4>
+                        <p class="text-secondary text-sm mb-4">خرید محصولات و خدمات</p>
+                        <a href="tel:+982199887766" class="text-pink-600 font-medium">
+                            ۰۲۱-۹۹۸۸۷۷۶۶
+                        </a>
                     </div>
-
-                    <!-- Success Message -->
-                    <div id="successMessage" class="success-message mb-6 hidden">
-                        <div class="flex items-center gap-3">
-                            <i class="fas fa-check-circle text-2xl"></i>
-                            <div>
-                                <h4 class="font-bold">پیام شما با موفقیت ارسال شد!</h4>
-                                <p class="text-sm opacity-90">کارشناسان ما در کمتر از ۲۴ ساعت با شما تماس خواهند گرفت.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <form id="contactForm" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="name" class="block text-primary font-medium mb-2">
-                                    <i class="fas fa-user text-pink-500 ml-1"></i>
-                                    نام و نام خانوادگی
-                                </label>
-                                <input 
-                                    type="text" 
-                                    id="name" 
-                                    class="form-input"
-                                    placeholder="نام خود را وارد کنید"
-                                    required
-                                >
-                            </div>
-                            
-                            <div>
-                                <label for="phone" class="block text-primary font-medium mb-2">
-                                    <i class="fas fa-phone text-purple-500 ml-1"></i>
-                                    شماره تماس
-                                </label>
-                                <input 
-                                    type="tel" 
-                                    id="phone" 
-                                    class="form-input"
-                                    placeholder="۰۹۱۲۳۴۵۶۷۸۹"
-                                    required
-                                >
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label for="email" class="block text-primary font-medium mb-2">
-                                <i class="fas fa-envelope text-indigo-500 ml-1"></i>
-                                آدرس ایمیل
-                            </label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                class="form-input"
-                                placeholder="example@domain.com"
-                                required
-                            >
-                        </div>
-                        
-                        <div>
-                            <label for="subject" class="block text-primary font-medium mb-2">
-                                <i class="fas fa-tag text-pink-500 ml-1"></i>
-                                موضوع
-                            </label>
-                            <select id="subject" class="form-input">
-                                <option value="">انتخاب موضوع</option>
-                                <option value="support">پشتیبانی فنی</option>
-                                <option value="sales">فروش و همکاری</option>
-                                <option value="feedback">نظرات و پیشنهادات</option>
-                                <option value="event">سازماندهی رویداد</option>
-                                <option value="other">سایر</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label for="message" class="block text-primary font-medium mb-2">
-                                <i class="fas fa-comment-dots text-purple-500 ml-1"></i>
-                                پیام شما
-                            </label>
-                            <textarea 
-                                id="message" 
-                                class="form-input form-textarea"
-                                placeholder="پیام خود را با جزئیات بنویسید..."
-                                rows="5"
-                                required
-                            ></textarea>
-                        </div>
-                        
-                        <div class="flex items-center gap-3">
-                            <input 
-                                type="checkbox" 
-                                id="newsletter" 
-                                class="w-5 h-5 text-pink-500 rounded"
-                            >
-                          
-                        </div>
-                        
-                        <button type="submit" class="btn-gradient w-full shimmer">
-                            <i class="fas fa-paper-plane"></i>
-                            ارسال پیام
-                        </button>
-                    </form>
                     
-                    <!-- Privacy Note -->
-                    <div class="mt-8 p-4 rounded-xl bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-100">
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-shield-alt text-pink-500 text-xl mt-1"></i>
-                            <div>
-                                <h4 class="font-bold text-primary mb-1">اطلاعات شما محفوظ است</h4>
-                                <p class="text-secondary text-sm">
-                                    ما به حریم خصوصی شما احترام می‌گذاریم. اطلاعات شما نزد ما امن بوده 
-                                    و فقط برای پاسخگویی به درخواستتان استفاده خواهد شد.
-                                </p>
-                            </div>
+                    <div class="direct-contact-box glass-card p-6 text-center">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center text-white mx-auto mb-4">
+                            <i class="fas fa-headset text-2xl"></i>
                         </div>
+                        <h4 class="font-bold text-primary mb-2">پشتیبانی فنی</h4>
+                        <p class="text-secondary text-sm mb-4">رفع مشکلات فنی</p>
+                        <a href="tel:+982188776655" class="text-purple-600 font-medium">
+                            ۰۲۱-۸۸۷۷۶۶۵۵
+                        </a>
+                    </div>
+                    
+                    <div class="direct-contact-box glass-card p-6 text-center">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center text-white mx-auto mb-4">
+                            <i class="fas fa-handshake text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-primary mb-2">همکاری</h4>
+                        <p class="text-secondary text-sm mb-4">همکاری تجاری و پروژه‌ای</p>
+                        <a href="mailto:partnership@momentum.com" class="text-indigo-600 font-medium text-sm">
+                            partnership@momentum.com
+                        </a>
+                    </div>
+                    
+                    <div class="direct-contact-box glass-card p-6 text-center">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-pink-500 flex items-center justify-center text-white mx-auto mb-4">
+                            <i class="fas fa-comments text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-primary mb-2">پیشنهادات</h4>
+                        <p class="text-secondary text-sm mb-4">انتقادات و پیشنهادات</p>
+                        <a href="mailto:feedback@momentum.com" class="text-blue-600 font-medium text-sm">
+                            feedback@momentum.com
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Map Section -->
-        <div class="mb-16 animate-fade-in-up" style="animation-delay: 0.3s">
+        <div id="map" class="mb-16 animate-fade-in-up" style="animation-delay: 0.3s">
             <div class="glass-card p-8">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white">
@@ -586,7 +528,7 @@
                             <div class="text-6xl mb-4 gradient-text">
                                 <i class="fas fa-map"></i>
                             </div>
-                            <p class="text-primary font-medium">کرمان ،  بلوار جمهوری</p>
+                            <p class="text-primary font-medium">کرمان، بلوار جمهوری</p>
                             <p class="text-secondary text-sm">دفتر مرکزی Momentum</p>
                         </div>
                     </div>
@@ -597,7 +539,7 @@
                     <div class="text-center p-4 rounded-xl bg-gradient-to-r from-pink-50 to-pink-100">
                         <i class="fas fa-subway text-pink-500 text-2xl mb-2"></i>
                         <h4 class="font-bold text-primary">ایستگاه مترو</h4>
-                        <p class="text-secondary text-sm">میدان آزادی- ۵ دقیقه پیاده‌روی</p>
+                        <p class="text-secondary text-sm">میدان آزادی - ۵ دقیقه پیاده‌روی</p>
                     </div>
                     <div class="text-center p-4 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100">
                         <i class="fas fa-bus text-purple-500 text-2xl mb-2"></i>
@@ -607,7 +549,7 @@
                     <div class="text-center p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-indigo-100">
                         <i class="fas fa-car text-indigo-500 text-2xl mb-2"></i>
                         <h4 class="font-bold text-primary">پارکینگ عمومی</h4>
-                        
+                        <p class="text-secondary text-sm">پارکینگ طبقاتی میدان جمهوری</p>
                     </div>
                 </div>
             </div>
@@ -685,8 +627,7 @@
                         <div class="text-right">
                             <h4 class="font-bold text-primary mb-2">چطور می‌توانم رویداد ثبت کنم؟</h4>
                             <p class="text-secondary text-sm">
-                                از طریق صفحه اصلی سایت روی دکمه "برنامه‌ریزی رویداد شما" کلیک کرده 
-                                و فرم مربوطه را پر کنید.
+                                با بخش فروش تماس بگیرید (۰۲۱-۹۹۸۸۷۷۶۶) یا به ایمیل partnership@momentum.com درخواست خود را ارسال کنید.
                             </p>
                         </div>
                     </div>
@@ -728,7 +669,7 @@
                         <div class="text-right">
                             <h4 class="font-bold text-primary mb-2">آیا خدمات شما بین‌المللی است؟</h4>
                             <p class="text-secondary text-sm">
-                                خیر
+                                خیر، هم‌اکنون خدمات ما فقط در ایران ارائه می‌شود.
                             </p>
                         </div>
                     </div>
@@ -740,72 +681,42 @@
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle form submission
-            const contactForm = document.getElementById('contactForm');
-            const successMessage = document.getElementById('successMessage');
-            
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Show loading state
-                const submitBtn = contactForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
-                submitBtn.disabled = true;
-                
-                // Simulate API call
-                setTimeout(() => {
-                    // Show success message
-                    successMessage.style.display = 'block';
-                    successMessage.classList.add('animate-fade-in-up');
-                    
-                    // Reset form
-                    contactForm.reset();
-                    
-                    // Reset button
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        successMessage.style.display = 'none';
-                    }, 5000);
-                }, 2000);
-            });
-            
             // Add hover effects to contact cards
-            const contactCards = document.querySelectorAll('.contact-card');
+            const contactCards = document.querySelectorAll('.contact-card, .direct-contact-box');
             contactCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px)';
+                    if (this.classList.contains('contact-card')) {
+                        this.style.transform = 'translateY(-8px)';
+                    } else if (this.classList.contains('direct-contact-box')) {
+                        this.style.transform = 'scale(1.05)';
+                    }
                 });
                 
                 card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
+                    if (this.classList.contains('contact-card')) {
+                        this.style.transform = 'translateY(0)';
+                    } else if (this.classList.contains('direct-contact-box')) {
+                        this.style.transform = 'scale(1)';
+                    }
                 });
             });
             
-            // Phone number formatting
-            const phoneInput = document.getElementById('phone');
-            phoneInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 11) value = value.slice(0, 11);
-                
-                // Format as Iranian phone number
-                if (value.length > 4) {
-                    value = value.replace(/(\d{4})(\d{3})(\d{4})/, '$1-$2-$3');
-                } else if (value.length > 1) {
-                    value = value.replace(/(\d{4})/, '$1-');
-                }
-                
-                e.target.value = value;
+            // Smooth scroll to map
+            const mapLinks = document.querySelectorAll('a[href="#map"]');
+            mapLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const mapSection = document.getElementById('map');
+                    mapSection.scrollIntoView({ behavior: 'smooth' });
+                });
             });
             
-            // Add particle effect on click
-            document.addEventListener('click', function(e) {
-                if (e.target.type === 'submit' || e.target.closest('button[type="submit"]')) {
+            // Add click animation to contact buttons
+            const contactButtons = document.querySelectorAll('.btn-gradient, .direct-contact-box');
+            contactButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
                     createParticles(e.clientX, e.clientY);
-                }
+                });
             });
             
             // Create particles function
@@ -857,12 +768,37 @@
                     }, 30);
                 }
             }
+            
+            // Add copy to clipboard for phone numbers
+            const phoneNumbers = document.querySelectorAll('a[href^="tel:"]');
+            phoneNumbers.forEach(number => {
+                number.addEventListener('click', function(e) {
+                    const phone = this.textContent.trim();
+                    navigator.clipboard.writeText(phone).then(() => {
+                        // Show copied notification
+                        showNotification(`شماره ${phone} کپی شد`);
+                    });
+                });
+            });
+            
+            // Show notification function
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 left-4 bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-fade-in-up';
+                notification.textContent = message;
+                notification.style.animationDelay = '0s';
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 500);
+                }, 3000);
+            }
         });
-        
-        // Navigation back function
-        function goBack() {
-            window.history.back();
-        }
     </script>
 </body>
 </html>
