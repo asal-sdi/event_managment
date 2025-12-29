@@ -451,7 +451,7 @@
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-6 relative overflow-x-hidden">
-    
+    <%- include('../includes/messages')  %>
     <!-- Particles Background -->
     <div class="particles-container" id="particles"></div>
     
@@ -550,18 +550,18 @@
                                 </label>
                                 <select id="venueType" name="type" required class="form-input">
                                     <option value="">انتخاب نوع مکان</option>
-                                    <option value="سالن همایش">سالن همایش</option>
-                                    <option value="مرکز همایش">مرکز همایش</option>
-                                    <option value="هتل">هتل</option>
-                                    <option value="دانشگاه">دانشگاه</option>
-                                    <option value="موزه">موزه</option>
-                                    <option value="گالری">گالری</option>
-                                    <option value="استادیوم">استادیوم</option>
-                                    <option value="پارک">پارک</option>
-                                    <option value="رستوران">رستوران</option>
-                                    <option value="کافه">کافه</option>
-                                    <option value="دفتر کار">دفتر کار</option>
-                                    <option value="بقیه">سایر</option>
+                                    <option value="conference_hall">سالن همایش</option>
+                                    <option value="conference_center">مرکز همایش</option>
+                                    <option value="hotel">هتل</option>
+                                    <option value="university">دانشگاه</option>
+                                    <option value="museum">موزه</option>
+                                    <option value="gallery">گالری</option>
+                                    <option value="stadium">استادیوم</option>
+                                    <option value="park">پارک</option>
+                                    <option value="restaurant">رستوران</option>
+                                    <option value="cafe">کافه</option>
+                                    <option value="office">دفتر کار</option>
+                                    <option value="other">سایر</option>
                                 </select>
                             </div>
                             

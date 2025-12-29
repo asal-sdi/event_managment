@@ -387,9 +387,7 @@
                 <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6 mb-8">
                     <div class="flex-1">
                         <h1 class="text-4xl font-bold text-gray-900 mb-3 gradient-text"><%= event.title %></h1>
-                        <p class="text-xl text-gray-600 mb-4">
-                            <%= event.description %>
-                        </p>
+                       
                         
                        
                     </div>
@@ -401,6 +399,8 @@
                         <div class="text-sm opacity-90">تومان برای هر نفر</div>
                     </div>
                 </div>
+                <% const capacity = event.Venue.capacity %>
+                <% const progressPercentage = Math.round((reservationsCount / (capacity?capacity:1)) * 100); %>
                 
                 <!-- Quick Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -409,11 +409,11 @@
                         <div class="text-gray-600 text-sm">شرکت‌کننده</div>
                     </div>
                     <div class="text-center p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all duration-300">
-                        <div class="text-2xl font-bold text-purple-600 mb-1"><%= event.capacity?event.capacity:0 %></div>
+                        <div class="text-2xl font-bold text-purple-600 mb-1"><%= capacity?capacity:0 %></div>
                         <div class="text-gray-600 text-sm">ظرفیت کل</div>
                     </div>
                     <div class="text-center p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all duration-300">
-                        <div class="text-2xl font-bold text-indigo-600 mb-1"><%= Math.round((reservationsCount / (event.capacity?event.capacity:1)) * 100) %>%</div>
+                        <div class="text-2xl font-bold text-indigo-600 mb-1"><%= Math.round((reservationsCount / (capacity?capacity:1)) * 100) %>%</div>
                         <div class="text-gray-600 text-sm">اشغال شده</div>
                     </div>
                     <div class="text-center p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all duration-300">
@@ -426,11 +426,11 @@
                 <div class="mb-8">
                     <div class="flex justify-between text-sm text-gray-600 mb-2">
                         <span>ظرفیت رویداد</span>
-                        <span><%= Math.round((reservationsCount / (event.capacity?event.capacity:1)) * 100) %>% پر شده   </span>
+                        <span><%= Math.round((reservationsCount / (event?capacity:1)) * 100) %>% پر شده   </span>
                     </div>
                     <div class="progress-bar">
-                        <% const progressPercentage = Math.round((reservationsCount / (event.capacity?event.capacity:1)) * 100); %>
-                        <div class="progress-fill" style="width: '<%= progressPercentage %>%';"></div>
+                        
+                        <div class="progress-fill" style=`width: ${<%= progressPercentage %>}%`></div>
                     </div>
                 </div>
                 

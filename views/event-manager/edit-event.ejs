@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرایش رویداد | دنیای رویدادها</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 227, 237, 0.4);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(236, 72, 153, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            box-shadow: 0 30px 80px rgba(236, 72, 153, 0.25);
+            transform: translateY(-8px);
+            border-color: rgba(236, 72, 153, 0.6);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 20px rgba(236, 72, 153, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            box-shadow: 0 10px 30px rgba(227, 76, 151, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #7c3aed;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: rgba(236, 72, 153, 0.5);
+            background: white;
+        }
+        
+        .form-input {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(236, 72, 153, 0.2);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #4c0519;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.1);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.2);
+            background: white;
+        }
+        
+        .form-label {
+            color: #881337;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ef4444;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px dashed rgba(236, 72, 153, 0.3);
+            background: rgba(236, 72, 153, 0.05);
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-active {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.1));
+            color: #db2777;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        
+        .status-pending {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .status-completed {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .tab-button {
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            background: transparent;
+            color: #881337;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(168, 85, 247, 0.1));
+            color: #db2777;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.15);
+        }
+        
+        .main-content {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <%- include('../includes/messages') %>
+    <!-- Navigation -->
+    <nav class="glass-card mx-4 mt-4 p-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="/" class="text-xl font-bold gradient-text">
+                    <i class="fas fa-arrow-right ml-2"></i>
+                    بازگشت به داشبورد
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-pink-700">
+                    <i class="fas fa-user-circle ml-2"></i>
+                    مدیر سیستم
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-3">ویرایش رویداد</h1>
+                    <p class="text-pink-700 text-lg">ویرایش اطلاعات رویداد "<span id="eventTitle"><%= event ? event.title : 'بدون عنوان' %></span>"</p>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button onclick="previewEvent()" class="btn-secondary">
+                        <i class="fas fa-eye ml-2"></i>
+                        پیش‌نمایش
+                    </button>
+                    <button onclick="window.location.href='/events'" class="btn-secondary">
+                        <i class="fas fa-times ml-2"></i>
+                        انصراف
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Alert Messages -->
+        <% if(message) { %>
+        <div class="glass-card p-6 mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-green-800 animate-slide-in-down">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                <span class="font-medium text-lg"><%= message %></span>
+            </div>
+        </div>
+        <% } %>
+        
+        <% if(error) { %>
+        <div class="glass-card p-6 mb-8 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 text-red-800 animate-slide-in-down">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
+                <span class="font-medium text-lg"><%= error %></span>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Edit Form -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Main Info -->
+            <div class="lg:col-span-2">
+                <form id="editEventForm" action="/events/update/<%= event ? event.id : '' %>" method="POST" class="glass-card p-8">
+                    <!-- Basic Information -->
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold text-pink-900 mb-6 pb-4 border-b border-pink-100">
+                            <i class="fas fa-info-circle ml-2"></i>
+                            اطلاعات پایه
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label class="form-label required">عنوان رویداد</label>
+                                <input type="text" 
+                                       name="title" 
+                                       class="form-input" 
+                                       value="<%= event ? event.title : '' %>"
+                                       required
+                                       placeholder="عنوان رویداد را وارد کنید">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">دسته‌بندی</label>
+                                <select name="category" class="form-input">
+                                    <option value="کنفرانس" <%= event && event.category === 'کنفرانس' ? 'selected' : '' %>>کنفرانس</option>
+                                    <option value="فستیوال" <%= event && event.category === 'فستیوال' ? 'selected' : '' %>>فستیوال</option>
+                                    <option value="گالا" <%= event && event.category === 'گالا' ? 'selected' : '' %>>گالا</option>
+                                    <option value="شبکه‌سازی" <%= event && event.category === 'شبکه‌سازی' ? 'selected' : '' %>>شبکه‌سازی</option>
+                                    <option value="نمایشگاه" <%= event && event.category === 'نمایشگاه' ? 'selected' : '' %>>نمایشگاه</option>
+                                    <option value="شرکتی" <%= event && event.category === 'شرکتی' ? 'selected' : '' %>>شرکتی</option>
+                                    <option value="کارگاه" <%= event && event.category === 'کارگاه' ? 'selected' : '' %>>کارگاه</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label required">توضیحات</label>
+                                <textarea name="description" 
+                                          class="form-input" 
+                                          rows="4"
+                                          required
+                                          placeholder="توضیحات کامل رویداد"><%= event ? event.description : '' %></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">آدرس تصویر</label>
+                                <input type="url" 
+                                       name="image" 
+                                       class="form-input" 
+                                       value="<%= event ? event.image : '' %>"
+                                       placeholder="https://example.com/image.jpg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time & Location -->
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold text-pink-900 mb-6 pb-4 border-b border-pink-100">
+                            <i class="fas fa-map-marker-alt ml-2"></i>
+                            زمان و مکان
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="form-group">
+                                <label class="form-label required">تاریخ</label>
+                                <input type="date" 
+                                       name="date" 
+                                       class="form-input" 
+                                       value="<%= event ? event.date : '' %>"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label required">ساعت شروع</label>
+                                <input type="time" 
+                                       name="time" 
+                                       class="form-input" 
+                                       value="<%= event ? event.time : '' %>"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">مدت (ساعت)</label>
+                                <input type="number" 
+                                       name="duration" 
+                                       class="form-input" 
+                                       value="<%= event ? event.duration || '2' : '2' %>"
+                                       min="1"
+                                       max="24"
+                                       placeholder="2">
+                            </div>
+                            
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label required">مکان</label>
+                                <input type="text" 
+                                       name="location" 
+                                       class="form-input" 
+                                       value="<%= event ? event.location : '' %>"
+                                       required
+                                       placeholder="آدرس دقیق مکان">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">شهر</label>
+                                <input type="text" 
+                                       name="city" 
+                                       class="form-input" 
+                                       value="<%= event ? event.city : '' %>"
+                                       placeholder="نام شهر">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing & Capacity -->
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold text-pink-900 mb-6 pb-4 border-b border-pink-100">
+                            <i class="fas fa-tag ml-2"></i>
+                            قیمت‌گذاری و ظرفیت
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="form-group">
+                                <label class="form-label">قیمت (تومان)</label>
+                                <input type="number" 
+                                       name="price" 
+                                       class="form-input" 
+                                       value="<%= event ? (event.price && event.price !== 'رایگان' ? event.price.replace(/,/g, '') : '0') : '0' %>"
+                                       min="0"
+                                       placeholder="۰ برای رایگان">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">ظرفیت</label>
+                                <input type="number" 
+                                       name="capacity" 
+                                       class="form-input" 
+                                       value="<%= event ? event.capacity || '100' : '100' %>"
+                                       min="1"
+                                       placeholder="۱۰۰">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">تعداد ثبت‌نام شده</label>
+                                <input type="number" 
+                                       name="registered" 
+                                       class="form-input" 
+                                       value="<%= event ? event.registered || '0' : '0' %>"
+                                       min="0"
+                                       readonly
+                                       style="background-color: #f3f4f6;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">وضعیت رویداد</label>
+                                <select name="status" class="form-input">
+                                    <option value="upcoming" <%= event && event.status === 'upcoming' ? 'selected' : '' %>>آینده</option>
+                                    <option value="active" <%= event && event.status === 'active' ? 'selected' : '' %>>فعال</option>
+                                    <option value="completed" <%= event && event.status === 'completed' ? 'selected' : '' %>>پایان یافته</option>
+                                    <option value="cancelled" <%= event && event.status === 'cancelled' ? 'selected' : '' %>>لغو شده</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">امتیاز (از ۵)</label>
+                                <input type="number" 
+                                       name="rating" 
+                                       class="form-input" 
+                                       value="<%= event ? event.rating || '4.5' : '4.5' %>"
+                                       min="0"
+                                       max="5"
+                                       step="0.1"
+                                       placeholder="۴.۵">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="flex justify-between items-center pt-8 border-t border-pink-100">
+                        <button type="button" onclick="confirmDelete()" class="btn-secondary bg-gradient-to-r from-red-50 to-rose-50 border-red-200 text-red-700">
+                            <i class="fas fa-trash ml-2"></i>
+                            حذف رویداد
+                        </button>
+                        
+                        <div class="flex gap-4">
+                            <button type="button" onclick="saveAsDraft()" class="btn-secondary">
+                                <i class="fas fa-save ml-2"></i>
+                                ذخیره پیش‌نویس
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-check ml-2"></i>
+                                ذخیره تغییرات
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Column - Preview & Additional Info -->
+            <div class="space-y-8">
+                <!-- Preview -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold text-pink-900 mb-4">
+                        <i class="fas fa-eye ml-2"></i>
+                        پیش‌نمایش
+                    </h3>
+                    
+                    <div id="imagePreview" class="mb-4">
+                        <% if(event && event.image) { %>
+                            <img src="<%= event.image %>" alt="Preview" class="preview-image">
+                        <% } else { %>
+                            <div class="preview-image flex items-center justify-center text-pink-400">
+                                <i class="fas fa-image text-4xl"></i>
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-pink-700 font-medium">عنوان:</span>
+                            <span id="previewTitle" class="text-gray-700"><%= event ? event.title : 'بدون عنوان' %></span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-pink-700 font-medium">تاریخ:</span>
+                            <span id="previewDate" class="text-gray-700"><%= event ? event.date : '--/--/----' %></span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-pink-700 font-medium">مکان:</span>
+                            <span id="previewLocation" class="text-gray-700"><%= event ? event.location : 'تعیین نشده' %></span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-pink-700 font-medium">وضعیت:</span>
+                            <span id="previewStatus" class="text-gray-700">
+                                <% if(event) { %>
+                                    <% if(event.status === 'upcoming') { %>
+                                        <span class="status-badge status-pending">آینده</span>
+                                    <% } else if(event.status === 'active') { %>
+                                        <span class="status-badge status-active">فعال</span>
+                                    <% } else if(event.status === 'completed') { %>
+                                        <span class="status-badge status-completed">پایان یافته</span>
+                                    <% } else { %>
+                                        <span class="status-badge">نامشخص</span>
+                                    <% } %>
+                                <% } else { %>
+                                    <span class="status-badge">نامشخص</span>
+                                <% } %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Statistics -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold text-pink-900 mb-4">
+                        <i class="fas fa-chart-bar ml-2"></i>
+                        آمار رویداد
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>ظرفیت پر شده</span>
+                                <span id="capacityPercent">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="capacityBar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-2 rounded-full" style="width: '<%=reservations%> %'"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-pink-50 to-purple-50">
+                                <div class="text-2xl font-bold text-pink-700" id="registeredCount">
+                                    <%= event ? (reservations || '0') : '0' %>
+                                </div>
+                                <div class="text-sm text-gray-600">ثبت‌نام شده</div>
+                            </div>
+                            
+                            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50">
+                                <div class="text-2xl font-bold text-purple-700" id="capacityCount">
+                                    <%= event ? (event.capacity || '100') : '100' %>
+                                </div>
+                                <div class="text-sm text-gray-600">ظرفیت کل</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold text-pink-900 mb-4">
+                        <i class="fas fa-bolt ml-2"></i>
+                        عملیات سریع
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        
+                        
+                        <button onclick="changeStatus()" class="w-full p-3 text-right rounded-xl border border-purple-200 hover:border-purple-300 hover:bg-purple-50 transition-all flex items-center justify-between">
+                            <span class="text-purple-700 font-medium">تغییر وضعیت</span>
+                            <i class="fas fa-sync-alt text-purple-500"></i>
+                        </button>
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Update preview in real-time
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update capacity percentage
+            updateCapacityPercentage();
+            
+            // Add real-time preview updates
+            const formInputs = document.querySelectorAll('#editEventForm input, #editEventForm textarea, #editEventForm select');
+            formInputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+                input.addEventListener('change', updatePreview);
+            });
+        });
+
+        function updatePreview() {
+            // Update title
+            const titleInput = document.querySelector('input[name="title"]');
+            if (titleInput) {
+                document.getElementById('previewTitle').textContent = titleInput.value || 'بدون عنوان';
+                document.getElementById('eventTitle').textContent = titleInput.value || 'بدون عنوان';
+            }
+            
+            // Update date
+            const dateInput = document.querySelector('input[name="date"]');
+            if (dateInput) {
+                document.getElementById('previewDate').textContent = dateInput.value || '--/--/----';
+            }
+            
+            // Update location
+            const locationInput = document.querySelector('input[name="location"]');
+            if (locationInput) {
+                document.getElementById('previewLocation').textContent = locationInput.value || 'تعیین نشده';
+            }
+            
+            // Update image preview
+            const imageInput = document.querySelector('input[name="image"]');
+            const imagePreview = document.getElementById('imagePreview');
+            if (imageInput && imagePreview) {
+                if (imageInput.value) {
+                    imagePreview.innerHTML = `<img src="${imageInput.value}" alt="Preview" class="preview-image">`;
+                } else {
+                    imagePreview.innerHTML = `
+                        <div class="preview-image flex items-center justify-center text-pink-400">
+                            <i class="fas fa-image text-4xl"></i>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Update status
+            const statusInput = document.querySelector('select[name="status"]');
+            if (statusInput) {
+                let statusBadge = '';
+                switch(statusInput.value) {
+                    case 'upcoming':
+                        statusBadge = '<span class="status-badge status-pending">آینده</span>';
+                        break;
+                    case 'active':
+                        statusBadge = '<span class="status-badge status-active">فعال</span>';
+                        break;
+                    case 'completed':
+                        statusBadge = '<span class="status-badge status-completed">پایان یافته</span>';
+                        break;
+                    default:
+                        statusBadge = '<span class="status-badge">نامشخص</span>';
+                }
+                document.getElementById('previewStatus').innerHTML = statusBadge;
+            }
+            
+            // Update capacity percentage
+            updateCapacityPercentage();
+        }
+
+        function updateCapacityPercentage() {
+            const capacityInput = document.querySelector('input[name="capacity"]');
+            const registeredInput = document.querySelector('input[name="registered"]');
+            
+            if (capacityInput && registeredInput) {
+                const capacity = parseInt(capacityInput.value) || 100;
+                const registered = parseInt(registeredInput.value) || 0;
+                const percentage = capacity > 0 ? Math.round((registered / capacity) * 100) : 0;
+                
+                document.getElementById('capacityPercent').textContent = percentage + '%';
+                document.getElementById('capacityBar').style.width = percentage + '%';
+                document.getElementById('registeredCount').textContent = registered;
+                document.getElementById('capacityCount').textContent = capacity;
+            }
+        }
+
+        function previewEvent() {
+            alert('پیش‌نمایش رویداد در حال آماده‌سازی است...');
+            // در اینجا می‌توانید صفحه پیش‌نمایش رویداد را باز کنید
+        }
+
+        function saveAsDraft() {
+            if (confirm('آیا می‌خواهید تغییرات را به عنوان پیش‌نویس ذخیره کنید؟')) {
+                document.getElementById('editEventForm').action = '/events/save-draft/<%= event ? event.id : "" %>';
+                document.getElementById('editEventForm').submit();
+            }
+        }
+
+        function confirmDelete() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید این رویداد را حذف کنید؟ این عمل غیرقابل برگشت است.')) {
+                window.location.href = '/events/delete/<%= event ? event.id : "" %>';
+            }
+        }
+
+        function duplicateEvent() {
+            if (confirm('آیا می‌خواهید یک کپی از این رویداد ایجاد کنید؟')) {
+                window.location.href = '/events/duplicate/<%= event ? event.id : "" %>';
+            }
+        }
+
+        function changeStatus() {
+            const currentStatus = document.querySelector('select[name="status"]').value;
+            const newStatus = prompt('وضعیت جدید را انتخاب کنید:\n1. upcoming (آینده)\n2. active (فعال)\n3. completed (پایان یافته)\n4. cancelled (لغو شده)', currentStatus);
+            
+            if (newStatus && ['upcoming', 'active', 'completed', 'cancelled'].includes(newStatus)) {
+                document.querySelector('select[name="status"]').value = newStatus;
+                updatePreview();
+                alert('وضعیت رویداد تغییر کرد');
+            }
+        }
+
+        function viewAttendees() {
+            alert('صفحه شرکت‌کنندگان در حال بارگذاری...');
+            // window.location.href = '/events/attendees/<%= event ? event.id : "" %>';
+        }
+
+        function sendNotification() {
+            const message = prompt('پیام اطلاعیه را وارد کنید:');
+            if (message) {
+                alert(`اطلاعیه "${message}" برای شرکت‌کنندگان ارسال خواهد شد.`);
+                // در اینجا می‌توانید درخواست AJAX برای ارسال اطلاعیه ارسال کنید
+            }
+        }
+
+        // Form validation
+        document.getElementById('editEventForm').addEventListener('submit', function(e) {
+            const title = document.querySelector('input[name="title"]').value;
+            const date = document.querySelector('input[name="date"]').value;
+            const time = document.querySelector('input[name="time"]').value;
+            const location = document.querySelector('input[name="location"]').value;
+            
+            if (!title || !date || !time || !location) {
+                e.preventDefault();
+                alert('لطفاً فیلدهای ضروری را پر کنید.');
+                return false;
+            }
+            
+            // Show loading
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> در حال ذخیره...';
+                submitBtn.disabled = true;
+            }
+            
+            return true;
+        });
+    </script>
+</body>
+</html>

@@ -42,7 +42,11 @@ exports.voDashboard = async(req,res) =>{
             if(!user){
                 return res.redirect("auth/vo-login")
             }
-    res.render("dashboards/vo-dashboard",{pageTitle:"داشبورد" , user ,venues,requests ,reservations, path:"/dashboard" })
+    res.render("dashboards/vo-dashboard",{pageTitle:"داشبورد" ,
+        user ,venues,requests ,reservations,
+        path:"/dashboard",
+        message:req.flash("success_msg"),
+        error:req.flash("error") })
    
     } catch (error) {
         console.log(error);
@@ -65,7 +69,7 @@ exports.createVenue = async(req,res) => {
         const{name,type,description,city,address,capacity,price,features,activeDays,opening,closing,} = req.body 
 
         const imagePath = req.file
-            ? `/uploads/venues/${req.file.filename}`
+            ? `/uploads/${req.file.filename}`
             : null;
 
 

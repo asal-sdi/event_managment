@@ -33,7 +33,7 @@ exports.userDashboard = async(req,res) =>{
           }
           
         });
-  res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , path:"/dashboard",user,upcoming,allEvents,completedmessage:req.flash("success_msg"),
+  res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , path:"/dashboard",user,upcoming,allEvents,completed,message:req.flash("success_msg"),
     error:req.flash("error")}) 
 }catch(err){
   console.log(err);
@@ -48,7 +48,7 @@ exports.getEvents = async (req, res) => {
     raw:true
   });
 
-  
+
   res.render("show-events", {
     pageTitle: "رویدادها",
     path: "/all-events",
@@ -69,6 +69,7 @@ exports.getEventDetails = async (req, res) => {
     req.flash("error", "رویداد یافت نشد");
     return res.redirect("/user/all-events");
   }
+  console.log(event);
   res.render("events-details", {
     pageTitle: "جزئیات رویداد",
     path: "/event",

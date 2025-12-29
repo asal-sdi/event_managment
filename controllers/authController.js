@@ -8,7 +8,11 @@ const path =/ require("path")/;
 
 //user authentication controllers
 exports.getRegister = (req, res) => {
-    res.render("register",{pageTitle:"ثبت نام" ,path:"/register"});
+    res.render("register",{
+        pageTitle:"ثبت نام" ,
+        path:"/register",
+        message:req.flash("success_msg"),
+        error:req.flash("error")});
 }
 
 exports.register = async(req,res) => {
@@ -71,7 +75,9 @@ exports.handleUserLogin = (req,res) =>{
 exports.getEmRegister = (req, res) => {
     res.render("eventManagerRegister",{
         pageTitle:"ثبت نام",
-        path:"/register"
+        path:"/register",
+        message:req.flash("success_msg"),
+        error:req.flash("error")
 
     });
 }
@@ -139,7 +145,9 @@ exports.handleEmLogin = (req,res) =>{
 exports.getVoRegister = (req, res) => {
     res.render("venueOwnerRegister",{
         pageTitle:"ثبت نام",
-        path:"/register"
+        path:"/register",
+        message:req.flash("success_msg"),
+        error:req.flash("error")
 
     });
 }

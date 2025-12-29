@@ -58,7 +58,7 @@ app.use("/venue-owner",require("./routes/venueOwner"))
 
 //* setup database
 require('./models/index');
-sequelize.sync({ alter: true }).then(result => {
+sequelize.sync().then(result => {
     console.log(result);
 }).catch(err => {
     console.log(err);

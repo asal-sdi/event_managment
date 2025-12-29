@@ -26,6 +26,8 @@ exports.emDashboard = async(req,res) =>{
         upcomingEvent,
         requests,
         completedEvent,
+        message:req.flash("success_msg"),
+        error:req.flash("error")
      })
     } catch (error) {
         console.log(error)
@@ -73,7 +75,7 @@ exports.sendRequest = async(req,res) => {
         const venueId = req.params.id
 
         const imagePath = req.file
-            ? `/uploads/venues/${req.file.filename}`
+            ? `/uploads/${req.file.filename}`
             : null;
 
         await VenueRequest.create({
@@ -131,10 +133,16 @@ exports.getEditEvent = async(req,res) => {
             req.flash("error", "رویدادی یافت نشد");
             return res.redirect("/event-manager/dashboard");
         }
+        const reservations = await event.countUsers();
+
         res.render("event-manager/edit-event", {
             pageTitle: "ویرایش رویداد",
             user: req.user,
-            event
+            event,
+            reservations,
+            message:req.flash("success_msg"),
+            error:req.flash("error"),
+            path:"/edit-event"
         });
     }
     catch (err) {
@@ -151,10 +159,13 @@ exports.editEvent = async(req,res) => {
             req.flash("error", "رویدادی یافت نشد");
             return res.redirect("/event-manager/dashboard");
         }
+
         res.render("event-manager/edit-event", {
             pageTitle: "ویرایش رویداد",
             user: req.user,
-            event
+            event,
+            message:req.flash("success_msg"),
+            error:req.flash("error")
         });
     }
     catch (err) {
