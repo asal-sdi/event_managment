@@ -642,10 +642,11 @@ window.openLocationModal = function (location) {
 
     /* Facilities */
     const facilities = document.getElementById('modalFacilities');
+    features = location.features.split(',')
     facilities.innerHTML = '';
 
-    if (Array.isArray(location.features)) {
-        location.features.forEach(f => {
+    if (Array.isArray(features)) {
+        features.forEach(f => {
             const span = document.createElement('span');
             span.className =
                 'px-3 py-1 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 rounded-full text-sm';
@@ -656,10 +657,11 @@ window.openLocationModal = function (location) {
 
     /* Active Days */
     const days = document.getElementById('modalUpcomingEvents');
+    activeDays = location.activeDays.split(',')
     days.innerHTML = '';
 
-    if (Array.isArray(location.activeDays)) {
-        location.activeDays.forEach(d => {
+    if (Array.isArray(activeDays)) {
+        activeDays.forEach(d => {
             const div = document.createElement('div');
             div.className = 'flex items-center gap-3 p-3 bg-white/50 rounded-xl';
             div.innerHTML = `<i class="fas fa-calendar text-pink-500"></i><span>${d}</span>`;

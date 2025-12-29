@@ -1,5 +1,5 @@
 const path = require('path')
-const {Event,EventManger,VenueRequest,Venue} = require('../models')
+const {Event,EventManger,VenueRequest,Venue,VenueOwner} = require('../models')
 const { stat } = require('fs');
 
 
@@ -36,7 +36,13 @@ exports.emDashboard = async(req,res) =>{
 
 exports.showVenuesForRequest = async(req,res) => {
     try {
-        const venues = await Venue.findAll({raw:true})
+        const venues = await Venue.findAll({
+            include: [{
+                model: VenueOwner,
+            }],
+            raw:true})
+
+            console.log(venues)
         res.render("event-manager/show-venues",{pageTitle:"ارسال درخواست مکان", user:req.user,path:"/show-venues", venues})
     } catch (err) {
         console.log(err);

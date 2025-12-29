@@ -1,5 +1,6 @@
 const path = require('path');
-const {User,Event,Venue} = require('../models')
+const {User,Event,Venue} = require('../models');
+const { error } = require('console');
 
 exports.userDashboard = async(req,res) =>{
   try{
@@ -32,7 +33,8 @@ exports.userDashboard = async(req,res) =>{
           }
           
         });
-  res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , path:"/dashboard",user,upcoming,allEvents,completed}) 
+  res.render("dashboards/user-dashboard",{pageTitle:"داشبورد" , path:"/dashboard",user,upcoming,allEvents,completedmessage:req.flash("success_msg"),
+    error:req.flash("error")}) 
 }catch(err){
   console.log(err);
 }
@@ -46,12 +48,13 @@ exports.getEvents = async (req, res) => {
     raw:true
   });
 
-  console.log("############################################################################################")
-  console.log(events);
+  
   res.render("show-events", {
     pageTitle: "رویدادها",
     path: "/all-events",
-    events
+    events,
+    message:req.flash("success_msg"),
+    error:req.flash("error")
   });
 };
 
@@ -60,31 +63,52 @@ exports.getEventDetails = async (req, res) => {
   const event = await Event.findByPk(req.params.id, {
     include: ["Venue"]
   }); 
+
+  const reservationsCount = await event.countUsers();
   if (!event) {
     req.flash("error", "رویداد یافت نشد");
     return res.redirect("/user/all-events");
   }
   res.render("events-details", {
     pageTitle: "جزئیات رویداد",
-    event
+    path: "/event",
+    event,
+    reservationsCount,
+    message:req.flash("success_msg"),
+    error:req.flash("error")
   });
 };
 
 
 exports.booking = async (req, res) => {
+  const errors=[];
   try {
+    const user = req.user
     const event = await Event.findByPk(req.params.id);
     if (!event) {
       req.flash("error", "رویداد یافت نشد");
-      return res.redirect("/user/all-events");
+      return res.redirect("/user/show-events");
     }
 
+    const alreadyReserved = await event.hasUser(user.id);
+    if (alreadyReserved) {
+      return req.flash("error", "قبلا این رویداد را رزرو کرده اید")
+      , res.redirect("/user/show-events");
+    }
+    const reservedCount = await event.countUsers();
+
+    if (reservedCount >= 50) {
+      return req.flash("error", "ظرفیت رویداد تکمیل شده است")
+      }
+
+
+    await event.addUser(user.id);
     req.flash("success_msg", "رزرو با موفقیت انجام شد");
-    res.redirect("/user/all-events");
+    res.redirect("/user/show-events");
   }
   catch (err) {
     console.log(err);
     req.flash("error", "خطایی در رزرو رخ داد");
-    res.redirect("/user/all-events");
+    res.redirect("/user/show-events");
   }
 };

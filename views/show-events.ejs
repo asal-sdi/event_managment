@@ -350,6 +350,8 @@
     </style>
 </head>
 <body class="min-h-screen">
+      <%- include("./includes/messages.ejs") %>
+
     <!-- Extended Background -->
     <div class="background-extended"></div>
     
@@ -553,7 +555,7 @@
                         
                                                 
                         <!-- Category -->
-                        <div class="absolute top-20 right-4 category-badge <%=event.type%> text-white">
+                        <div class="absolute top-20 right-4 category-badge bg-gradient-to-r from-gray-600 to-blue-600 text-white">
                              <%=event.type%>
                         </div>
                     </div>
@@ -564,7 +566,7 @@
                              <%=event.title%>
                         </h3>
                         <p class="text-gray-600 mb-6">
-                            <%=event.description.slice(0,60)+'...'%>
+                            <%=event.description.slice(0,50)+'...'%>
                         </p>
 
                         <!-- Details -->
@@ -588,7 +590,7 @@
                             <div class="flex items-center justify-between text-sm">
                                 <div class="flex items-center gap-2 text-gray-700">
                                     <i class="fas fa-users w-4 h-4 text-teal-500"></i>
-                                    <span><%=event['Venue.capacity']%> نفر</span>
+                                    <span><%=0%> نفر</span>
                                 </div>
                                 <div class="flex items-center gap-2 font-bold <%=event.price === "رایگان" || event.price === "عضویت شرکتی" ? "text-green-600" : "text-pink-600"%>">
                                     <i class="fas fa-tag w-4 h-4"></i>
@@ -599,7 +601,7 @@
 
                         <!-- Action Button -->
                         <button class="w-full py-4 bg-gradient-to-l from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all hover:scale-105 shimmer"
-                        onclick="window.location.href='user/event/<%=event.id%>'">
+                        onclick="window.location.href='/user/event/<%=event.id%>'">
                             <span>مشاهده رویداد</span>
                             <i class="fas fa-arrow-right w-5 h-5"></i>
                         </button>

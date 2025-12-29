@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
 
     const type = req.baseUrl.includes('venue')
       ? 'venue'
-      : req.baseUrl.includes('request') 
+      : req.baseUrl.includes('event') 
       ? 'event'
       : 'file';
 

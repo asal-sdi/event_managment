@@ -9,6 +9,6 @@ router.get("/show-events", userController.getEvents)
 
 router.get("/event/:id", userController.getEventDetails)
 
-router.get("/book-event/:id", userController.booking)
+router.get("/book-event/:id", isUser,userController.booking)
 
 module.exports = router

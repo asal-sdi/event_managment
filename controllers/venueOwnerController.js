@@ -62,7 +62,7 @@ exports.getCreateVenue = (req,res) => {
 exports.createVenue = async(req,res) => {
     const errors = []
     try {
-        const{name,type,city,address,capacity,price,features,activeDays,opening,closing,} = req.body 
+        const{name,type,description,city,address,capacity,price,features,activeDays,opening,closing,} = req.body 
 
         const imagePath = req.file
             ? `/uploads/venues/${req.file.filename}`
@@ -72,6 +72,7 @@ exports.createVenue = async(req,res) => {
         await Venue.create({
             name,
             type,
+            description,
             city,
             address,  
             capacity,
@@ -184,7 +185,7 @@ exports.deleteVenue = async(req,res) => {
     }
     await venue.destroy();
     req.flash("success_msg" , "مکان با موفقیت حذف شد")
-    res.redirect("/venue-owner/show-venues")
+    res.redirect("/venue-owner/dashboard")
     } catch (err) {
         console.log(err)
     }

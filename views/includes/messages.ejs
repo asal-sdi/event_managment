@@ -1,0 +1,277 @@
+<style>
+/* استایل کلی برای Alert ها */
+.alert {
+    position: relative;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    font-family: 'Vazirmatn', sans-serif;
+    animation: slideInDown 0.4s ease-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 4px solid;
+}
+
+/* انیمیشن ورود */
+@keyframes slideInDown {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* انیمیشن خروج */
+.fade-out {
+    animation: fadeOut 0.8s ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Alert موفقیت */
+.alert-success {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(168, 85, 247, 0.1));
+    border-color: rgba(236, 72, 153, 0.4);
+    color: #9d174d;
+    border-right-color: #ec4899;
+}
+
+.alert-success::before {
+    content: "✓";
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #ec4899, #a855f7);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+/* Alert هشدار */
+.alert-warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.1));
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #92400e;
+    border-right-color: #f59e0b;
+}
+
+.alert-warning::before {
+    content: "⚠";
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Alert خطا */
+.alert-danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #991b1b;
+    border-right-color: #ef4444;
+}
+
+.alert-danger::before {
+    content: "✗";
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Alert اطلاعات */
+.alert-info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.1));
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #1e40af;
+    border-right-color: #3b82f6;
+}
+
+.alert-info::before {
+    content: "i";
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* متن Alert */
+.alert-message {
+    padding-right: 6rem;
+    padding-left: 6 rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* دکمه بستن Alert */
+.alert-close-btn {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: currentColor;
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-close-btn:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.alert-close-btn i {
+    font-size: 1.2rem;
+}
+
+/* حالت Hover برای Alert */
+.alert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* استایل برای موبایل */
+@media (max-width: 768px) {
+    .alert {
+        padding: 1rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+    }
+    
+    .alert-message {
+        padding-right: 3rem;
+        padding-left: 2.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .alert::before {
+        width: 24px;
+        height: 24px;
+        right: 1.25rem;
+        font-size: 0.9rem;
+    }
+    
+    .alert-close-btn {
+        left: 0.75rem;
+        padding: 0.4rem;
+    }
+}
+
+/* استایل برای نمایش در بالای صفحه */
+.alert-fixed-top {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    left: 1.5rem;
+    z-index: 9999;
+    max-width: 500px;
+    margin: 0 auto;
+    animation: slideInDown 0.4s ease-out;
+}
+
+@media (max-width: 768px) {
+    .alert-fixed-top {
+        right: 1rem;
+        left: 1rem;
+        top: 1rem;
+    }
+}
+
+.alert-progress {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, currentColor);
+    border-radius: 0 0 16px 0;
+    animation: progressBar 3s linear forwards;
+}
+
+@keyframes progressBar {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+</style>
+<% if(message.length > 0) { %>
+<div class="alert alert-success alert-dismissible fade show" role="alert" , id="flashAlert">
+    <%= message %>
+   >
+</div>
+
+<% } %> <% if(error.length > 0) { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" , id="flashAlert">
+    <%= error %>
+    
+</div>
+
+<% } %>
+<script>
+  const alertBox = document.getElementById("flashAlert");
+  if (alertBox) {
+    setTimeout(() => {
+      alertBox.style.opacity = "0";
+      setTimeout(() => alertBox.remove(), 800); // بعد از fade حذف می‌شود
+    }, 3000); // بعد از 3 ثانیه شروع به محو شدن
+  }
+</script>
